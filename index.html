@@ -16,20 +16,19 @@
     #root{max-width:480px;margin:0 auto;min-height:100vh;background:#F1F5F9;}
     input,select,button{font-family:inherit;}
     input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
-    #loading{display:flex;align-items:center;justify-content:center;height:100vh;background:#0F172A;flex-direction:column;gap:12px;}
+    #loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0F172A;flex-direction:column;gap:12px;z-index:999;}
     #loading span{color:#94A3B8;font-size:14px;font-weight:600;}
   </style>
 </head>
 <body>
 <div id="loading">
-  <div style="font-size:40px">📊</div>
-  <span>Carregando ERP...</span>
+  <div style="font-size:48px">📊</div>
+  <span>Carregando ERP Agrobras...</span>
 </div>
-<div id="root" style="display:none"></div>
+<div id="root"></div>
 
 <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-<script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
 <script>
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
@@ -56,15 +55,6 @@ var _React = React,
   useEffect = _React.useEffect,
   useMemo = _React.useMemo,
   useCallback = _React.useCallback;
-var _Recharts = Recharts,
-  BarChart = _Recharts.BarChart,
-  Bar = _Recharts.Bar,
-  XAxis = _Recharts.XAxis,
-  YAxis = _Recharts.YAxis,
-  Tooltip = _Recharts.Tooltip,
-  ResponsiveContainer = _Recharts.ResponsiveContainer,
-  CartesianGrid = _Recharts.CartesianGrid,
-  Cell = _Recharts.Cell;
 
 // Lucide icons inline (SVG)
 var ico = function ico(d) {
@@ -616,18 +606,122 @@ function PgField(_ref14) {
   })));
 }
 
+/* ─── SVG CHARTS (sem dependência externa) ─── */
+function WeekBarChart(_ref15) {
+  var data = _ref15.data;
+  var max = Math.max.apply(Math, _toConsumableArray(data.flatMap(function (d) {
+    return [d.Vendas || 0, d.Saidas || 0];
+  })).concat([1]));
+  var W = 300,
+    H = 110,
+    barW = 16,
+    gap = 4,
+    groupW = barW * 2 + gap + 10;
+  return /*#__PURE__*/React.createElement("svg", {
+    width: "100%",
+    viewBox: "0 0 ".concat(W, " ").concat(H + 24),
+    style: {
+      overflow: "visible"
+    }
+  }, data.map(function (d, i) {
+    var x = i * groupW + 8;
+    var hV = Math.round(d.Vendas / max * H) || 0;
+    var hS = Math.round(d.Saidas / max * H) || 0;
+    return /*#__PURE__*/React.createElement("g", {
+      key: i
+    }, hV > 0 && /*#__PURE__*/React.createElement("rect", {
+      x: x,
+      y: H - hV,
+      width: barW,
+      height: hV,
+      fill: "#4ADE80",
+      rx: 3
+    }), hS > 0 && /*#__PURE__*/React.createElement("rect", {
+      x: x + barW + gap,
+      y: H - hS,
+      width: barW,
+      height: hS,
+      fill: "#F87171",
+      rx: 3
+    }), /*#__PURE__*/React.createElement("text", {
+      x: x + barW,
+      y: H + 14,
+      textAnchor: "middle",
+      fontSize: 9,
+      fill: "#94A3B8"
+    }, d.dia));
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: 0,
+    y1: H,
+    x2: W,
+    y2: H,
+    stroke: "#F1F5F9",
+    strokeWidth: 1
+  }));
+}
+function HorizBarChart(_ref16) {
+  var data = _ref16.data,
+    cats = _ref16.cats;
+  if (!data || data.length === 0) return null;
+  var max = Math.max.apply(Math, _toConsumableArray(data.map(function (d) {
+    return d.valor;
+  })).concat([1]));
+  return /*#__PURE__*/React.createElement("div", null, data.map(function (item, i) {
+    var pct = Math.round(item.valor / max * 100);
+    var cl = catCl(cats, item.cat);
+    return /*#__PURE__*/React.createElement("div", {
+      key: item.cat,
+      style: {
+        marginBottom: 8
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: 3
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        color: "#1E293B"
+      }
+    }, item.cat), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        fontWeight: 800,
+        color: cl
+      }
+    }, fmt(item.valor))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: 8,
+        background: "#F1F5F9",
+        borderRadius: 4,
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: "100%",
+        width: pct + "%",
+        background: cl,
+        borderRadius: 4,
+        transition: "width 0.3s"
+      }
+    })));
+  }));
+}
+
 /* ─── DASHBOARD ─── */
-function Dashboard(_ref15) {
-  var data = _ref15.data,
-    totals = _ref15.totals,
-    alertas = _ref15.alertas,
-    p = _ref15.p,
-    setP = _ref15.setP,
-    s = _ref15.s,
-    setS = _ref15.setS,
-    e = _ref15.e,
-    setE = _ref15.setE,
-    onNew = _ref15.onNew;
+function Dashboard(_ref17) {
+  var data = _ref17.data,
+    totals = _ref17.totals,
+    alertas = _ref17.alertas,
+    p = _ref17.p,
+    setP = _ref17.setP,
+    s = _ref17.s,
+    setS = _ref17.setS,
+    e = _ref17.e,
+    setE = _ref17.setE,
+    onNew = _ref17.onNew;
   var pos = totals.lucro >= 0;
   var now = new Date();
   var weekData = useMemo(function () {
@@ -862,16 +956,16 @@ function Dashboard(_ref15) {
       gap: 6,
       flexWrap: "wrap"
     }
-  }, [["PIX", totals.vPix, "#8B5CF6", "#F5F3FF"], ["Dinheiro", totals.vDinheiro, "#16A34A", "#DCFCE7"], ["Fiado", totals.vFiado, "#D97706", "#FEF3C7"], ["Cartão", totals.vCartao, "#2563EB", "#EFF6FF"], ["Boleto", totals.vBoleto, "#0891B2", "#ECFEFF"]].filter(function (_ref16) {
-    var _ref17 = _slicedToArray(_ref16, 2),
-      v = _ref17[1];
+  }, [["PIX", totals.vPix, "#8B5CF6", "#F5F3FF"], ["Dinheiro", totals.vDinheiro, "#16A34A", "#DCFCE7"], ["Fiado", totals.vFiado, "#D97706", "#FEF3C7"], ["Cartão", totals.vCartao, "#2563EB", "#EFF6FF"], ["Boleto", totals.vBoleto, "#0891B2", "#ECFEFF"]].filter(function (_ref18) {
+    var _ref19 = _slicedToArray(_ref18, 2),
+      v = _ref19[1];
     return v > 0;
-  }).map(function (_ref18) {
-    var _ref19 = _slicedToArray(_ref18, 4),
-      l = _ref19[0],
-      v = _ref19[1],
-      cl = _ref19[2],
-      bg = _ref19[3];
+  }).map(function (_ref20) {
+    var _ref21 = _slicedToArray(_ref20, 4),
+      l = _ref21[0],
+      v = _ref21[1],
+      cl = _ref21[2],
+      bg = _ref21[3];
     return /*#__PURE__*/React.createElement("div", {
       key: l,
       style: {
@@ -1016,57 +1110,9 @@ function Dashboard(_ref15) {
     }
   }, /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(SecHead, {
     title: "\xDAltimos 7 dias"
-  }), /*#__PURE__*/React.createElement(ResponsiveContainer, {
-    width: "100%",
-    height: 140
-  }, /*#__PURE__*/React.createElement(BarChart, {
-    data: weekData,
-    margin: {
-      top: 0,
-      right: 0,
-      left: -24,
-      bottom: 0
-    }
-  }, /*#__PURE__*/React.createElement(CartesianGrid, {
-    strokeDasharray: "3 3",
-    stroke: "#F1F5F9",
-    vertical: false
-  }), /*#__PURE__*/React.createElement(XAxis, {
-    dataKey: "dia",
-    tick: {
-      fontSize: 10,
-      fill: C.muted
-    },
-    axisLine: false,
-    tickLine: false
-  }), /*#__PURE__*/React.createElement(YAxis, {
-    tick: {
-      fontSize: 9,
-      fill: C.muted
-    },
-    axisLine: false,
-    tickLine: false,
-    tickFormatter: function tickFormatter(v) {
-      return v >= 1000 ? "".concat((v / 1000).toFixed(0), "k") : v;
-    }
-  }), /*#__PURE__*/React.createElement(Tooltip, {
-    formatter: function formatter(v) {
-      return fmt(v);
-    },
-    contentStyle: {
-      fontSize: 11,
-      borderRadius: 8,
-      border: "1px solid ".concat(C.border)
-    }
-  }), /*#__PURE__*/React.createElement(Bar, {
-    dataKey: "Vendas",
-    fill: "#4ADE80",
-    radius: [4, 4, 0, 0]
-  }), /*#__PURE__*/React.createElement(Bar, {
-    dataKey: "Saidas",
-    fill: "#F87171",
-    radius: [4, 4, 0, 0]
-  }))), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement(WeekBarChart, {
+    data: weekData
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 16,
@@ -1109,15 +1155,15 @@ function Dashboard(_ref15) {
 }
 
 /* ─── REGISTROS ─── */
-function Registros(_ref20) {
-  var data = _ref20.data,
-    tab = _ref20.tab,
-    setTab = _ref20.setTab,
-    onEdit = _ref20.onEdit,
-    onDelV = _ref20.onDelV,
-    onDelC = _ref20.onDelC,
-    onDelD = _ref20.onDelD,
-    onToggle = _ref20.onToggle;
+function Registros(_ref22) {
+  var data = _ref22.data,
+    tab = _ref22.tab,
+    setTab = _ref22.setTab,
+    onEdit = _ref22.onEdit,
+    onDelV = _ref22.onDelV,
+    onDelC = _ref22.onDelC,
+    onDelD = _ref22.onDelD,
+    onToggle = _ref22.onToggle;
   var _useState = useState(null),
     _useState2 = _slicedToArray(_useState, 2),
     confirm = _useState2[0],
@@ -1150,11 +1196,11 @@ function Registros(_ref20) {
     style: {
       display: "flex"
     }
-  }, [["despesas", "Despesas", data.despesas.length], ["vendas", "Vendas", data.vendas.length], ["compras", "Compras", data.compras.length]].map(function (_ref21) {
-    var _ref22 = _slicedToArray(_ref21, 3),
-      k = _ref22[0],
-      l = _ref22[1],
-      nn = _ref22[2];
+  }, [["despesas", "Despesas", data.despesas.length], ["vendas", "Vendas", data.vendas.length], ["compras", "Compras", data.compras.length]].map(function (_ref23) {
+    var _ref24 = _slicedToArray(_ref23, 3),
+      k = _ref24[0],
+      l = _ref24[1],
+      nn = _ref24[2];
     return /*#__PURE__*/React.createElement("button", {
       key: k,
       onClick: function onClick() {
@@ -1353,10 +1399,10 @@ function Registros(_ref20) {
 }
 
 /* ─── VENC CARD ─── */
-function VencCard(_ref23) {
-  var d = _ref23.d,
-    onEdit = _ref23.onEdit,
-    onToggle = _ref23.onToggle;
+function VencCard(_ref25) {
+  var d = _ref25.d,
+    onEdit = _ref25.onEdit,
+    onToggle = _ref25.onToggle;
   var vi = vencInfo(d);
   return /*#__PURE__*/React.createElement(Card, {
     style: {
@@ -1451,10 +1497,10 @@ function VencCard(_ref23) {
 }
 
 /* ─── VENCIMENTOS ─── */
-function Vencimentos(_ref24) {
-  var venc = _ref24.venc,
-    onEdit = _ref24.onEdit,
-    onToggle = _ref24.onToggle;
+function Vencimentos(_ref26) {
+  var venc = _ref26.venc,
+    onEdit = _ref26.onEdit,
+    onToggle = _ref26.onToggle;
   var vencidos = venc.filter(function (d) {
     var dd = diffDays(d.vencimento);
     return dd !== null && dd < 0;
@@ -1491,12 +1537,12 @@ function Vencimentos(_ref24) {
       gap: 8,
       marginBottom: 16
     }
-  }, [["🛑 Vencidos", vencidos.length, "#FEE2E2", "#991B1B"], ["🟠 Urgentes", urgentes.length, "#FEF3C7", "#92400E"], ["💰 Total", fmt(total), "#EFF6FF", "#1E40AF"]].map(function (_ref25) {
-    var _ref26 = _slicedToArray(_ref25, 4),
-      l = _ref26[0],
-      v = _ref26[1],
-      bg = _ref26[2],
-      cl = _ref26[3];
+  }, [["🛑 Vencidos", vencidos.length, "#FEE2E2", "#991B1B"], ["🟠 Urgentes", urgentes.length, "#FEF3C7", "#92400E"], ["💰 Total", fmt(total), "#EFF6FF", "#1E40AF"]].map(function (_ref27) {
+    var _ref28 = _slicedToArray(_ref27, 4),
+      l = _ref28[0],
+      v = _ref28[1],
+      bg = _ref28[2],
+      cl = _ref28[3];
     return /*#__PURE__*/React.createElement("div", {
       key: l,
       style: {
@@ -1606,9 +1652,9 @@ var buildMesesOptions = function buildMesesOptions(adiantamentos) {
     return b.localeCompare(a);
   });
 };
-function FuncRelatorio(_ref27) {
-  var func = _ref27.func,
-    adiantamentos = _ref27.adiantamentos;
+function FuncRelatorio(_ref29) {
+  var func = _ref29.func,
+    adiantamentos = _ref29.adiantamentos;
   var _useState3 = useState(false),
     _useState4 = _slicedToArray(_useState3, 2),
     open = _useState4[0],
@@ -1725,13 +1771,13 @@ function FuncRelatorio(_ref27) {
     }));
   }));
 }
-function Salarios(_ref28) {
-  var data = _ref28.data,
-    addFunc = _ref28.addFunc,
-    updFunc = _ref28.updFunc,
-    delFunc = _ref28.delFunc,
-    addAdiant = _ref28.addAdiant,
-    delAdiant = _ref28.delAdiant;
+function Salarios(_ref30) {
+  var data = _ref30.data,
+    addFunc = _ref30.addFunc,
+    updFunc = _ref30.updFunc,
+    delFunc = _ref30.delFunc,
+    addAdiant = _ref30.addAdiant,
+    delAdiant = _ref30.delAdiant;
   var now = new Date();
   var _useState5 = useState(currentMes()),
     _useState6 = _slicedToArray(_useState5, 2),
@@ -2386,8 +2432,8 @@ function Salarios(_ref28) {
 }
 
 /* ─── FECHAMENTO ─── */
-function Fechamento(_ref29) {
-  var data = _ref29.data;
+function Fechamento(_ref31) {
+  var data = _ref31.data;
   var _useState29 = useState("mes"),
     _useState30 = _slicedToArray(_useState29, 2),
     p = _useState30[0],
@@ -2559,15 +2605,15 @@ function Fechamento(_ref29) {
     }
   }, /*#__PURE__*/React.createElement(SecHead, {
     title: "Vendas por forma de pagamento"
-  }), [["PIX", vPix, "#8B5CF6"], ["Dinheiro", vDinheiro, "#16A34A"], ["Fiado", vFiado, "#D97706"], ["Cartão", vCartao, "#2563EB"], ["Boleto", vBoleto, "#0891B2"]].filter(function (_ref30) {
-    var _ref31 = _slicedToArray(_ref30, 2),
-      v = _ref31[1];
+  }), [["PIX", vPix, "#8B5CF6"], ["Dinheiro", vDinheiro, "#16A34A"], ["Fiado", vFiado, "#D97706"], ["Cartão", vCartao, "#2563EB"], ["Boleto", vBoleto, "#0891B2"]].filter(function (_ref32) {
+    var _ref33 = _slicedToArray(_ref32, 2),
+      v = _ref33[1];
     return v > 0;
-  }).map(function (_ref32) {
-    var _ref33 = _slicedToArray(_ref32, 3),
-      l = _ref33[0],
-      v = _ref33[1],
-      cl = _ref33[2];
+  }).map(function (_ref34) {
+    var _ref35 = _slicedToArray(_ref34, 3),
+      l = _ref35[0],
+      v = _ref35[1],
+      cl = _ref35[2];
     return /*#__PURE__*/React.createElement("div", {
       key: l,
       style: {
@@ -2614,15 +2660,15 @@ function Fechamento(_ref29) {
     }
   }, /*#__PURE__*/React.createElement(SecHead, {
     title: "Compras por forma de pagamento"
-  }), [["PIX", cPix, "#8B5CF6"], ["Dinheiro", cDinheiro, "#16A34A"], ["A Prazo", cAprazo, "#DC2626"]].filter(function (_ref34) {
-    var _ref35 = _slicedToArray(_ref34, 2),
-      v = _ref35[1];
+  }), [["PIX", cPix, "#8B5CF6"], ["Dinheiro", cDinheiro, "#16A34A"], ["A Prazo", cAprazo, "#DC2626"]].filter(function (_ref36) {
+    var _ref37 = _slicedToArray(_ref36, 2),
+      v = _ref37[1];
     return v > 0;
-  }).map(function (_ref36) {
-    var _ref37 = _slicedToArray(_ref36, 3),
-      l = _ref37[0],
-      v = _ref37[1],
-      cl = _ref37[2];
+  }).map(function (_ref38) {
+    var _ref39 = _slicedToArray(_ref38, 3),
+      l = _ref39[0],
+      v = _ref39[1],
+      cl = _ref39[2];
     return /*#__PURE__*/React.createElement("div", {
       key: l,
       style: {
@@ -2767,56 +2813,10 @@ function Fechamento(_ref29) {
     }
   }, /*#__PURE__*/React.createElement(SecHead, {
     title: "Despesas por Categoria"
-  }), /*#__PURE__*/React.createElement(ResponsiveContainer, {
-    width: "100%",
-    height: catData.length * 44 + 10
-  }, /*#__PURE__*/React.createElement(BarChart, {
-    layout: "vertical",
+  }), /*#__PURE__*/React.createElement(HorizBarChart, {
     data: catData,
-    margin: {
-      left: 0,
-      right: 40,
-      top: 0,
-      bottom: 0
-    }
-  }, /*#__PURE__*/React.createElement(XAxis, {
-    type: "number",
-    tick: {
-      fontSize: 9,
-      fill: C.muted
-    },
-    axisLine: false,
-    tickLine: false,
-    tickFormatter: function tickFormatter(v) {
-      return v >= 1000 ? "".concat((v / 1000).toFixed(0), "k") : v;
-    }
-  }), /*#__PURE__*/React.createElement(YAxis, {
-    type: "category",
-    dataKey: "cat",
-    tick: {
-      fontSize: 11,
-      fill: C.txt
-    },
-    axisLine: false,
-    tickLine: false,
-    width: 82
-  }), /*#__PURE__*/React.createElement(Tooltip, {
-    formatter: function formatter(v) {
-      return fmt(v);
-    },
-    contentStyle: {
-      fontSize: 11,
-      borderRadius: 8
-    }
-  }), /*#__PURE__*/React.createElement(Bar, {
-    dataKey: "valor",
-    radius: [0, 4, 4, 0]
-  }, catData.map(function (entry, i) {
-    return /*#__PURE__*/React.createElement(Cell, {
-      key: i,
-      fill: catCl(data.catsDespesa, entry.cat)
-    });
-  })))), /*#__PURE__*/React.createElement("div", {
+    cats: data.catsDespesa
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 10
     }
@@ -2909,9 +2909,9 @@ function Fechamento(_ref29) {
 }
 
 /* ─── CONFIG ─── */
-function Config(_ref38) {
-  var data = _ref38.data,
-    update = _ref38.update;
+function Config(_ref40) {
+  var data = _ref40.data,
+    update = _ref40.update;
   var _useState35 = useState(""),
     _useState36 = _slicedToArray(_useState35, 2),
     newD = _useState36[0],
@@ -2934,15 +2934,15 @@ function Config(_ref38) {
       })));
     });
   };
-  var CatBlock = function CatBlock(_ref39) {
-    var title = _ref39.title,
-      field = _ref39.field,
-      list = _ref39.list,
-      val = _ref39.val,
-      setVal = _ref39.setVal,
-      acBg = _ref39.acBg,
-      acCl = _ref39.acCl,
-      acBtn = _ref39.acBtn;
+  var CatBlock = function CatBlock(_ref41) {
+    var title = _ref41.title,
+      field = _ref41.field,
+      list = _ref41.list,
+      val = _ref41.val,
+      setVal = _ref41.setVal,
+      acBg = _ref41.acBg,
+      acCl = _ref41.acCl,
+      acBtn = _ref41.acBtn;
     return /*#__PURE__*/React.createElement(Card, {
       style: {
         marginBottom: 12
@@ -3063,10 +3063,10 @@ function Config(_ref38) {
     acBtn: "#D97706"
   }), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(SecHead, {
     title: "Resumo do Sistema"
-  }), [["Dias de venda", data.vendas.length], ["Dias de compra", data.compras.length], ["Despesas", data.despesas.length], ["Funcionários", data.funcionarios.length], ["Adiantamentos", data.adiantamentos.length]].map(function (_ref40) {
-    var _ref41 = _slicedToArray(_ref40, 2),
-      l = _ref41[0],
-      v = _ref41[1];
+  }), [["Dias de venda", data.vendas.length], ["Dias de compra", data.compras.length], ["Despesas", data.despesas.length], ["Funcionários", data.funcionarios.length], ["Adiantamentos", data.adiantamentos.length]].map(function (_ref42) {
+    var _ref43 = _slicedToArray(_ref42, 2),
+      l = _ref43[0],
+      v = _ref43[1];
     return /*#__PURE__*/React.createElement("div", {
       key: l,
       style: {
@@ -3099,13 +3099,13 @@ function Config(_ref38) {
 }
 
 /* ─── MODAL — estado LOCAL para não perder foco ─── */
-function Modal(_ref42) {
-  var initType = _ref42.type,
-    initialForm = _ref42.initialForm,
-    cats = _ref42.cats,
-    editId = _ref42.editId,
-    onSubmit = _ref42.onSubmit,
-    onClose = _ref42.onClose;
+function Modal(_ref44) {
+  var initType = _ref44.type,
+    initialForm = _ref44.initialForm,
+    cats = _ref44.cats,
+    editId = _ref44.editId,
+    onSubmit = _ref44.onSubmit,
+    onClose = _ref44.onClose;
   var _useState39 = useState(initType),
     _useState40 = _slicedToArray(_useState39, 2),
     type = _useState40[0],
@@ -3494,10 +3494,10 @@ function Modal(_ref42) {
       gap: 8,
       marginBottom: 8
     }
-  }, [["Fixo", "📌 Fixo"], ["Variavel", "🔄 Variável"]].map(function (_ref43) {
-    var _ref44 = _slicedToArray(_ref43, 2),
-      k = _ref44[0],
-      l = _ref44[1];
+  }, [["Fixo", "📌 Fixo"], ["Variavel", "🔄 Variável"]].map(function (_ref45) {
+    var _ref46 = _slicedToArray(_ref45, 2),
+      k = _ref46[0],
+      l = _ref46[1];
     return /*#__PURE__*/React.createElement("button", {
       key: k,
       onClick: function onClick() {
@@ -3523,12 +3523,12 @@ function Modal(_ref42) {
       gap: 8,
       marginBottom: 8
     }
-  }, [["Pago", "✅ Pago", "#16A34A", "#DCFCE7"], ["A Pagar", "📅 A Pagar", C.acc, "#EFF6FF"]].map(function (_ref45) {
-    var _ref46 = _slicedToArray(_ref45, 4),
-      k = _ref46[0],
-      l = _ref46[1],
-      cl = _ref46[2],
-      bg = _ref46[3];
+  }, [["Pago", "✅ Pago", "#16A34A", "#DCFCE7"], ["A Pagar", "📅 A Pagar", C.acc, "#EFF6FF"]].map(function (_ref47) {
+    var _ref48 = _slicedToArray(_ref47, 4),
+      k = _ref48[0],
+      l = _ref48[1],
+      cl = _ref48[2],
+      bg = _ref48[3];
     return /*#__PURE__*/React.createElement("button", {
       key: k,
       onClick: function onClick() {
@@ -3583,18 +3583,18 @@ function Modal(_ref42) {
 }
 
 /* ─── BOTTOM NAV ─── */
-function Nav(_ref47) {
-  var nav = _ref47.nav,
-    setNav = _ref47.setNav,
-    mais = _ref47.mais,
-    setMais = _ref47.setMais,
-    badge = _ref47.badge,
-    onPlus = _ref47.onPlus;
-  var Btn = function Btn(_ref48) {
-    var k = _ref48.k,
-      Icon = _ref48.Icon,
-      label = _ref48.label,
-      bdg = _ref48.bdg;
+function Nav(_ref49) {
+  var nav = _ref49.nav,
+    setNav = _ref49.setNav,
+    mais = _ref49.mais,
+    setMais = _ref49.setMais,
+    badge = _ref49.badge,
+    onPlus = _ref49.onPlus;
+  var Btn = function Btn(_ref50) {
+    var k = _ref50.k,
+      Icon = _ref50.Icon,
+      label = _ref50.label,
+      bdg = _ref50.bdg;
     var active = nav === k;
     return /*#__PURE__*/React.createElement("button", {
       onClick: function onClick() {
@@ -3661,10 +3661,10 @@ function Nav(_ref47) {
       boxSizing: "border-box",
       zIndex: 99
     }
-  }, [["salarios", "👥 Salários"], ["fechamento", "📊 Fechamento"], ["config", "⚙️ Config"]].map(function (_ref49) {
-    var _ref50 = _slicedToArray(_ref49, 2),
-      k = _ref50[0],
-      l = _ref50[1];
+  }, [["salarios", "👥 Salários"], ["fechamento", "📊 Fechamento"], ["config", "⚙️ Config"]].map(function (_ref51) {
+    var _ref52 = _slicedToArray(_ref51, 2),
+      k = _ref52[0],
+      l = _ref52[1];
     return /*#__PURE__*/React.createElement("button", {
       key: k,
       onClick: function onClick() {
@@ -4121,17 +4121,22 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// Hide loading, show app
-document.getElementById('loading').style.display = 'none';
-document.getElementById('root').style.display = 'block';
-
-// Mount
-const _root = ReactDOM.createRoot(document.getElementById('root'));
-_root.render(React.createElement(App));
+// Hide loading screen and mount app
+try {
+  document.getElementById('loading').style.display = 'none';
+  var _root = ReactDOM.createRoot(document.getElementById('root'));
+  _root.render(React.createElement(App));
+} catch(err) {
+  document.getElementById('loading').innerHTML = '<div style="color:#F87171;font-size:14px;padding:20px;text-align:center;">Erro: ' + err.message + '</div>';
+  document.getElementById('loading').style.display = 'flex';
+  console.error(err);
+}
 
 // Service Worker
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
 }
 </script>
 </body>
