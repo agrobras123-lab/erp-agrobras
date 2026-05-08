@@ -1,4 +1,4 @@
-const CACHE = 'erp-agrobras-v1';
+const CACHE = 'erp-agrobras-v2';
 const ASSETS = [
   '/erp-agrobras/',
   '/erp-agrobras/index.html',
