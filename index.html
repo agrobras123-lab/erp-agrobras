@@ -28,6 +28,23 @@
   <span>Carregando ERP Agrobras...</span>
 </div>
 <div id="root"></div>
+<script>
+(function(){
+  var loadingEl = document.getElementById("loading");
+  function fail(msg){
+    if (!loadingEl) return;
+    loadingEl.innerHTML = '<div style="font-size:40px">⚠️</div><span style="max-width:260px;text-align:center;line-height:1.4">'+msg+'</span>';
+  }
+  window.addEventListener("error", function(){
+    fail("Falha ao iniciar o sistema. Atualize a página (Ctrl+F5).");
+  });
+  setTimeout(function(){
+    if (loadingEl && loadingEl.style.display !== "none") {
+      fail("Demora inesperada ao carregar. Limpe o cache e recarregue.");
+    }
+  }, 8000);
+})();
+</script>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 <script>
