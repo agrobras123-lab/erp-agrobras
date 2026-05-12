@@ -32,26 +32,26 @@
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 <script>
 
-function _typeof(o) { “@babel/helpers - typeof”; return _typeof = “function” == typeof Symbol && “symbol” == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && “function” == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? “symbol” : typeof o; }, _typeof(o); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError(“Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.”); }
-function _iterableToArray(r) { if (“undefined” != typeof Symbol && null != r[Symbol.iterator] || null != r[”@@iterator”]) return Array.from(r); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError(“Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.”); }
-function _unsupportedIterableToArray(r, a) { if (r) { if (“string” == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return “Object” === t && r.constructor && (t = r.constructor.name), “Map” === t || “Set” === t ? Array.from(r) : “Arguments” === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : “undefined” != typeof Symbol && r[Symbol.iterator] || r[”@@iterator”]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, “string”); return “symbol” == _typeof(i) ? i : i + “”; }
-function _toPrimitive(t, r) { if (“object” != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || “default”); if (“object” != _typeof(i)) return i; throw new TypeError(”@@toPrimitive must return a primitive value.”); } return (“string” === r ? String : Number)(t); }
-function _regenerator() { /*! regenerator-runtime – Copyright (c) 2014-present, Facebook, Inc. – license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = “function” == typeof Symbol ? Symbol : {}, n = r.iterator || “@@iterator”, o = r.toStringTag || “@@toStringTag”; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, “_invoke”, function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError(“Generator is already running”); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = “next”), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError(“iterator result is not an object”); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError(“The iterator does not provide a ‘” + o + “’ method”), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.**proto** = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, “GeneratorFunction”)), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, “constructor”, GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, “constructor”, GeneratorFunction), GeneratorFunction.displayName = “GeneratorFunction”, _regeneratorDefine2(GeneratorFunctionPrototype, o, “GeneratorFunction”), _regeneratorDefine2(u), _regeneratorDefine2(u, o, “Generator”), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, “toString”, function () { return “[object Generator]”; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
-function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, “”, {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o(“next”, 0), o(“throw”, 1), o(“return”, 2)); }, _regeneratorDefine2(e, r, n, t); }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _regenerator() { /*! regenerator-runtime – Copyright (c) 2014-present, Facebook, Inc. – license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.**proto** = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, “next”, n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, “throw”, n); } _next(void 0); }); }; }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 var _React = React,
 useState = _React.useState,
 useEffect = _React.useEffect,
@@ -60,124 +60,128 @@ useCallback = _React.useCallback;
 
 // Lucide icons inline (SVG)
 var ico = function ico(d) {
-var vb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : “0 0 24 24”;
+var vb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "0 0 24 24";
 return function (_ref) {
 var _ref$size = _ref.size,
 size = _ref$size === void 0 ? 22 : _ref$size,
 _ref$color = _ref.color,
-color = _ref$color === void 0 ? “#64748B” : _ref$color,
+color = _ref$color === void 0 ? "#64748B" : _ref$color,
 _ref$strokeWidth = _ref.strokeWidth,
 strokeWidth = _ref$strokeWidth === void 0 ? 1.8 : _ref$strokeWidth,
 _ref$style = _ref.style,
 style = _ref$style === void 0 ? {} : _ref$style;
-return /*#**PURE***/React.createElement(“svg”, {
+return /*#**PURE***/React.createElement("svg", {
 width: size,
 height: size,
 viewBox: vb,
-fill: “none”,
+fill: "none",
 stroke: color,
 strokeWidth: strokeWidth,
-strokeLinecap: “round”,
-strokeLinejoin: “round”,
+strokeLinecap: "round",
+strokeLinejoin: "round",
 style: style
 }, d);
 };
 };
-var Home = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“path”, {
-d: “m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z”
-}), /*#**PURE***/React.createElement(“polyline”, {
-points: “9 22 9 12 15 12 15 22”
+var Home = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("path", {
+d: "m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+}), /*#**PURE***/React.createElement("polyline", {
+points: "9 22 9 12 15 12 15 22"
 })));
-var Plus = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“line”, {
-x1: “12”,
-y1: “5”,
-x2: “12”,
-y2: “19”
-}), /*#**PURE***/React.createElement(“line”, {
-x1: “5”,
-y1: “12”,
-x2: “19”,
-y2: “12”
+var Plus = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("line", {
+x1: "12",
+y1: "5",
+x2: "12",
+y2: "19"
+}), /*#**PURE***/React.createElement("line", {
+x1: "5",
+y1: "12",
+x2: "19",
+y2: "12"
 })));
-var FileText = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“path”, {
-d: “M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z”
-}), /*#**PURE***/React.createElement(“polyline”, {
-points: “14 2 14 8 20 8”
-}), /*#**PURE***/React.createElement(“line”, {
-x1: “16”,
-y1: “13”,
-x2: “8”,
-y2: “13”
-}), /*#**PURE***/React.createElement(“line”, {
-x1: “16”,
-y1: “17”,
-x2: “8”,
-y2: “17”
-}), /*#**PURE***/React.createElement(“polyline”, {
-points: “10 9 9 9 8 9”
+var FileText = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("path", {
+d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+}), /*#**PURE***/React.createElement("polyline", {
+points: "14 2 14 8 20 8"
+}), /*#**PURE***/React.createElement("line", {
+x1: "16",
+y1: "13",
+x2: "8",
+y2: "13"
+}), /*#**PURE***/React.createElement("line", {
+x1: "16",
+y1: "17",
+x2: "8",
+y2: "17"
+}), /*#**PURE***/React.createElement("polyline", {
+points: "10 9 9 9 8 9"
 })));
-var Bell = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“path”, {
-d: “M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9”
-}), /*#**PURE***/React.createElement(“path”, {
-d: “M13.73 21a2 2 0 0 1-3.46 0”
+var Bell = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("path", {
+d: "M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"
+}), /*#**PURE***/React.createElement("path", {
+d: "M13.73 21a2 2 0 0 1-3.46 0"
 })));
-var BarChart2 = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“line”, {
-x1: “18”,
-y1: “20”,
-x2: “18”,
-y2: “10”
-}), /*#**PURE***/React.createElement(“line”, {
-x1: “12”,
-y1: “20”,
-x2: “12”,
-y2: “4”
-}), /*#**PURE***/React.createElement(“line”, {
-x1: “6”,
-y1: “20”,
-x2: “6”,
-y2: “14”
+var BarChart2 = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("line", {
+x1: "18",
+y1: "20",
+x2: "18",
+y2: "10"
+}), /*#**PURE***/React.createElement("line", {
+x1: "12",
+y1: "20",
+x2: "12",
+y2: "4"
+}), /*#**PURE***/React.createElement("line", {
+x1: "6",
+y1: "20",
+x2: "6",
+y2: "14"
 })));
-var X = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“line”, {
-x1: “18”,
-y1: “6”,
-x2: “6”,
-y2: “18”
-}), /*#**PURE***/React.createElement(“line”, {
-x1: “6”,
-y1: “6”,
-x2: “18”,
-y2: “18”
+var X = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("line", {
+x1: "18",
+y1: "6",
+x2: "6",
+y2: "18"
+}), /*#**PURE***/React.createElement("line", {
+x1: "6",
+y1: "6",
+x2: "18",
+y2: "18"
 })));
-var Edit2 = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“path”, {
-d: “M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z”
+var Edit2 = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("path", {
+d: "M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"
 })));
-var Trash2 = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“polyline”, {
-points: “3 6 5 6 21 6”
-}), /*#**PURE***/React.createElement(“path”, {
-d: “M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2”
+var Trash2 = ico(/*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("polyline", {
+points: "3 6 5 6 21 6"
+}), /*#**PURE***/React.createElement("path", {
+d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
 })));
-var ChevronDown = ico(/*#**PURE***/React.createElement(“polyline”, {
-points: “6 9 12 15 18 9”
+var ChevronDown = ico(/*#**PURE***/React.createElement("polyline", {
+points: "6 9 12 15 18 9"
 }));
 
 /* ─── UTILS ─── */
 var fmt = function fmt(v) {
-return new Intl.NumberFormat(“pt-BR”, {
-style: “currency”,
-currency: “BRL”
+return new Intl.NumberFormat("pt-BR", {
+style: "currency",
+currency: "BRL"
 }).format(v || 0);
 };
 var fmtD = function fmtD(d) {
-return d ? new Date(d + “T12:00:00”).toLocaleDateString(“pt-BR”) : “—”;
+return d ? new Date(d + "T12:00:00").toLocaleDateString("pt-BR") : "—";
 };
 var today = function today() {
-return new Date().toISOString().split(“T”)[0];
+var d = new Date();
+var y = d.getFullYear();
+var m = String(d.getMonth() + 1).padStart(2, "0");
+var day = String(d.getDate()).padStart(2, "0");
+return y + "-" + m + "-" + day;
 };
 var uid = function uid() {
 return Math.random().toString(36).slice(2, 10);
 };
 var toNum = function toNum(v) {
-return parseFloat((v || “”).toString().replace(”,”, “.”)) || 0;
+return parseFloat((v || "").toString().replace(",", ".")) || 0;
 };
 var vtotal = function vtotal(v) {
 return (v.pix || 0) + (v.dinheiro || 0) + (v.fiado || 0) + (v.cartao || 0) + (v.boleto || 0);
@@ -187,61 +191,61 @@ return (c.pix || 0) + (c.dinheiro || 0) + (c.aprazo || 0);
 };
 var diffDays = function diffDays(d) {
 if (!d) return null;
-var t = new Date(d + “T12:00:00”),
+var t = new Date(d + "T12:00:00"),
 now = new Date();
 now.setHours(12, 0, 0, 0);
 return Math.round((t - now) / 86400000);
 };
 var vencInfo = function vencInfo(item) {
-if (item.status === “Pago”) return {
-bg: “#DCFCE7”,
-cl: “#14532D”,
-icon: “✅”,
-label: “Pago”
+if (item.status === "Pago") return {
+bg: "#DCFCE7",
+cl: "#14532D",
+icon: "✅",
+label: "Pago"
 };
 var d = diffDays(item.vencimento);
 if (d === null) return {
-bg: “#EFF6FF”,
-cl: “#1E40AF”,
-icon: “📅”,
-label: “A Pagar”
+bg: "#EFF6FF",
+cl: "#1E40AF",
+icon: "📅",
+label: "A Pagar"
 };
 if (d < 0) return {
-bg: “#FEE2E2”,
-cl: “#991B1B”,
-icon: “🛑”,
-label: “Vencido “.concat(Math.abs(d), “d”)
+bg: "#FEE2E2",
+cl: "#991B1B",
+icon: "🛑",
+label: "Vencido ".concat(Math.abs(d), "d")
 };
 if (d === 0) return {
-bg: “#FEE2E2”,
-cl: “#991B1B”,
-icon: “🛑”,
-label: “Vence hoje!”
+bg: "#FEE2E2",
+cl: "#991B1B",
+icon: "🛑",
+label: "Vence hoje!"
 };
 if (d <= 3) return {
-bg: “#FEF3C7”,
-cl: “#92400E”,
-icon: “🟠”,
-label: “Vence em “.concat(d, “d”)
+bg: "#FEF3C7",
+cl: "#92400E",
+icon: "🟠",
+label: "Vence em ".concat(d, "d")
 };
 return {
-bg: “#EFF6FF”,
-cl: “#1E40AF”,
-icon: “📅”,
-label: “em “.concat(d, “d”)
+bg: "#EFF6FF",
+cl: "#1E40AF",
+icon: "📅",
+label: "em ".concat(d, "d")
 };
 };
 var byPeriod = function byPeriod(items, p, s, e) {
-var f = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : “data”;
+var f = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "data";
 var now = new Date();
 now.setHours(12, 0, 0, 0);
 return items.filter(function (it) {
 var raw = it[f];
 if (!raw) return false;
-var d = new Date(raw + “T12:00:00”);
+var d = new Date(raw + "T12:00:00");
 if (isNaN(d)) return false;
-if (p === “hoje”) return d.toDateString() === now.toDateString();
-if (p === “semana”) {
+if (p === "hoje") return d.toDateString() === now.toDateString();
+if (p === "semana") {
 var day = now.getDay() || 7;
 var mon = new Date(now);
 mon.setDate(now.getDate() - day + 1);
@@ -249,40 +253,41 @@ var sun = new Date(mon);
 sun.setDate(mon.getDate() + 6);
 return d >= mon && d <= sun;
 }
-if (p === “mes”) return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-if (p === “custom” && s && e) return d >= new Date(s + “T00:00:00”) && d <= new Date(e + “T23:59:59”);
+if (p === "mes") return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+if (p === "custom" && s && e) return d >= new Date(s + "T00:00:00") && d <= new Date(e + "T23:59:59");
 return true;
 });
 };
 
 /* ─── DESIGN ─── */
 var C = {
-sec: “#1E293B”,
-acc: “#2563EB”,
-bg: “#F1F5F9”,
-card: “#FFFFFF”,
-border: “#E2E8F0”,
-muted: “#94A3B8”,
-txt: “#1E293B”,
-sub: “#64748B”
+sec: "#1E293B",
+acc: "#2563EB",
+bg: "#F1F5F9",
+card: "#FFFFFF",
+border: "#E2E8F0",
+muted: "#94A3B8",
+txt: "#1E293B",
+sub: "#64748B"
 };
-var PAL = [”#3B82F6”, “#10B981”, “#EF4444”, “#F59E0B”, “#8B5CF6”, “#06B6D4”, “#F97316”, “#EC4899”];
+var PAL = ["#3B82F6", "#10B981", "#EF4444", "#F59E0B", "#8B5CF6", "#06B6D4", "#F97316", "#EC4899"];
 var catCl = function catCl(cats, cat) {
 var i = cats.indexOf(cat);
-return i >= 0 ? PAL[i % PAL.length] : “#6B7280”;
+return i >= 0 ? PAL[i % PAL.length] : "#6B7280";
 };
 
 /* ─── FIREBASE FIRESTORE REST API ─── */
-var FB_KEY = “AIzaSyA7MzAgK5OIhY4nWg7vdGHxCz5V-mQSgpI”;
-var FB_PROJECT = “erp-agrobras”;
-var FB_BASE = “https://firestore.googleapis.com/v1/projects/” + FB_PROJECT + “/databases/(default)/documents”;
-var FB_URL = FB_BASE + “/erp/murilo?key=” + FB_KEY;
-var BACKUP_URL = function(tag){ return FB_BASE + “/backups/” + tag + “?key=” + FB_KEY; };
-var OFFLINE_KEY = “erp_offline_pending”;
+// Aviso: autenticação e autorização no front-end não substituem Firebase Authentication + Security Rules.
+var FB_KEY = "AIzaSyA7MzAgK5OIhY4nWg7vdGHxCz5V-mQSgpI";
+var FB_PROJECT = "erp-agrobras";
+var FB_BASE = "https://firestore.googleapis.com/v1/projects/" + FB_PROJECT + "/databases/(default)/documents";
+var FB_URL = FB_BASE + "/erp/murilo?key=" + FB_KEY;
+var BACKUP_URL = function(tag){ return FB_BASE + "/backups/" + tag + "?key=" + FB_KEY; };
+var OFFLINE_KEY = "erp_offline_pending";
 
 var fbPatch = function(url, data) {
 return fetch(url, {
-method: “PATCH”, headers: { “Content-Type”: “application/json” },
+method: "PATCH", headers: { "Content-Type": "application/json" },
 body: JSON.stringify({ fields: { payload: { stringValue: JSON.stringify(data) } } })
 });
 };
@@ -293,15 +298,19 @@ return Promise.resolve();
 }
 return fbPatch(FB_URL, data).then(function() {
 try { localStorage.removeItem(OFFLINE_KEY); } catch(e) {}
-fbPatch(BACKUP_URL(“backup_” + new Date().toISOString().split(“T”)[0]), data).catch(function(){});
+(function(){
+var d=new Date();
+var stamp=today()+"_"+String(d.getHours()).padStart(2,"0")+"-"+String(d.getMinutes()).padStart(2,"0")+"-"+String(d.getSeconds()).padStart(2,"0");
+fbPatch(BACKUP_URL("backup_" + stamp), data).catch(function(){});
+})();
 }).catch(function(err) {
-console.error(“Firebase save error:”, err);
+
 try { localStorage.setItem(OFFLINE_KEY, JSON.stringify(data)); } catch(e) {}
 });
 };
 var load = function() {
 return fetch(FB_URL).then(function(res) {
-if (!res.ok) throw new Error(“HTTP “ + res.status);
+if (!res.ok) throw new Error("HTTP " + res.status);
 return res.json();
 }).then(function(json) {
 return JSON.parse(json.fields.payload.stringValue);
@@ -310,33 +319,33 @@ try { var p = localStorage.getItem(OFFLINE_KEY); if (p) return JSON.parse(p); } 
 return null;
 });
 };
-window.addEventListener(“online”, function() {
+window.addEventListener("online", function() {
 try {
 var p = localStorage.getItem(OFFLINE_KEY);
-if (p) fbPatch(FB_URL, JSON.parse(p)).then(function(){ localStorage.removeItem(OFFLINE_KEY); console.log(“Sync OK”); }).catch(function(){});
+if (p) fbPatch(FB_URL, JSON.parse(p)).then(function(){ localStorage.removeItem(OFFLINE_KEY);  }).catch(function(){});
 } catch(e) {}
 });
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError(“Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.”); }
-function _unsupportedIterableToArray(r, a) { if (r) { if (“string” == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return “Object” === t && r.constructor && (t = r.constructor.name), “Map” === t || “Set” === t ? Array.from(r) : “Arguments” === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : “undefined” != typeof Symbol && r[Symbol.iterator] || r[”@@iterator”]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-function _regenerator() { /*! regenerator-runtime – Copyright (c) 2014-present, Facebook, Inc. – license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = “function” == typeof Symbol ? Symbol : {}, n = r.iterator || “@@iterator”, o = r.toStringTag || “@@toStringTag”; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, “_invoke”, function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError(“Generator is already running”); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = “next”), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError(“iterator result is not an object”); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError(“The iterator does not provide a ‘” + o + “’ method”), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.**proto** = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, “GeneratorFunction”)), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, “constructor”, GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, “constructor”, GeneratorFunction), GeneratorFunction.displayName = “GeneratorFunction”, _regeneratorDefine2(GeneratorFunctionPrototype, o, “GeneratorFunction”), _regeneratorDefine2(u), _regeneratorDefine2(u, o, “Generator”), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, “toString”, function () { return “[object Generator]”; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
-function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, “”, {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o(“next”, 0), o(“throw”, 1), o(“return”, 2)); }, _regeneratorDefine2(e, r, n, t); }
+function _regenerator() { /*! regenerator-runtime – Copyright (c) 2014-present, Facebook, Inc. – license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.**proto** = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, “next”, n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, “throw”, n); } _next(void 0); }); }; }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* NEW PARTS */
 
 // Passwords hashed: Murilo102030, Aldenir123456
 var USERS = {
-“Murilo”: {
-hash: “39dfc40f1389e640d80c88c29c12736708ce6144a1ecbc1634c5b8cb99f10434”,
-role: “admin”
+"Murilo": {
+hash: "39dfc40f1389e640d80c88c29c12736708ce6144a1ecbc1634c5b8cb99f10434",
+role: "admin"
 },
-“Aldenir”: {
-hash: “c2e22169d3e135f6fb5478ca3a228cc0e690a892cae02147e28eab51d9edbdfb”,
-role: “viewer”
+"Aldenir": {
+hash: "c2e22169d3e135f6fb5478ca3a228cc0e690a892cae02147e28eab51d9edbdfb",
+role: "viewer"
 }
 };
 var hashStr = /*#**PURE***/function () {
@@ -346,12 +355,12 @@ return _regenerator().w(function (_context) {
 while (1) switch (_context.n) {
 case 0:
 _context.n = 1;
-return crypto.subtle.digest(“SHA-256”, new TextEncoder().encode(s));
+return crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
 case 1:
 buf = _context.v;
 return _context.a(2, Array.from(new Uint8Array(buf)).map(function (b) {
-return b.toString(16).padStart(2, “0”);
-}).join(””));
+return b.toString(16).padStart(2, "0");
+}).join(""));
 }
 }, _callee);
 }));
@@ -359,7 +368,7 @@ return function hashStr(_x) {
 return _ref.apply(this, arguments);
 };
 }();
-var SESSION_KEY = “erp_session”;
+var SESSION_KEY = "erp_session";
 var getSession = function getSession() {
 try {
 return JSON.parse(sessionStorage.getItem(SESSION_KEY));
@@ -373,7 +382,7 @@ return sessionStorage.setItem(SESSION_KEY, JSON.stringify(u));
 var clearSession = function clearSession() {
 return sessionStorage.removeItem(SESSION_KEY);
 };
-var OFFLINE_KEY = “erp_offline_pending”;
+var OFFLINE_KEY = "erp_offline_pending";
 function OfflineBar() {
 var _useState = useState(navigator.onLine),
 _useState2 = _slicedToArray(_useState, 2),
@@ -386,78 +395,78 @@ return setOnline(true);
 var off = function off() {
 return setOnline(false);
 };
-window.addEventListener(“online”, on);
-window.addEventListener(“offline”, off);
+window.addEventListener("online", on);
+window.addEventListener("offline", off);
 return function () {
-window.removeEventListener(“online”, on);
-window.removeEventListener(“offline”, off);
+window.removeEventListener("online", on);
+window.removeEventListener("offline", off);
 };
 }, []);
 if (online) return null;
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 style: {
-background: “#92400E”,
-color: “#FFF”,
+background: "#92400E",
+color: "#FFF",
 fontSize: 11,
 fontWeight: 700,
-textAlign: “center”,
-padding: “7px”,
-letterSpacing: “0.02em”
+textAlign: "center",
+padding: "7px",
+letterSpacing: "0.02em"
 }
-}, “\uD83D\uDCF5 SEM INTERNET \u2014 seus dados est\xE3o salvos, sincronizar\xE3o quando a conex\xE3o voltar”);
+}, "\uD83D\uDCF5 SEM INTERNET \u2014 seus dados est\xE3o salvos, sincronizar\xE3o quando a conex\xE3o voltar");
 }
 function UserBar(_ref2) {
 var session = _ref2.session,
 onLogout = _ref2.onLogout;
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 style: {
-background: “#0F172A”,
-padding: “5px 16px”,
-display: “flex”,
-alignItems: “center”,
-justifyContent: “space-between”
+background: "#0F172A",
+padding: "5px 16px",
+display: "flex",
+alignItems: "center",
+justifyContent: "space-between"
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
-color: “#94A3B8”,
+color: "#94A3B8",
 fontSize: 11
 }
-}, “👤 “, /*#**PURE***/React.createElement(“span”, {
+}, "👤 ", /*#**PURE***/React.createElement("span", {
 style: {
-color: “#FFF”,
+color: "#FFF",
 fontWeight: 700
 }
-}, session && session.nome), session && session.role === “viewer” && /*#**PURE***/React.createElement(“span”, {
+}, session && session.nome), session && session.role === "viewer" && /*#**PURE***/React.createElement("span", {
 style: {
-color: “#F59E0B”,
+color: "#F59E0B",
 marginLeft: 6,
 fontSize: 10
 }
-}, “— visualização”)), /*#**PURE***/React.createElement(“button”, {
+}, "— visualização")), /*#**PURE***/React.createElement("button", {
 onClick: onLogout,
 style: {
-background: “none”,
-border: “1px solid #334155”,
+background: "none",
+border: "1px solid #334155",
 borderRadius: 6,
-color: “#94A3B8”,
+color: "#94A3B8",
 fontSize: 10,
-padding: “3px 10px”,
-cursor: “pointer”,
-fontFamily: “inherit”
+padding: "3px 10px",
+cursor: "pointer",
+fontFamily: "inherit"
 }
-}, “Sair”));
+}, "Sair"));
 }
 function LoginScreen(_ref3) {
 var onLogin = _ref3.onLogin;
-var _useState3 = useState(””),
+var _useState3 = useState(""),
 _useState4 = _slicedToArray(_useState3, 2),
 user = _useState4[0],
 setUser = _useState4[1];
-var _useState5 = useState(””),
+var _useState5 = useState(""),
 _useState6 = _slicedToArray(_useState5, 2),
 pass = _useState6[0],
 setPass = _useState6[1];
-var _useState7 = useState(””),
+var _useState7 = useState(""),
 _useState8 = _slicedToArray(_useState7, 2),
 error = _useState8[0],
 setError = _useState8[1];
@@ -475,7 +484,7 @@ if (!(!user || !pass)) {
 _context2.n = 1;
 break;
 }
-setError(“Preencha todos os campos”);
+setError("Preencha todos os campos");
 return _context2.a(2);
 case 1:
 setLoading(true);
@@ -493,7 +502,7 @@ onLogin({
 nome: user,
 role: u.role
 });
-} else setError(“Usuário ou senha incorretos”);
+} else setError("Usuário ou senha incorretos");
 setLoading(false);
 case 3:
 return _context2.a(2);
@@ -504,136 +513,136 @@ return function handle() {
 return _ref4.apply(this, arguments);
 };
 }();
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 style: {
-minHeight: “100vh”,
-background: “#0F172A”,
-display: “flex”,
-alignItems: “center”,
-justifyContent: “center”,
+minHeight: "100vh",
+background: "#0F172A",
+display: "flex",
+alignItems: "center",
+justifyContent: "center",
 padding: 20
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-background: “#1E293B”,
+background: "#1E293B",
 borderRadius: 20,
-padding: “32px 24px”,
-width: “100%”,
+padding: "32px 24px",
+width: "100%",
 maxWidth: 340
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-textAlign: “center”,
+textAlign: "center",
 marginBottom: 28
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 48
 }
-}, “\uD83D\uDCCA”), /*#**PURE***/React.createElement(“div”, {
+}, "\uD83D\uDCCA"), /*#**PURE***/React.createElement("div", {
 style: {
-color: “#FFF”,
+color: "#FFF",
 fontSize: 20,
 fontWeight: 800,
 marginTop: 8
 }
-}, “ERP Agrobras”), /*#**PURE***/React.createElement(“div”, {
+}, "ERP Agrobras"), /*#**PURE***/React.createElement("div", {
 style: {
-color: “#94A3B8”,
+color: "#94A3B8",
 fontSize: 12,
 marginTop: 4
 }
-}, “Acesso restrito”)), /*#**PURE***/React.createElement(“div”, {
+}, "Acesso restrito")), /*#**PURE***/React.createElement("div", {
 style: {
 marginBottom: 12
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
 fontWeight: 800,
-color: “#94A3B8”,
-textTransform: “uppercase”,
-letterSpacing: “0.06em”,
+color: "#94A3B8",
+textTransform: "uppercase",
+letterSpacing: "0.06em",
 marginBottom: 4
 }
-}, “Usu\xE1rio”), /*#**PURE***/React.createElement(“input”, {
+}, "Usu\xE1rio"), /*#**PURE***/React.createElement("input", {
 value: user,
 onChange: function onChange(e) {
 return setUser(e.target.value);
 },
-placeholder: “Seu nome”,
+placeholder: "Seu nome",
 onKeyDown: function onKeyDown(e) {
-return e.key === “Enter” && handle();
+return e.key === "Enter" && handle();
 },
 style: {
-width: “100%”,
-padding: “11px 14px”,
+width: "100%",
+padding: "11px 14px",
 borderRadius: 10,
-border: “1px solid #334155”,
-background: “#0F172A”,
-color: “#FFF”,
+border: "1px solid #334155",
+background: "#0F172A",
+color: "#FFF",
 fontSize: 14,
-boxSizing: “border-box”,
-fontFamily: “inherit”
+boxSizing: "border-box",
+fontFamily: "inherit"
 }
-})), /*#**PURE***/React.createElement(“div”, {
+})), /*#**PURE***/React.createElement("div", {
 style: {
 marginBottom: 20
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
 fontWeight: 800,
-color: “#94A3B8”,
-textTransform: “uppercase”,
-letterSpacing: “0.06em”,
+color: "#94A3B8",
+textTransform: "uppercase",
+letterSpacing: "0.06em",
 marginBottom: 4
 }
-}, “Senha”), /*#**PURE***/React.createElement(“input”, {
-type: “password”,
+}, "Senha"), /*#**PURE***/React.createElement("input", {
+type: "password",
 value: pass,
 onChange: function onChange(e) {
 return setPass(e.target.value);
 },
-placeholder: “\u2022\u2022\u2022\u2022\u2022\u2022”,
+placeholder: "\u2022\u2022\u2022\u2022\u2022\u2022",
 onKeyDown: function onKeyDown(e) {
-return e.key === “Enter” && handle();
+return e.key === "Enter" && handle();
 },
 style: {
-width: “100%”,
-padding: “11px 14px”,
+width: "100%",
+padding: "11px 14px",
 borderRadius: 10,
-border: “1px solid #334155”,
-background: “#0F172A”,
-color: “#FFF”,
+border: "1px solid #334155",
+background: "#0F172A",
+color: "#FFF",
 fontSize: 14,
-boxSizing: “border-box”,
-fontFamily: “inherit”
+boxSizing: "border-box",
+fontFamily: "inherit"
 }
-})), error && /*#**PURE***/React.createElement(“div”, {
+})), error && /*#**PURE***/React.createElement("div", {
 style: {
-color: “#F87171”,
+color: "#F87171",
 fontSize: 12,
 marginBottom: 12,
-textAlign: “center”
+textAlign: "center"
 }
-}, error), /*#**PURE***/React.createElement(“button”, {
+}, error), /*#**PURE***/React.createElement("button", {
 onClick: handle,
 disabled: loading,
 style: {
-width: “100%”,
+width: "100%",
 padding: 14,
 borderRadius: 12,
-border: “none”,
-background: “#2563EB”,
-color: “#FFF”,
+border: "none",
+background: "#2563EB",
+color: "#FFF",
 fontWeight: 800,
 fontSize: 15,
-cursor: “pointer”,
-fontFamily: “inherit”,
+cursor: "pointer",
+fontFamily: "inherit",
 opacity: loading ? 0.7 : 1
 }
-}, loading ? “Verificando…” : “Entrar”)));
+}, loading ? "Verificando…" : "Entrar")));
 }
 
 var INIT = {
@@ -642,36 +651,36 @@ compras: [],
 despesas: [],
 funcionarios: [],
 adiantamentos: [],
-catsDespesa: [“Funcionarios”, “Gastos Ext”, “Banco”, “Veiculos”, “Impostos”, “Outros”],
-catsCompra: [“Matéria-prima”, “Embalagem”, “Insumos”, “Outros”]
+catsDespesa: ["Funcionarios", "Gastos Ext", "Banco", "Veiculos", "Impostos", "Outros"],
+catsCompra: ["Matéria-prima", "Embalagem", "Insumos", "Outros"]
 };
 
 /* ─── SHARED UI ─── */
 function Card(_ref4) {
 var children = _ref4.children,
 style = _ref4.style;
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 style: _objectSpread({
 background: C.card,
 borderRadius: 14,
 padding: 16,
-boxShadow: “0 1px 4px rgba(0,0,0,0.07)”
+boxShadow: "0 1px 4px rgba(0,0,0,0.07)"
 }, style)
 }, children);
 }
 function SecHead(_ref5) {
 var title = _ref5.title;
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 style: {
 marginBottom: 10
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 11,
 fontWeight: 800,
 color: C.sub,
-textTransform: “uppercase”,
-letterSpacing: “0.07em”
+textTransform: "uppercase",
+letterSpacing: "0.07em"
 }
 }, title));
 }
@@ -679,16 +688,16 @@ function Badge(_ref6) {
 var text = _ref6.text,
 bg = _ref6.bg,
 cl = _ref6.cl;
-return /*#**PURE***/React.createElement(“span”, {
+return /*#**PURE***/React.createElement("span", {
 style: {
 background: bg,
 color: cl,
 fontSize: 10,
 fontWeight: 700,
-padding: “2px 8px”,
+padding: "2px 8px",
 borderRadius: 20,
-whiteSpace: “nowrap”,
-display: “inline-block”
+whiteSpace: "nowrap",
+display: "inline-block"
 }
 }, text);
 }
@@ -696,24 +705,24 @@ function Empty(_ref7) {
 var icon = _ref7.icon,
 title = _ref7.title,
 sub = _ref7.sub;
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 style: {
-textAlign: “center”,
-padding: “48px 20px”,
+textAlign: "center",
+padding: "48px 20px",
 color: C.muted
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 38,
 marginBottom: 8
 }
-}, icon), /*#**PURE***/React.createElement(“div”, {
+}, icon), /*#**PURE***/React.createElement("div", {
 style: {
 fontWeight: 700,
 color: C.sub,
 marginBottom: 4
 }
-}, title), /*#**PURE***/React.createElement(“div”, {
+}, title), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 12
 }
@@ -726,40 +735,40 @@ s = _ref8.s,
 setS = _ref8.setS,
 e = _ref8.e,
 setE = _ref8.setE;
-return /*#**PURE***/React.createElement(“div”, null, /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", null, /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 6
 }
-}, [[“hoje”, “Hoje”], [“semana”, “Semana”], [“mes”, “Mês”], [“custom”, “Período”]].map(function (_ref9) {
+}, [["hoje", "Hoje"], ["semana", "Semana"], ["mes", "Mês"], ["custom", "Período"]].map(function (_ref9) {
 var _ref0 = _slicedToArray(_ref9, 2),
 k = _ref0[0],
 l = _ref0[1];
-return /*#**PURE***/React.createElement(“button”, {
+return /*#**PURE***/React.createElement("button", {
 key: k,
 onClick: function onClick() {
 return setP(k);
 },
 style: {
 flex: 1,
-padding: “7px 4px”,
+padding: "7px 4px",
 borderRadius: 20,
-border: “none”,
-cursor: “pointer”,
+border: "none",
+cursor: "pointer",
 fontWeight: 700,
 fontSize: 11,
 background: p === k ? C.acc : C.border,
-color: p === k ? “#FFF” : C.sub
+color: p === k ? "#FFF" : C.sub
 }
 }, l);
-})), p === “custom” && /*#**PURE***/React.createElement(“div”, {
+})), p === "custom" && /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 8,
 marginTop: 8
 }
-}, /*#**PURE***/React.createElement(“input”, {
-type: “date”,
+}, /*#**PURE***/React.createElement("input", {
+type: "date",
 value: s,
 onChange: function onChange(ev) {
 return setS(ev.target.value);
@@ -768,11 +777,11 @@ style: {
 flex: 1,
 padding: 8,
 borderRadius: 8,
-border: “1px solid “.concat(C.border),
+border: "1px solid ".concat(C.border),
 fontSize: 12
 }
-}), /*#**PURE***/React.createElement(“input”, {
-type: “date”,
+}), /*#**PURE***/React.createElement("input", {
+type: "date",
 value: e,
 onChange: function onChange(ev) {
 return setE(ev.target.value);
@@ -781,7 +790,7 @@ style: {
 flex: 1,
 padding: 8,
 borderRadius: 8,
-border: “1px solid “.concat(C.border),
+border: "1px solid ".concat(C.border),
 fontSize: 12
 }
 })));
@@ -791,11 +800,11 @@ fontSize: 12
 function PgBreak(_ref1) {
 var item = _ref1.item,
 type = _ref1.type;
-var fields = type === “venda” ? [[“pix”, “PIX”, “#8B5CF6”], [“dinheiro”, “Dinheiro”, “#16A34A”], [“fiado”, “Fiado”, “#D97706”], [“cartao”, “Cartão”, “#2563EB”], [“boleto”, “Boleto”, “#0891B2”]] : [[“pix”, “PIX”, “#8B5CF6”], [“dinheiro”, “Dinheiro”, “#16A34A”], [“aprazo”, “A Prazo”, “#DC2626”]];
-return /*#**PURE***/React.createElement(“div”, {
+var fields = type === "venda" ? [["pix", "PIX", "#8B5CF6"], ["dinheiro", "Dinheiro", "#16A34A"], ["fiado", "Fiado", "#D97706"], ["cartao", "Cartão", "#2563EB"], ["boleto", "Boleto", "#0891B2"]] : [["pix", "PIX", "#8B5CF6"], ["dinheiro", "Dinheiro", "#16A34A"], ["aprazo", "A Prazo", "#DC2626"]];
+return /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-flexWrap: “wrap”,
+display: "flex",
+flexWrap: "wrap",
 gap: 4,
 marginTop: 4
 }
@@ -808,17 +817,17 @@ var _ref13 = _slicedToArray(_ref12, 3),
 k = _ref13[0],
 l = _ref13[1],
 cl = _ref13[2];
-return /*#**PURE***/React.createElement(“span”, {
+return /*#**PURE***/React.createElement("span", {
 key: k,
 style: {
 fontSize: 10,
 color: cl,
 fontWeight: 700,
-background: cl + “18”,
+background: cl + "18",
 borderRadius: 6,
-padding: “2px 7px”
+padding: "2px 7px"
 }
-}, l, “: “, fmt(item[k]));
+}, l, ": ", fmt(item[k]));
 }));
 }
 
@@ -829,51 +838,51 @@ value = _ref14.value,
 onChange = _ref14.onChange,
 color = _ref14.color;
 var fldStyle = {
-width: “100%”,
-padding: “9px 10px 9px 32px”,
+width: "100%",
+padding: "9px 10px 9px 32px",
 borderRadius: 10,
-border: “1.5px solid “.concat(value > 0 ? color : C.border),
+border: "1.5px solid ".concat(value > 0 ? color : C.border),
 fontSize: 14,
-background: “#FAFAFA”,
-boxSizing: “border-box”,
-fontFamily: “inherit”,
+background: "#FAFAFA",
+boxSizing: "border-box",
+fontFamily: "inherit",
 color: C.txt,
-outline: “none”
+outline: "none"
 };
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 style: {
 flex: 1,
-minWidth: “calc(50% - 4px)”
+minWidth: "calc(50% - 4px)"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
 fontWeight: 800,
 color: color,
 marginBottom: 4,
-textTransform: “uppercase”,
-letterSpacing: “0.05em”
+textTransform: "uppercase",
+letterSpacing: "0.05em"
 }
-}, label), /*#**PURE***/React.createElement(“div”, {
+}, label), /*#**PURE***/React.createElement("div", {
 style: {
-position: “relative”
+position: "relative"
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
-position: “absolute”,
+position: "absolute",
 left: 10,
-top: “50%”,
-transform: “translateY(-50%)”,
+top: "50%",
+transform: "translateY(-50%)",
 fontSize: 11,
 color: color,
 fontWeight: 700,
-pointerEvents: “none”
+pointerEvents: "none"
 }
-}, “R$”), /*#**PURE***/React.createElement(“input”, {
-type: “number”,
-step: “0.01”,
-placeholder: “0,00”,
-value: value || “”,
+}, "R$"), /*#**PURE***/React.createElement("input", {
+type: "number",
+step: "0.01",
+placeholder: "0,00",
+value: value || "",
 onChange: onChange,
 style: fldStyle
 })));
@@ -890,45 +899,45 @@ H = 110,
 barW = 16,
 gap = 4,
 groupW = barW * 2 + gap + 10;
-return /*#**PURE***/React.createElement(“svg”, {
-width: “100%”,
-viewBox: “0 0 “.concat(W, “ “).concat(H + 24),
+return /*#**PURE***/React.createElement("svg", {
+width: "100%",
+viewBox: "0 0 ".concat(W, " ").concat(H + 24),
 style: {
-overflow: “visible”
+overflow: "visible"
 }
 }, data.map(function (d, i) {
 var x = i * groupW + 8;
 var hV = Math.round(d.Vendas / max * H) || 0;
 var hS = Math.round(d.Saidas / max * H) || 0;
-return /*#**PURE***/React.createElement(“g”, {
+return /*#**PURE***/React.createElement("g", {
 key: i
-}, hV > 0 && /*#**PURE***/React.createElement(“rect”, {
+}, hV > 0 && /*#**PURE***/React.createElement("rect", {
 x: x,
 y: H - hV,
 width: barW,
 height: hV,
-fill: “#4ADE80”,
+fill: "#4ADE80",
 rx: 3
-}), hS > 0 && /*#**PURE***/React.createElement(“rect”, {
+}), hS > 0 && /*#**PURE***/React.createElement("rect", {
 x: x + barW + gap,
 y: H - hS,
 width: barW,
 height: hS,
-fill: “#F87171”,
+fill: "#F87171",
 rx: 3
-}), /*#**PURE***/React.createElement(“text”, {
+}), /*#**PURE***/React.createElement("text", {
 x: x + barW,
 y: H + 14,
-textAnchor: “middle”,
+textAnchor: "middle",
 fontSize: 9,
-fill: “#94A3B8”
+fill: "#94A3B8"
 }, d.dia));
-}), /*#**PURE***/React.createElement(“line”, {
+}), /*#**PURE***/React.createElement("line", {
 x1: 0,
 y1: H,
 x2: W,
 y2: H,
-stroke: “#F1F5F9”,
+stroke: "#F1F5F9",
 strokeWidth: 1
 }));
 }
@@ -939,45 +948,45 @@ if (!data || data.length === 0) return null;
 var max = Math.max.apply(Math, _toConsumableArray(data.map(function (d) {
 return d.valor;
 })).concat([1]));
-return /*#**PURE***/React.createElement(“div”, null, data.map(function (item, i) {
+return /*#**PURE***/React.createElement("div", null, data.map(function (item, i) {
 var pct = Math.round(item.valor / max * 100);
 var cl = catCl(cats, item.cat);
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 key: item.cat,
 style: {
 marginBottom: 8
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-justifyContent: “space-between”,
+display: "flex",
+justifyContent: "space-between",
 marginBottom: 3
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 11,
-color: “#1E293B”
+color: "#1E293B"
 }
-}, item.cat), /*#**PURE***/React.createElement(“span”, {
+}, item.cat), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 11,
 fontWeight: 800,
 color: cl
 }
-}, fmt(item.valor))), /*#**PURE***/React.createElement(“div”, {
+}, fmt(item.valor))), /*#**PURE***/React.createElement("div", {
 style: {
 height: 8,
-background: “#F1F5F9”,
+background: "#F1F5F9",
 borderRadius: 4,
-overflow: “hidden”
+overflow: "hidden"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-height: “100%”,
-width: pct + “%”,
+height: "100%",
+width: pct + "%",
 background: cl,
 borderRadius: 4,
-transition: “width 0.3s”
+transition: "width 0.3s"
 }
 })));
 }));
@@ -998,13 +1007,13 @@ onNew = *ref17.onNew;
 var pos = totals.lucro >= 0;
 var now = new Date();
 var weekData = useMemo(function () {
-var days = [“Dom”, “Seg”, “Ter”, “Qua”, “Qui”, “Sex”, “Sáb”];
+var days = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 return Array.from({
 length: 7
 }, function (*, i) {
 var d = new Date(now);
 d.setDate(now.getDate() - (6 - i));
-var ds = d.toISOString().split(“T”)[0];
+var ds = d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
 return {
 dia: days[d.getDay()],
 Vendas: data.vendas.filter(function (x) {
@@ -1024,47 +1033,47 @@ return a + ctotal(x);
 };
 });
 }, [data]);
-return /*#**PURE***/React.createElement(“div”, null, /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", null, /*#**PURE***/React.createElement("div", {
 style: {
 background: C.sec,
-padding: “28px 20px 20px”,
-color: “#FFF”
+padding: "28px 20px 20px",
+color: "#FFF"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 11,
-color: “#94A3B8”,
+color: "#94A3B8",
 marginBottom: 2
 }
-}, now.toLocaleDateString(“pt-BR”, {
-weekday: “long”,
-day: “numeric”,
-month: “long”,
-year: “numeric”
-})), /*#**PURE***/React.createElement(“div”, {
+}, now.toLocaleDateString("pt-BR", {
+weekday: "long",
+day: "numeric",
+month: "long",
+year: "numeric"
+})), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 22,
 fontWeight: 800
 }
-}, “Painel Financeiro \uD83D\uDCCA”), alertas.length > 0 && /*#**PURE***/React.createElement(“div”, {
+}, "Painel Financeiro \uD83D\uDCCA"), alertas.length > 0 && /*#**PURE***/React.createElement("div", {
 style: {
 marginTop: 12,
-background: “#FEF3C7”,
+background: "#FEF3C7",
 borderRadius: 10,
-padding: “8px 14px”,
-display: “flex”,
-alignItems: “center”,
+padding: "8px 14px",
+display: "flex",
+alignItems: "center",
 gap: 8
 }
-}, /*#**PURE***/React.createElement(“span”, null, “\uD83D\uDFE0”), /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", null, "\uD83D\uDFE0"), /*#**PURE***/React.createElement("span", {
 style: {
-color: “#92400E”,
+color: "#92400E",
 fontSize: 12,
 fontWeight: 700
 }
-}, alertas.length, “ vencimento”, alertas.length > 1 ? “s” : “”, “ urgente”, alertas.length > 1 ? “s” : “”))), /*#**PURE***/React.createElement(“div”, {
+}, alertas.length, " vencimento", alertas.length > 1 ? "s" : "", " urgente", alertas.length > 1 ? "s" : ""))), /*#**PURE***/React.createElement("div", {
 style: {
-padding: “14px 16px 0”
+padding: "14px 16px 0"
 }
 }, /*#**PURE***/React.createElement(PBar, {
 p: p,
@@ -1073,163 +1082,163 @@ s: s,
 setS: setS,
 e: e,
 setE: setE
-})), /*#**PURE***/React.createElement(“div”, {
+})), /*#**PURE***/React.createElement("div", {
 style: {
-padding: “12px 16px”,
-display: “grid”,
-gridTemplateColumns: “1fr 1fr”,
+padding: "12px 16px",
+display: "grid",
+gridTemplateColumns: "1fr 1fr",
 gap: 10
 }
 }, /*#**PURE***/React.createElement(Card, {
 style: {
-borderLeft: “4px solid #16A34A”,
-padding: “12px 14px”
+borderLeft: "4px solid #16A34A",
+padding: "12px 14px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
 color: C.sub,
 fontWeight: 700,
-textTransform: “uppercase”,
-letterSpacing: “0.06em”,
+textTransform: "uppercase",
+letterSpacing: "0.06em",
 marginBottom: 4
 }
-}, “\uD83D\uDCB0 Vendas”), /*#**PURE***/React.createElement(“div”, {
+}, "\uD83D\uDCB0 Vendas"), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 18,
 fontWeight: 800,
-color: “#16A34A”
+color: "#16A34A"
 }
 }, fmt(totals.tv))), /*#**PURE***/React.createElement(Card, {
 style: {
-borderLeft: “4px solid #D97706”,
-padding: “12px 14px”
+borderLeft: "4px solid #D97706",
+padding: "12px 14px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
 color: C.sub,
 fontWeight: 700,
-textTransform: “uppercase”,
-letterSpacing: “0.06em”,
+textTransform: "uppercase",
+letterSpacing: "0.06em",
 marginBottom: 4
 }
-}, “\uD83D\uDED2 Compras”), /*#**PURE***/React.createElement(“div”, {
+}, "\uD83D\uDED2 Compras"), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 18,
 fontWeight: 800,
-color: “#D97706”
+color: "#D97706"
 }
 }, fmt(totals.tc))), /*#**PURE***/React.createElement(Card, {
 style: {
-borderLeft: “4px solid #DC2626”,
-padding: “12px 14px”
+borderLeft: "4px solid #DC2626",
+padding: "12px 14px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
 color: C.sub,
 fontWeight: 700,
-textTransform: “uppercase”,
-letterSpacing: “0.06em”,
+textTransform: "uppercase",
+letterSpacing: "0.06em",
 marginBottom: 4
 }
-}, “\uD83D\uDCB8 Despesas”), /*#**PURE***/React.createElement(“div”, {
+}, "\uD83D\uDCB8 Despesas"), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 18,
 fontWeight: 800,
-color: “#DC2626”
+color: "#DC2626"
 }
 }, fmt(totals.td))), /*#**PURE***/React.createElement(Card, {
 style: {
-borderLeft: “4px solid “.concat(pos ? “#2563EB” : “#DC2626”),
-padding: “12px 14px”
+borderLeft: "4px solid ".concat(pos ? "#2563EB" : "#DC2626"),
+padding: "12px 14px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
 color: C.sub,
 fontWeight: 700,
-textTransform: “uppercase”,
-letterSpacing: “0.06em”,
+textTransform: "uppercase",
+letterSpacing: "0.06em",
 marginBottom: 4
 }
-}, pos ? “📈 Lucro” : “📉 Prejuízo”), /*#**PURE***/React.createElement(“div”, {
+}, pos ? "📈 Lucro" : "📉 Prejuízo"), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 18,
 fontWeight: 800,
-color: pos ? “#2563EB” : “#DC2626”
+color: pos ? "#2563EB" : "#DC2626"
 }
-}, fmt(totals.lucro)))), /*#**PURE***/React.createElement(“div”, {
+}, fmt(totals.lucro)))), /*#**PURE***/React.createElement("div", {
 style: {
-margin: “0 16px 12px”
+margin: "0 16px 12px"
 }
 }, /*#**PURE***/React.createElement(Card, {
 style: {
 background: C.sec
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
-color: “#64748B”,
+color: "#64748B",
 marginBottom: 10,
 fontWeight: 800,
-letterSpacing: “0.07em”
+letterSpacing: "0.07em"
 }
-}, “RESULTADO DO PER\xCDODO”), /*#**PURE***/React.createElement(“div”, {
+}, "RESULTADO DO PER\xCDODO"), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-alignItems: “center”,
-flexWrap: “wrap”,
+display: "flex",
+alignItems: "center",
+flexWrap: "wrap",
 gap: 6,
 fontSize: 12
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
-color: “#4ADE80”,
+color: "#4ADE80",
 fontWeight: 700
 }
-}, fmt(totals.tv)), /*#**PURE***/React.createElement(“span”, {
+}, fmt(totals.tv)), /*#**PURE***/React.createElement("span", {
 style: {
-color: “#475569”
+color: "#475569"
 }
-}, “\u2212”), /*#**PURE***/React.createElement(“span”, {
+}, "\u2212"), /*#**PURE***/React.createElement("span", {
 style: {
-color: “#FB923C”,
+color: "#FB923C",
 fontWeight: 700
 }
-}, fmt(totals.tc)), /*#**PURE***/React.createElement(“span”, {
+}, fmt(totals.tc)), /*#**PURE***/React.createElement("span", {
 style: {
-color: “#475569”
+color: "#475569"
 }
-}, “\u2212”), /*#**PURE***/React.createElement(“span”, {
+}, "\u2212"), /*#**PURE***/React.createElement("span", {
 style: {
-color: “#F87171”,
+color: "#F87171",
 fontWeight: 700
 }
-}, fmt(totals.td)), /*#**PURE***/React.createElement(“span”, {
+}, fmt(totals.td)), /*#**PURE***/React.createElement("span", {
 style: {
-color: “#475569”
+color: "#475569"
 }
-}, “=”), /*#**PURE***/React.createElement(“span”, {
+}, "="), /*#**PURE***/React.createElement("span", {
 style: {
-color: pos ? “#4ADE80” : “#F87171”,
+color: pos ? "#4ADE80" : "#F87171",
 fontWeight: 900,
 fontSize: 16
 }
-}, fmt(totals.lucro))))), totals.tv > 0 && /*#**PURE***/React.createElement(“div”, {
+}, fmt(totals.lucro))))), totals.tv > 0 && /*#**PURE***/React.createElement("div", {
 style: {
-margin: “0 16px 12px”
+margin: "0 16px 12px"
 }
 }, /*#**PURE***/React.createElement(Card, null, /*#**PURE***/React.createElement(SecHead, {
-title: “Vendas por forma de pagamento”
-}), /*#**PURE***/React.createElement(“div”, {
+title: "Vendas por forma de pagamento"
+}), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 6,
-flexWrap: “wrap”
+flexWrap: "wrap"
 }
-}, [[“PIX”, totals.vPix, “#8B5CF6”, “#F5F3FF”], [“Dinheiro”, totals.vDinheiro, “#16A34A”, “#DCFCE7”], [“Fiado”, totals.vFiado, “#D97706”, “#FEF3C7”], [“Cartão”, totals.vCartao, “#2563EB”, “#EFF6FF”], [“Boleto”, totals.vBoleto, “#0891B2”, “#ECFEFF”]].filter(function (_ref18) {
+}, [["PIX", totals.vPix, "#8B5CF6", "#F5F3FF"], ["Dinheiro", totals.vDinheiro, "#16A34A", "#DCFCE7"], ["Fiado", totals.vFiado, "#D97706", "#FEF3C7"], ["Cartão", totals.vCartao, "#2563EB", "#EFF6FF"], ["Boleto", totals.vBoleto, "#0891B2", "#ECFEFF"]].filter(function (_ref18) {
 var _ref19 = _slicedToArray(_ref18, 2),
 v = _ref19[1];
 return v > 0;
@@ -1239,117 +1248,117 @@ l = _ref21[0],
 v = _ref21[1],
 cl = _ref21[2],
 bg = _ref21[3];
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 key: l,
 style: {
 flex: 1,
 minWidth: 60,
 background: bg,
 borderRadius: 10,
-padding: “8px 10px”
+padding: "8px 10px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 9,
 color: cl,
 fontWeight: 800
 }
-}, l), /*#**PURE***/React.createElement(“div”, {
+}, l), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 13,
 fontWeight: 800,
 color: cl,
 marginTop: 2
 }
-}, fmt(v)), /*#**PURE***/React.createElement(“div”, {
+}, fmt(v)), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 9,
 color: cl,
 opacity: 0.7
 }
-}, totals.tv > 0 ? (v / totals.tv * 100).toFixed(0) + “%” : “”));
-})))), /*#**PURE***/React.createElement(“div”, {
+}, totals.tv > 0 ? (v / totals.tv * 100).toFixed(0) + "%" : ""));
+})))), /*#**PURE***/React.createElement("div", {
 style: {
-margin: “0 16px 12px”
+margin: "0 16px 12px"
 }
 }, /*#**PURE***/React.createElement(Card, null, /*#**PURE***/React.createElement(SecHead, {
-title: “Status Despesas”
-}), /*#**PURE***/React.createElement(“div”, {
+title: "Status Despesas"
+}), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 8
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 flex: 1,
-background: “#DCFCE7”,
+background: "#DCFCE7",
 borderRadius: 10,
-padding: “10px 12px”
+padding: "10px 12px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
-color: “#14532D”,
+color: "#14532D",
 fontWeight: 700
 }
-}, “\u2705 Pago”), /*#**PURE***/React.createElement(“div”, {
+}, "\u2705 Pago"), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 17,
 fontWeight: 800,
-color: “#14532D”,
+color: "#14532D",
 marginTop: 2
 }
-}, fmt(totals.tdPago))), /*#**PURE***/React.createElement(“div”, {
+}, fmt(totals.tdPago))), /*#**PURE***/React.createElement("div", {
 style: {
 flex: 1,
-background: “#FEF3C7”,
+background: "#FEF3C7",
 borderRadius: 10,
-padding: “10px 12px”
+padding: "10px 12px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
-color: “#92400E”,
+color: "#92400E",
 fontWeight: 700
 }
-}, “\u23F3 Pendente”), /*#**PURE***/React.createElement(“div”, {
+}, "\u23F3 Pendente"), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 17,
 fontWeight: 800,
-color: “#92400E”,
+color: "#92400E",
 marginTop: 2
 }
-}, fmt(totals.tdPend)))))), /*#**PURE***/React.createElement(“div”, {
+}, fmt(totals.tdPend)))))), /*#**PURE***/React.createElement("div", {
 style: {
-margin: “0 16px 12px”
+margin: "0 16px 12px"
 }
 }, /*#**PURE***/React.createElement(SecHead, {
-title: “Lan\xE7ar r\xE1pido”
-}), /*#**PURE***/React.createElement(“div”, {
+title: "Lan\xE7ar r\xE1pido"
+}), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 8
 }
 }, [{
-t: “venda”,
-l: “Venda do Dia”,
-i: “💰”,
-c: “#16A34A”,
-b: “#DCFCE7”
+t: "venda",
+l: "Venda do Dia",
+i: "💰",
+c: "#16A34A",
+b: "#DCFCE7"
 }, {
-t: “compra”,
-l: “Compra do Dia”,
-i: “🛒”,
-c: “#D97706”,
-b: “#FEF3C7”
+t: "compra",
+l: "Compra do Dia",
+i: "🛒",
+c: "#D97706",
+b: "#FEF3C7"
 }, {
-t: “despesa”,
-l: “Despesa”,
-i: “💸”,
-c: “#DC2626”,
-b: “#FEE2E2”
+t: "despesa",
+l: "Despesa",
+i: "💸",
+c: "#DC2626",
+b: "#FEE2E2"
 }].map(function (q) {
-return /*#**PURE***/React.createElement(“button”, {
+return /*#**PURE***/React.createElement("button", {
 key: q.t,
 onClick: function onClick() {
 return onNew(q.t);
@@ -1357,17 +1366,17 @@ return onNew(q.t);
 style: {
 flex: 1,
 background: q.b,
-border: “none”,
+border: "none",
 borderRadius: 14,
-padding: “14px 6px”,
-cursor: “pointer”,
-textAlign: “center”
+padding: "14px 6px",
+cursor: "pointer",
+textAlign: "center"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 22
 }
-}, q.i), /*#**PURE***/React.createElement(“div”, {
+}, q.i), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
 fontWeight: 800,
@@ -1377,54 +1386,54 @@ marginTop: 4
 }, q.l));
 }))), weekData.some(function (d) {
 return d.Vendas > 0 || d.Saidas > 0;
-}) && /*#**PURE***/React.createElement(“div”, {
+}) && /*#**PURE***/React.createElement("div", {
 style: {
-margin: “0 16px 16px”
+margin: "0 16px 16px"
 }
 }, /*#**PURE***/React.createElement(Card, null, /*#**PURE***/React.createElement(SecHead, {
-title: “\xDAltimos 7 dias”
+title: "\xDAltimos 7 dias"
 }), /*#**PURE***/React.createElement(WeekBarChart, {
 data: weekData
-}), /*#**PURE***/React.createElement(“div”, {
+}), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 16,
-justifyContent: “center”,
+justifyContent: "center",
 marginTop: 4
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 10,
 color: C.muted,
-display: “flex”,
-alignItems: “center”,
+display: "flex",
+alignItems: "center",
 gap: 4
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 width: 10,
 height: 10,
-background: “#4ADE80”,
+background: "#4ADE80",
 borderRadius: 2,
-display: “inline-block”
+display: "inline-block"
 }
-}), “Vendas”), /*#**PURE***/React.createElement(“span”, {
+}), "Vendas"), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 10,
 color: C.muted,
-display: “flex”,
-alignItems: “center”,
+display: "flex",
+alignItems: "center",
 gap: 4
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 width: 10,
 height: 10,
-background: “#F87171”,
+background: "#F87171",
 borderRadius: 2,
-display: “inline-block”
+display: "inline-block"
 }
-}), “Sa\xEDdas”)))));
+}), "Sa\xEDdas")))));
 }
 
 /* ─── REGISTROS ─── */
@@ -1442,39 +1451,39 @@ _useState2 = _slicedToArray(_useState, 2),
 confirm = _useState2[0],
 setConfirm = _useState2[1];
 var doDelete = function doDelete(id) {
-if (tab === “vendas”) onDelV(id);else if (tab === “compras”) onDelC(id);else onDelD(id);
+if (tab === "vendas") onDelV(id);else if (tab === "compras") onDelC(id);else onDelD(id);
 setConfirm(null);
 };
-var raw = tab === “vendas” ? data.vendas : tab === “compras” ? data.compras : data.despesas;
+var raw = tab === "vendas" ? data.vendas : tab === "compras" ? data.compras : data.despesas;
 var sorted = _toConsumableArray(raw).sort(function (a, b) {
-return (b.data || “”).localeCompare(a.data || “”);
+return (b.data || "").localeCompare(a.data || "");
 });
 var totalFn = function totalFn(item) {
-return tab === “vendas” ? vtotal(item) : tab === “compras” ? ctotal(item) : item.valor || 0;
+return tab === "vendas" ? vtotal(item) : tab === "compras" ? ctotal(item) : item.valor || 0;
 };
-var vcl = tab === “vendas” ? “#16A34A” : tab === “compras” ? “#D97706” : C.txt;
-return /*#**PURE***/React.createElement(“div”, null, /*#**PURE***/React.createElement(“div”, {
+var vcl = tab === "vendas" ? "#16A34A" : tab === "compras" ? "#D97706" : C.txt;
+return /*#**PURE***/React.createElement("div", null, /*#**PURE***/React.createElement("div", {
 style: {
 background: C.sec,
-padding: “28px 20px 0”,
-color: “#FFF”
+padding: "28px 20px 0",
+color: "#FFF"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 22,
 fontWeight: 800,
 marginBottom: 14
 }
-}, “Registros \uD83D\uDCCB”), /*#**PURE***/React.createElement(“div”, {
+}, "Registros \uD83D\uDCCB"), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”
+display: "flex"
 }
-}, [[“despesas”, “Despesas”, data.despesas.length], [“vendas”, “Vendas”, data.vendas.length], [“compras”, “Compras”, data.compras.length]].map(function (_ref23) {
+}, [["despesas", "Despesas", data.despesas.length], ["vendas", "Vendas", data.vendas.length], ["compras", "Compras", data.compras.length]].map(function (_ref23) {
 var _ref24 = _slicedToArray(_ref23, 3),
 k = _ref24[0],
 l = _ref24[1],
 nn = _ref24[2];
-return /*#**PURE***/React.createElement(“button”, {
+return /*#**PURE***/React.createElement("button", {
 key: k,
 onClick: function onClick() {
 setTab(k);
@@ -1482,191 +1491,191 @@ setConfirm(null);
 },
 style: {
 flex: 1,
-padding: “10px 4px”,
-border: “none”,
-background: “none”,
-cursor: “pointer”,
+padding: "10px 4px",
+border: "none",
+background: "none",
+cursor: "pointer",
 fontSize: 12,
 fontWeight: 700,
-color: tab === k ? “#FFF” : “#64748B”,
-borderBottom: tab === k ? “2px solid #60A5FA” : “2px solid transparent”
+color: tab === k ? "#FFF" : "#64748B",
+borderBottom: tab === k ? "2px solid #60A5FA" : "2px solid transparent"
 }
-}, l, “ “, nn > 0 && /*#**PURE***/React.createElement(“span”, {
+}, l, " ", nn > 0 && /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 10,
 opacity: 0.7
 }
-}, “(”, nn, “)”));
-}))), /*#**PURE***/React.createElement(“div”, {
+}, "(", nn, ")"));
+}))), /*#**PURE***/React.createElement("div", {
 style: {
-padding: “12px 16px”
+padding: "12px 16px"
 }
 }, sorted.length === 0 ? /*#**PURE***/React.createElement(Empty, {
-icon: “\uD83D\uDCC2”,
-title: “Nenhum registro”,
-sub: “Use o + para lan\xE7ar”
+icon: "\uD83D\uDCC2",
+title: "Nenhum registro",
+sub: "Use o + para lan\xE7ar"
 }) : sorted.map(function (item) {
-var vi = tab === “despesas” ? vencInfo(item) : null;
+var vi = tab === "despesas" ? vencInfo(item) : null;
 var total = totalFn(item);
 return /*#**PURE***/React.createElement(Card, {
 key: item.id,
 style: {
 marginBottom: 8,
-padding: “12px 14px”
+padding: "12px 14px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-alignItems: “flex-start”,
+display: "flex",
+alignItems: "flex-start",
 gap: 10
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 flex: 1,
 minWidth: 0
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 13,
 fontWeight: 700,
 color: C.txt
 }
-}, tab === “vendas” ? “Venda do dia” : tab === “compras” ? “Compra do dia” : item.descricao || “Sem descrição”), /*#**PURE***/React.createElement(“div”, {
+}, tab === "vendas" ? "Venda do dia" : tab === "compras" ? "Compra do dia" : item.descricao || "Sem descrição"), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 11,
 color: C.muted,
 marginTop: 2
 }
-}, fmtD(item.data)), item.obs && /*#**PURE***/React.createElement(“div”, {
+}, fmtD(item.data)), item.obs && /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 11,
 color: C.sub,
 marginTop: 2,
-fontStyle: “italic”
+fontStyle: "italic"
 }
-}, item.obs), tab !== “despesas” && /*#**PURE***/React.createElement(PgBreak, {
+}, item.obs), tab !== "despesas" && /*#**PURE***/React.createElement(PgBreak, {
 item: item,
-type: tab === “vendas” ? “venda” : “compra”
-}), tab === “despesas” && /*#**PURE***/React.createElement(“div”, {
+type: tab === "vendas" ? "venda" : "compra"
+}), tab === "despesas" && /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-alignItems: “center”,
+display: "flex",
+alignItems: "center",
 gap: 6,
 marginTop: 4,
-flexWrap: “wrap”
+flexWrap: "wrap"
 }
 }, item.categoria && /*#**PURE***/React.createElement(Badge, {
 text: item.categoria,
-bg: “#EFF6FF”,
+bg: "#EFF6FF",
 cl: C.acc
 }), item.tipo && /*#**PURE***/React.createElement(Badge, {
 text: item.tipo,
-bg: “#F8FAFC”,
+bg: "#F8FAFC",
 cl: C.sub
 }), vi && /*#**PURE***/React.createElement(Badge, {
-text: “”.concat(vi.icon, “ “).concat(vi.label),
+text: "".concat(vi.icon, " ").concat(vi.label),
 bg: vi.bg,
 cl: vi.cl
-}), item.vencimento && /*#**PURE***/React.createElement(“span”, {
+}), item.vencimento && /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 10,
 color: C.muted
 }
-}, “Venc: “, fmtD(item.vencimento))), tab === “compras” && item.categoria && /*#**PURE***/React.createElement(“div”, {
+}, "Venc: ", fmtD(item.vencimento))), tab === "compras" && item.categoria && /*#**PURE***/React.createElement("div", {
 style: {
 marginTop: 4
 }
 }, /*#**PURE***/React.createElement(Badge, {
 text: item.categoria,
-bg: “#FEF3C7”,
-cl: “#D97706”
-}))), /*#**PURE***/React.createElement(“div”, {
+bg: "#FEF3C7",
+cl: "#D97706"
+}))), /*#**PURE***/React.createElement("div", {
 style: {
-textAlign: “right”,
+textAlign: "right",
 flexShrink: 0
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 16,
 fontWeight: 800,
 color: vcl
 }
-}, fmt(total)), /*#**PURE***/React.createElement(“div”, {
+}, fmt(total)), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 4,
 marginTop: 5,
-justifyContent: “flex-end”,
-alignItems: “center”
+justifyContent: "flex-end",
+alignItems: "center"
 }
-}, tab === “despesas” && /*#**PURE***/React.createElement(“button”, {
+}, tab === "despesas" && /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return onToggle(item.id);
 },
 style: {
-padding: “3px 8px”,
+padding: "3px 8px",
 borderRadius: 6,
 fontSize: 10,
 fontWeight: 700,
-cursor: “pointer”,
-border: “1px solid “.concat(item.status === “Pago” ? “#DC2626” : “#16A34A”),
-color: item.status === “Pago” ? “#DC2626” : “#16A34A”,
-background: “none”
+cursor: "pointer",
+border: "1px solid ".concat(item.status === "Pago" ? "#DC2626" : "#16A34A"),
+color: item.status === "Pago" ? "#DC2626" : "#16A34A",
+background: "none"
 }
-}, item.status === “Pago” ? “Reabrir” : “✅ Pago”), /*#**PURE***/React.createElement(“button”, {
+}, item.status === "Pago" ? "Reabrir" : "✅ Pago"), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
-return onEdit(tab === “vendas” ? “venda” : tab === “compras” ? “compra” : “despesa”, item);
+return onEdit(tab === "vendas" ? "venda" : tab === "compras" ? "compra" : "despesa", item);
 },
 style: {
-padding: “3px 6px”,
+padding: "3px 6px",
 borderRadius: 6,
-border: “1px solid “.concat(C.border),
-background: “none”,
-cursor: “pointer”
+border: "1px solid ".concat(C.border),
+background: "none",
+cursor: "pointer"
 }
 }, /*#**PURE***/React.createElement(Edit2, {
 size: 11,
 color: C.sub
-})), confirm === item.id ? /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“button”, {
+})), confirm === item.id ? /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return doDelete(item.id);
 },
 style: {
-padding: “3px 8px”,
+padding: "3px 8px",
 borderRadius: 6,
-border: “1px solid #DC2626”,
-background: “#FEE2E2”,
-cursor: “pointer”,
+border: "1px solid #DC2626",
+background: "#FEE2E2",
+cursor: "pointer",
 fontSize: 10,
 fontWeight: 800,
-color: “#991B1B”
+color: "#991B1B"
 }
-}, “OK”), /*#**PURE***/React.createElement(“button”, {
+}, "OK"), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return setConfirm(null);
 },
 style: {
-padding: “3px 6px”,
+padding: "3px 6px",
 borderRadius: 6,
-border: “1px solid “.concat(C.border),
-background: “none”,
-cursor: “pointer”,
+border: "1px solid ".concat(C.border),
+background: "none",
+cursor: "pointer",
 fontSize: 10
 }
-}, “\u2715”)) : /*#**PURE***/React.createElement(“button”, {
+}, "\u2715")) : /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return setConfirm(item.id);
 },
 style: {
-padding: “3px 6px”,
+padding: "3px 6px",
 borderRadius: 6,
-border: “1px solid “.concat(C.border),
-background: “none”,
-cursor: “pointer”
+border: "1px solid ".concat(C.border),
+background: "none",
+cursor: "pointer"
 }
 }, /*#**PURE***/React.createElement(Trash2, {
 size: 11,
-color: “#DC2626”
+color: "#DC2626"
 }))))));
 })));
 }
@@ -1680,93 +1689,93 @@ var vi = vencInfo(d);
 return /*#**PURE***/React.createElement(Card, {
 style: {
 marginBottom: 8,
-padding: “12px 14px”,
-borderLeft: “3px solid “.concat(vi.cl)
+padding: "12px 14px",
+borderLeft: "3px solid ".concat(vi.cl)
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-alignItems: “center”,
+display: "flex",
+alignItems: "center",
 gap: 10
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 flex: 1
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 13,
 fontWeight: 700,
 color: C.txt
 }
-}, d.descricao), /*#**PURE***/React.createElement(“div”, {
+}, d.descricao), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 6,
 marginTop: 3,
-flexWrap: “wrap”,
-alignItems: “center”
+flexWrap: "wrap",
+alignItems: "center"
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 11,
 color: C.muted
 }
-}, “Venc: “, fmtD(d.vencimento)), d.categoria && /*#**PURE***/React.createElement(Badge, {
+}, "Venc: ", fmtD(d.vencimento)), d.categoria && /*#**PURE***/React.createElement(Badge, {
 text: d.categoria,
-bg: “#EFF6FF”,
+bg: "#EFF6FF",
 cl: C.acc
-}))), /*#**PURE***/React.createElement(“div”, {
+}))), /*#**PURE***/React.createElement("div", {
 style: {
-textAlign: “right”,
+textAlign: "right",
 flexShrink: 0
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 15,
 fontWeight: 800,
 color: vi.cl
 }
 }, fmt(d.valor)), /*#**PURE***/React.createElement(Badge, {
-text: “”.concat(vi.icon, “ “).concat(vi.label),
+text: "".concat(vi.icon, " ").concat(vi.label),
 bg: vi.bg,
 cl: vi.cl
-}), /*#**PURE***/React.createElement(“div”, {
+}), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 4,
 marginTop: 6,
-justifyContent: “flex-end”
+justifyContent: "flex-end"
 }
-}, /*#**PURE***/React.createElement(“button”, {
+}, /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return onEdit(d);
 },
 style: {
-padding: “3px 6px”,
+padding: "3px 6px",
 borderRadius: 6,
-border: “1px solid “.concat(C.border),
-background: “none”,
-cursor: “pointer”
+border: "1px solid ".concat(C.border),
+background: "none",
+cursor: "pointer"
 }
 }, /*#**PURE***/React.createElement(Edit2, {
 size: 11,
 color: C.sub
-})), /*#**PURE***/React.createElement(“button”, {
+})), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return onToggle(d.id);
 },
 style: {
-padding: “3px 10px”,
+padding: "3px 10px",
 borderRadius: 6,
-border: “1px solid #16A34A”,
-background: “#DCFCE7”,
-cursor: “pointer”,
+border: "1px solid #16A34A",
+background: "#DCFCE7",
+cursor: "pointer",
 fontSize: 10,
 fontWeight: 800,
-color: “#14532D”
+color: "#14532D"
 }
-}, “\u2705 Pago”)))));
+}, "\u2705 Pago")))));
 }
 
 /* ─── VENCIMENTOS ─── */
@@ -1789,103 +1798,103 @@ return dd !== null && dd > 3;
 var total = venc.reduce(function (s, x) {
 return s + (x.valor || 0);
 }, 0);
-return /*#**PURE***/React.createElement(“div”, null, /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", null, /*#**PURE***/React.createElement("div", {
 style: {
 background: C.sec,
-padding: “28px 20px 20px”,
-color: “#FFF”
+padding: "28px 20px 20px",
+color: "#FFF"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 22,
 fontWeight: 800
 }
-}, “Vencimentos \uD83D\uDD14”)), /*#**PURE***/React.createElement(“div”, {
+}, "Vencimentos \uD83D\uDD14")), /*#**PURE***/React.createElement("div", {
 style: {
-padding: “12px 16px”
+padding: "12px 16px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 8,
 marginBottom: 16
 }
-}, [[“🛑 Vencidos”, vencidos.length, “#FEE2E2”, “#991B1B”], [“🟠 Urgentes”, urgentes.length, “#FEF3C7”, “#92400E”], [“💰 Total”, fmt(total), “#EFF6FF”, “#1E40AF”]].map(function (_ref27) {
+}, [["🛑 Vencidos", vencidos.length, "#FEE2E2", "#991B1B"], ["🟠 Urgentes", urgentes.length, "#FEF3C7", "#92400E"], ["💰 Total", fmt(total), "#EFF6FF", "#1E40AF"]].map(function (_ref27) {
 var _ref28 = _slicedToArray(_ref27, 4),
 l = _ref28[0],
 v = _ref28[1],
 bg = _ref28[2],
 cl = _ref28[3];
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 key: l,
 style: {
 flex: 1,
 background: bg,
 borderRadius: 12,
-padding: “10px 10px”
+padding: "10px 10px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 9,
 color: cl,
 fontWeight: 800,
 marginBottom: 2
 }
-}, l), /*#**PURE***/React.createElement(“div”, {
+}, l), /*#**PURE***/React.createElement("div", {
 style: {
-fontSize: typeof v === “number” ? 20 : 12,
+fontSize: typeof v === "number" ? 20 : 12,
 fontWeight: 800,
 color: cl
 }
 }, v));
 })), venc.length === 0 && /*#**PURE***/React.createElement(Empty, {
-icon: “\u2705”,
-title: “Tudo em dia”,
-sub: “Nenhum vencimento pendente”
-}), vencidos.length > 0 && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“div”, {
+icon: "\u2705",
+title: "Tudo em dia",
+sub: "Nenhum vencimento pendente"
+}), vencidos.length > 0 && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 11,
 fontWeight: 800,
 color: C.sub,
-textTransform: “uppercase”,
-letterSpacing: “0.06em”,
+textTransform: "uppercase",
+letterSpacing: "0.06em",
 marginBottom: 8
 }
-}, “\uD83D\uDED1 Vencidos”), vencidos.map(function (d) {
+}, "\uD83D\uDED1 Vencidos"), vencidos.map(function (d) {
 return /*#**PURE***/React.createElement(VencCard, {
 key: d.id,
 d: d,
 onEdit: onEdit,
 onToggle: onToggle
 });
-})), urgentes.length > 0 && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“div”, {
+})), urgentes.length > 0 && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 11,
 fontWeight: 800,
 color: C.sub,
-textTransform: “uppercase”,
-letterSpacing: “0.06em”,
+textTransform: "uppercase",
+letterSpacing: "0.06em",
 marginBottom: 8,
 marginTop: 12
 }
-}, “\uD83D\uDFE0 Vence em breve”), urgentes.map(function (d) {
+}, "\uD83D\uDFE0 Vence em breve"), urgentes.map(function (d) {
 return /*#**PURE***/React.createElement(VencCard, {
 key: d.id,
 d: d,
 onEdit: onEdit,
 onToggle: onToggle
 });
-})), normais.length > 0 && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“div”, {
+})), normais.length > 0 && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 11,
 fontWeight: 800,
 color: C.sub,
-textTransform: “uppercase”,
-letterSpacing: “0.06em”,
+textTransform: "uppercase",
+letterSpacing: "0.06em",
 marginBottom: 8,
 marginTop: 12
 }
-}, “\uD83D\uDCC5 A Vencer”), normais.map(function (d) {
+}, "\uD83D\uDCC5 A Vencer"), normais.map(function (d) {
 return /*#**PURE***/React.createElement(VencCard, {
 key: d.id,
 d: d,
@@ -1898,25 +1907,25 @@ onToggle: onToggle
 /* ─── SALÁRIOS ─── */
 // Meses disponíveis: todos que têm adiantamentos + mês atual + 12 meses anteriores
 var mesLabel = function mesLabel(ym) {
-var _ym$split = ym.split(”-”),
+var _ym$split = ym.split("-"),
 _ym$split2 = _slicedToArray(_ym$split, 2),
 y = _ym$split2[0],
 m = _ym$split2[1];
-return new Date(+y, +m - 1, 1).toLocaleDateString(“pt-BR”, {
-month: “long”,
-year: “numeric”
+return new Date(+y, +m - 1, 1).toLocaleDateString("pt-BR", {
+month: "long",
+year: "numeric"
 });
 };
 var currentMes = function currentMes() {
 var n = new Date();
-return “”.concat(n.getFullYear(), “-”).concat(String(n.getMonth() + 1).padStart(2, “0”));
+return "".concat(n.getFullYear(), "-").concat(String(n.getMonth() + 1).padStart(2, "0"));
 };
 var buildMesesOptions = function buildMesesOptions(adiantamentos) {
 var set = new Set();
 var now = new Date();
 for (var i = 0; i < 13; i++) {
 var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-set.add(””.concat(d.getFullYear(), “-”).concat(String(d.getMonth() + 1).padStart(2, “0”)));
+set.add("".concat(d.getFullYear(), "-").concat(String(d.getMonth() + 1).padStart(2, "0")));
 }
 adiantamentos.forEach(function (a) {
 if (a.data) set.add(a.data.slice(0, 7));
@@ -1952,95 +1961,95 @@ return b.mes.localeCompare(a.mes);
 });
 }, [adiantamentos, func.id]);
 if (!open) return null;
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 style: {
 marginTop: 12,
-borderTop: “1px solid “.concat(C.border),
+borderTop: "1px solid ".concat(C.border),
 paddingTop: 12
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
 fontWeight: 800,
 color: C.sub,
-textTransform: “uppercase”,
-letterSpacing: “0.06em”,
+textTransform: "uppercase",
+letterSpacing: "0.06em",
 marginBottom: 10
 }
-}, “Hist\xF3rico completo”), byMes.length === 0 && /*#**PURE***/React.createElement(“div”, {
+}, "Hist\xF3rico completo"), byMes.length === 0 && /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 12,
 color: C.muted,
-textAlign: “center”,
-padding: “12px 0”
+textAlign: "center",
+padding: "12px 0"
 }
-}, “Nenhum registro”), byMes.map(function (grp) {
+}, "Nenhum registro"), byMes.map(function (grp) {
 var saldo = (func.salarioBase || 0) - grp.total;
-var scl = saldo < 0 ? “#DC2626” : saldo === 0 ? “#92400E” : “#16A34A”;
-return /*#**PURE***/React.createElement(“div”, {
+var scl = saldo < 0 ? "#DC2626" : saldo === 0 ? "#92400E" : "#16A34A";
+return /*#**PURE***/React.createElement("div", {
 key: grp.mes,
 style: {
 marginBottom: 12,
 background: C.bg,
 borderRadius: 10,
-padding: “10px 12px”
+padding: "10px 12px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-justifyContent: “space-between”,
-alignItems: “center”,
+display: "flex",
+justifyContent: "space-between",
+alignItems: "center",
 marginBottom: 6
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 12,
 fontWeight: 800,
 color: C.txt
 }
-}, mesLabel(grp.mes)), /*#**PURE***/React.createElement(“div”, {
+}, mesLabel(grp.mes)), /*#**PURE***/React.createElement("div", {
 style: {
-textAlign: “right”
+textAlign: "right"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 11,
-color: “#DC2626”,
+color: "#DC2626",
 fontWeight: 700
 }
-}, “Vales: “, fmt(grp.total)), /*#**PURE***/React.createElement(“div”, {
+}, "Vales: ", fmt(grp.total)), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 11,
 color: scl,
 fontWeight: 700
 }
-}, “Saldo: “, fmt(saldo)))), grp.adts.map(function (a) {
-return /*#**PURE***/React.createElement(“div”, {
+}, "Saldo: ", fmt(saldo)))), grp.adts.map(function (a) {
+return /*#**PURE***/React.createElement("div", {
 key: a.id,
 style: {
-display: “flex”,
-justifyContent: “space-between”,
-padding: “4px 0”,
-borderTop: “1px solid “.concat(C.border)
+display: "flex",
+justifyContent: "space-between",
+padding: "4px 0",
+borderTop: "1px solid ".concat(C.border)
 }
-}, /*#**PURE***/React.createElement(“div”, null, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("div", null, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 11,
 color: C.txt
 }
-}, a.descricao), /*#**PURE***/React.createElement(“span”, {
+}, a.descricao), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 10,
 color: C.muted,
 marginLeft: 6
 }
-}, fmtD(a.data))), /*#**PURE***/React.createElement(“span”, {
+}, fmtD(a.data))), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 11,
 fontWeight: 700,
-color: “#DC2626”
+color: "#DC2626"
 }
-}, “\u2212”, fmt(a.valor)));
+}, "\u2212", fmt(a.valor)));
 }));
 }));
 }
@@ -2080,15 +2089,15 @@ var _useState15 = useState(null),
 _useState16 = _slicedToArray(_useState15, 2),
 editSal = _useState16[0],
 setEditSal = _useState16[1]; // funcId sendo editado
-var _useState17 = useState(””),
+var _useState17 = useState(""),
 _useState18 = _slicedToArray(_useState17, 2),
 fNome = _useState18[0],
 setFNome = _useState18[1];
-var _useState19 = useState(””),
+var _useState19 = useState(""),
 _useState20 = _slicedToArray(_useState19, 2),
 fSal = _useState20[0],
 setFSal = _useState20[1];
-var _useState21 = useState(””),
+var _useState21 = useState(""),
 _useState22 = _slicedToArray(_useState21, 2),
 editSalVal = _useState22[0],
 setEditSalVal = _useState22[1];
@@ -2096,11 +2105,11 @@ var _useState23 = useState(today()),
 _useState24 = _slicedToArray(_useState23, 2),
 aData = _useState24[0],
 setAData = _useState24[1];
-var _useState25 = useState(””),
+var _useState25 = useState(""),
 _useState26 = _slicedToArray(_useState25, 2),
 aVal = _useState26[0],
 setAVal = _useState26[1];
-var _useState27 = useState(””),
+var _useState27 = useState(""),
 _useState28 = _slicedToArray(_useState27, 2),
 aDesc = _useState28[0],
 setADesc = _useState28[1];
@@ -2118,35 +2127,35 @@ return s + (a.valor || 0);
 }, 0);
 };
 var inp = {
-width: “100%”,
-padding: “10px 12px”,
+width: "100%",
+padding: "10px 12px",
 borderRadius: 10,
-border: “1px solid “.concat(C.border),
+border: "1px solid ".concat(C.border),
 fontSize: 13,
 marginBottom: 8,
-boxSizing: “border-box”,
-fontFamily: “inherit”,
-background: “#FAFAFA”
+boxSizing: "border-box",
+fontFamily: "inherit",
+background: "#FAFAFA"
 };
-return /*#**PURE***/React.createElement(“div”, null, /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", null, /*#**PURE***/React.createElement("div", {
 style: {
 background: C.sec,
-padding: “28px 20px 16px”,
-color: “#FFF”
+padding: "28px 20px 16px",
+color: "#FFF"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 22,
 fontWeight: 800,
 marginBottom: 10
 }
-}, “Sal\xE1rios \uD83D\uDC65”), /*#**PURE***/React.createElement(“div”, {
+}, "Sal\xE1rios \uD83D\uDC65"), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-alignItems: “center”,
+display: "flex",
+alignItems: "center",
 gap: 8
 }
-}, /*#**PURE***/React.createElement(“button”, {
+}, /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 var i = mesesOpts.indexOf(mesSel);
 if (i < mesesOpts.length - 1) setMesSel(mesesOpts[i + 1]);
@@ -2154,44 +2163,44 @@ if (i < mesesOpts.length - 1) setMesSel(mesesOpts[i + 1]);
 style: {
 width: 32,
 height: 32,
-borderRadius: “50%”,
-background: “rgba(255,255,255,0.15)”,
-border: “none”,
-color: “#FFF”,
-cursor: “pointer”,
+borderRadius: "50%",
+background: "rgba(255,255,255,0.15)",
+border: "none",
+color: "#FFF",
+cursor: "pointer",
 fontSize: 18,
-display: “flex”,
-alignItems: “center”,
-justifyContent: “center”
+display: "flex",
+alignItems: "center",
+justifyContent: "center"
 }
-}, “\u2039”), /*#**PURE***/React.createElement(“select”, {
+}, "\u2039"), /*#**PURE***/React.createElement("select", {
 value: mesSel,
 onChange: function onChange(ev) {
 return setMesSel(ev.target.value);
 },
 style: {
 flex: 1,
-padding: “7px 10px”,
+padding: "7px 10px",
 borderRadius: 10,
-border: “none”,
-background: “rgba(255,255,255,0.15)”,
-color: “#FFF”,
+border: "none",
+background: "rgba(255,255,255,0.15)",
+color: "#FFF",
 fontSize: 13,
 fontWeight: 700,
-fontFamily: “inherit”,
-cursor: “pointer”,
-appearance: “none”,
-textAlign: “center”
+fontFamily: "inherit",
+cursor: "pointer",
+appearance: "none",
+textAlign: "center"
 }
 }, mesesOpts.map(function (m) {
-return /*#**PURE***/React.createElement(“option”, {
+return /*#**PURE***/React.createElement("option", {
 key: m,
 value: m,
 style: {
 background: C.sec
 }
 }, mesLabel(m));
-})), /*#**PURE***/React.createElement(“button”, {
+})), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 var i = mesesOpts.indexOf(mesSel);
 if (i > 0) setMesSel(mesesOpts[i - 1]);
@@ -2199,54 +2208,54 @@ if (i > 0) setMesSel(mesesOpts[i - 1]);
 style: {
 width: 32,
 height: 32,
-borderRadius: “50%”,
-background: “rgba(255,255,255,0.15)”,
-border: “none”,
-color: “#FFF”,
-cursor: “pointer”,
+borderRadius: "50%",
+background: "rgba(255,255,255,0.15)",
+border: "none",
+color: "#FFF",
+cursor: "pointer",
 fontSize: 18,
-display: “flex”,
-alignItems: “center”,
-justifyContent: “center”
+display: "flex",
+alignItems: "center",
+justifyContent: "center"
 }
-}, “\u203A”))), /*#**PURE***/React.createElement(“div”, {
+}, "\u203A"))), /*#**PURE***/React.createElement("div", {
 style: {
-padding: “12px 16px”
+padding: "12px 16px"
 }
 }, showForm ? /*#**PURE***/React.createElement(Card, {
 style: {
 marginBottom: 12
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 11,
 fontWeight: 800,
 color: C.sub,
 marginBottom: 10,
-textTransform: “uppercase”
+textTransform: "uppercase"
 }
-}, “Novo Funcion\xE1rio”), /*#**PURE***/React.createElement(“input”, {
+}, "Novo Funcion\xE1rio"), /*#**PURE***/React.createElement("input", {
 style: inp,
-type: “text”,
-placeholder: “Nome completo”,
+type: "text",
+placeholder: "Nome completo",
 value: fNome,
 onChange: function onChange(ev) {
 return setFNome(ev.target.value);
 }
-}), /*#**PURE***/React.createElement(“input”, {
+}), /*#**PURE***/React.createElement("input", {
 style: inp,
-type: “number”,
-placeholder: “Sal\xE1rio base (R$)”,
+type: "number",
+placeholder: "Sal\xE1rio base (R$)",
 value: fSal,
 onChange: function onChange(ev) {
 return setFSal(ev.target.value);
 }
-}), /*#**PURE***/React.createElement(“div”, {
+}), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 8
 }
-}, /*#**PURE***/React.createElement(“button”, {
+}, /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 if (!fNome || !fSal) return;
 addFunc({
@@ -2254,8 +2263,8 @@ nome: fNome,
 salarioBase: toNum(fSal),
 ativo: true
 });
-setFNome(””);
-setFSal(””);
+setFNome("");
+setFSal("");
 setShowForm(false);
 },
 style: {
@@ -2263,323 +2272,323 @@ flex: 1,
 padding: 10,
 borderRadius: 10,
 background: C.acc,
-color: “#FFF”,
-border: “none”,
-cursor: “pointer”,
+color: "#FFF",
+border: "none",
+cursor: "pointer",
 fontWeight: 800
 }
-}, “Salvar”), /*#**PURE***/React.createElement(“button”, {
+}, "Salvar"), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return setShowForm(false);
 },
 style: {
-padding: “10px 16px”,
+padding: "10px 16px",
 borderRadius: 10,
-border: “1px solid “.concat(C.border),
-background: “none”,
-cursor: “pointer”
+border: "1px solid ".concat(C.border),
+background: "none",
+cursor: "pointer"
 }
-}, “\u2715”))) : /*#**PURE***/React.createElement(“button”, {
+}, "\u2715"))) : /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return setShowForm(true);
 },
 style: {
-width: “100%”,
+width: "100%",
 padding: 13,
 borderRadius: 12,
-border: “2px dashed “.concat(C.border),
-background: “none”,
-cursor: “pointer”,
+border: "2px dashed ".concat(C.border),
+background: "none",
+cursor: "pointer",
 color: C.acc,
 fontWeight: 700,
 fontSize: 13,
 marginBottom: 12,
-display: “flex”,
-alignItems: “center”,
-justifyContent: “center”,
+display: "flex",
+alignItems: "center",
+justifyContent: "center",
 gap: 6
 }
 }, /*#**PURE***/React.createElement(Plus, {
 size: 16
-}), “ Adicionar Funcion\xE1rio”), data.funcionarios.length === 0 && !showForm && /*#**PURE***/React.createElement(Empty, {
-icon: “\uD83D\uDC65”,
-title: “Nenhum funcion\xE1rio”,
-sub: “Adicione para controlar adiantamentos”
+}), " Adicionar Funcion\xE1rio"), data.funcionarios.length === 0 && !showForm && /*#**PURE***/React.createElement(Empty, {
+icon: "\uD83D\uDC65",
+title: "Nenhum funcion\xE1rio",
+sub: "Adicione para controlar adiantamentos"
 }), data.funcionarios.map(function (func) {
 var adts = getAdiants(func.id);
 var vales = totalVales(func.id);
 var saldo = (func.salarioBase || 0) - vales;
 var open = expanded === func.id;
-var scl = saldo < 0 ? “#DC2626” : saldo === 0 ? “#92400E” : “#16A34A”;
-var slb = saldo < 0 ? “EXCEDIDO” : saldo === 0 ? “FECHADO” : “A PAGAR”;
+var scl = saldo < 0 ? "#DC2626" : saldo === 0 ? "#92400E" : "#16A34A";
+var slb = saldo < 0 ? "EXCEDIDO" : saldo === 0 ? "FECHADO" : "A PAGAR";
 return /*#**PURE***/React.createElement(Card, {
 key: func.id,
 style: {
 marginBottom: 10
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-alignItems: “center”,
+display: "flex",
+alignItems: "center",
 gap: 10
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 flex: 1
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 14,
 fontWeight: 800,
 color: C.txt
 }
-}, func.nome), editSal === func.id ? /*#**PURE***/React.createElement(“div”, {
+}, func.nome), editSal === func.id ? /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 6,
 marginTop: 4,
-alignItems: “center”
+alignItems: "center"
 }
-}, /*#**PURE***/React.createElement(“input”, {
-type: “number”,
-placeholder: “Novo sal\xE1rio”,
+}, /*#**PURE***/React.createElement("input", {
+type: "number",
+placeholder: "Novo sal\xE1rio",
 value: editSalVal,
 onChange: function onChange(ev) {
 return setEditSalVal(ev.target.value);
 },
 style: {
 width: 110,
-padding: “5px 8px”,
+padding: "5px 8px",
 borderRadius: 8,
-border: “1px solid “.concat(C.acc),
+border: "1px solid ".concat(C.acc),
 fontSize: 13,
-fontFamily: “inherit”
+fontFamily: "inherit"
 }
-}), /*#**PURE***/React.createElement(“button”, {
+}), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 if (!editSalVal) return;
 updFunc(func.id, {
 salarioBase: toNum(editSalVal)
 });
 setEditSal(null);
-setEditSalVal(””);
+setEditSalVal("");
 },
 style: {
-padding: “5px 10px”,
+padding: "5px 10px",
 borderRadius: 8,
 background: C.acc,
-color: “#FFF”,
-border: “none”,
-cursor: “pointer”,
+color: "#FFF",
+border: "none",
+cursor: "pointer",
 fontWeight: 800,
 fontSize: 12
 }
-}, “OK”), /*#**PURE***/React.createElement(“button”, {
+}, "OK"), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 setEditSal(null);
-setEditSalVal(””);
+setEditSalVal("");
 },
 style: {
-padding: “5px 8px”,
+padding: "5px 8px",
 borderRadius: 8,
-border: “1px solid “.concat(C.border),
-background: “none”,
-cursor: “pointer”,
+border: "1px solid ".concat(C.border),
+background: "none",
+cursor: "pointer",
 fontSize: 12
 }
-}, “\u2715”)) : /*#**PURE***/React.createElement(“div”, {
+}, "\u2715")) : /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-alignItems: “center”,
+display: "flex",
+alignItems: "center",
 gap: 6,
 marginTop: 2
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 12,
 color: C.sub
 }
-}, “Base: “, fmt(func.salarioBase), “ \xB7 Vales: “, fmt(vales)), /*#**PURE***/React.createElement(“button”, {
+}, "Base: ", fmt(func.salarioBase), " \xB7 Vales: ", fmt(vales)), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 setEditSal(func.id);
-setEditSalVal(func.salarioBase || “”);
+setEditSalVal(func.salarioBase || "");
 },
 style: {
-background: “none”,
-border: “none”,
-cursor: “pointer”,
+background: "none",
+border: "none",
+cursor: "pointer",
 padding: 1
 }
 }, /*#**PURE***/React.createElement(Edit2, {
 size: 11,
 color: C.muted
-})))), /*#**PURE***/React.createElement(“div”, {
+})))), /*#**PURE***/React.createElement("div", {
 style: {
-textAlign: “right”
+textAlign: "right"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 15,
 fontWeight: 800,
 color: scl
 }
-}, fmt(saldo)), /*#**PURE***/React.createElement(“div”, {
+}, fmt(saldo)), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 9,
 color: scl,
 fontWeight: 800
 }
-}, slb), /*#**PURE***/React.createElement(“button”, {
+}, slb), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return setExpanded(open ? null : func.id);
 },
 style: {
-background: “none”,
-border: “none”,
-cursor: “pointer”,
+background: "none",
+border: "none",
+cursor: "pointer",
 marginTop: 2
 }
 }, /*#**PURE***/React.createElement(ChevronDown, {
 size: 16,
 color: C.muted,
 style: {
-transform: open ? “rotate(180deg)” : “none”,
-transition: “0.2s”
+transform: open ? "rotate(180deg)" : "none",
+transition: "0.2s"
 }
-})))), open && /*#**PURE***/React.createElement(“div”, {
+})))), open && /*#**PURE***/React.createElement("div", {
 style: {
 marginTop: 12,
-borderTop: “1px solid “.concat(C.border),
+borderTop: "1px solid ".concat(C.border),
 paddingTop: 12
 }
-}, adts.length === 0 && /*#**PURE***/React.createElement(“div”, {
+}, adts.length === 0 && /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 12,
 color: C.muted,
-textAlign: “center”,
+textAlign: "center",
 marginBottom: 8
 }
-}, “Nenhum adiantamento em “, mesLabel(mesSel)), adts.map(function (a) {
-return /*#**PURE***/React.createElement(“div”, {
+}, "Nenhum adiantamento em ", mesLabel(mesSel)), adts.map(function (a) {
+return /*#**PURE***/React.createElement("div", {
 key: a.id,
 style: {
-display: “flex”,
-alignItems: “center”,
+display: "flex",
+alignItems: "center",
 gap: 8,
 marginBottom: 6,
-padding: “6px 0”,
-borderBottom: “1px solid “.concat(C.border)
+padding: "6px 0",
+borderBottom: "1px solid ".concat(C.border)
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 flex: 1
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 12,
 color: C.txt
 }
-}, a.descricao), /*#**PURE***/React.createElement(“div”, {
+}, a.descricao), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 11,
 color: C.muted
 }
-}, fmtD(a.data))), /*#**PURE***/React.createElement(“span”, {
+}, fmtD(a.data))), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 13,
 fontWeight: 700,
-color: “#DC2626”
+color: "#DC2626"
 }
-}, “\u2212”, fmt(a.valor)), /*#**PURE***/React.createElement(“button”, {
+}, "\u2212", fmt(a.valor)), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return delAdiant(a.id);
 },
 style: {
-background: “none”,
-border: “none”,
-cursor: “pointer”,
+background: "none",
+border: "none",
+cursor: "pointer",
 padding: 2
 }
 }, /*#**PURE***/React.createElement(X, {
 size: 13,
 color: C.muted
 })));
-}), showAdiant === func.id ? /*#**PURE***/React.createElement(“div”, {
+}), showAdiant === func.id ? /*#**PURE***/React.createElement("div", {
 style: {
 background: C.bg,
 borderRadius: 10,
 padding: 12,
 marginTop: 4
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
 fontWeight: 800,
 color: C.sub,
 marginBottom: 8,
-textTransform: “uppercase”
+textTransform: "uppercase"
 }
-}, “Novo Adiantamento \u2014 “, mesLabel(mesSel)), /*#**PURE***/React.createElement(“div”, {
+}, "Novo Adiantamento \u2014 ", mesLabel(mesSel)), /*#**PURE***/React.createElement("div", {
 style: {
 marginBottom: 6
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
 fontWeight: 800,
 color: C.sub,
-textTransform: “uppercase”,
+textTransform: "uppercase",
 marginBottom: 4
 }
-}, “Data do pagamento”), /*#**PURE***/React.createElement(“input”, {
+}, "Data do pagamento"), /*#**PURE***/React.createElement("input", {
 style: _objectSpread(_objectSpread({}, inp), {}, {
 marginBottom: 0
 }),
-type: “date”,
+type: "date",
 value: aData,
 onChange: function onChange(ev) {
 return setAData(ev.target.value);
 }
-})), /*#**PURE***/React.createElement(“div”, {
+})), /*#**PURE***/React.createElement("div", {
 style: {
 marginBottom: 6,
-padding: “6px 10px”,
-background: “#EFF6FF”,
+padding: "6px 10px",
+background: "#EFF6FF",
 borderRadius: 8
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 11,
 color: C.acc,
 fontWeight: 700
 }
-}, “Refer\xEAncia: “, mesLabel(mesSel)), /*#**PURE***/React.createElement(“span”, {
+}, "Refer\xEAncia: ", mesLabel(mesSel)), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 10,
 color: C.muted,
 marginLeft: 6
 }
-}, “\u2014 m\xEAs do sal\xE1rio”)), /*#**PURE***/React.createElement(“input”, {
+}, "\u2014 m\xEAs do sal\xE1rio")), /*#**PURE***/React.createElement("input", {
 style: inp,
-type: “number”,
-placeholder: “Valor (R$)”,
+type: "number",
+placeholder: "Valor (R$)",
 value: aVal,
 onChange: function onChange(ev) {
 return setAVal(ev.target.value);
 }
-}), /*#**PURE***/React.createElement(“input”, {
+}), /*#**PURE***/React.createElement("input", {
 style: inp,
-placeholder: “Descri\xE7\xE3o (ex: Vale)”,
+placeholder: "Descri\xE7\xE3o (ex: Vale)",
 value: aDesc,
 onChange: function onChange(ev) {
 return setADesc(ev.target.value);
 }
-}), /*#**PURE***/React.createElement(“div”, {
+}), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 6
 }
-}, /*#**PURE***/React.createElement(“button”, {
+}, /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 if (!aVal) return;
 addAdiant({
@@ -2587,10 +2596,10 @@ funcId: func.id,
 data: aData,
 mesRef: mesSel,
 valor: toNum(aVal),
-descricao: aDesc || “Vale”
+descricao: aDesc || "Vale"
 });
-setAVal(””);
-setADesc(””);
+setAVal("");
+setADesc("");
 setAData(today());
 setShowAdiant(null);
 },
@@ -2599,104 +2608,104 @@ flex: 1,
 padding: 8,
 borderRadius: 8,
 background: C.acc,
-color: “#FFF”,
-border: “none”,
-cursor: “pointer”,
+color: "#FFF",
+border: "none",
+cursor: "pointer",
 fontWeight: 800,
 fontSize: 12
 }
-}, “Salvar”), /*#**PURE***/React.createElement(“button”, {
+}, "Salvar"), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return setShowAdiant(null);
 },
 style: {
-padding: “8px 12px”,
+padding: "8px 12px",
 borderRadius: 8,
-border: “1px solid “.concat(C.border),
-background: “none”,
-cursor: “pointer”,
+border: "1px solid ".concat(C.border),
+background: "none",
+cursor: "pointer",
 fontSize: 12
 }
-}, “\u2715”))) : /*#**PURE***/React.createElement(“div”, {
+}, "\u2715"))) : /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 6,
 marginTop: 8
 }
-}, /*#**PURE***/React.createElement(“button”, {
+}, /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 setShowAdiant(func.id);
-setAVal(””);
-setADesc(””);
-setAData(mesSel + “-01”);
+setAVal("");
+setADesc("");
+setAData(mesSel + "-01");
 },
 style: {
 flex: 1,
 padding: 8,
 borderRadius: 8,
-border: “1px dashed “.concat(C.border),
-background: “none”,
-cursor: “pointer”,
+border: "1px dashed ".concat(C.border),
+background: "none",
+cursor: "pointer",
 color: C.acc,
 fontWeight: 700,
 fontSize: 12
 }
-}, “+ Adiantamento”), /*#**PURE***/React.createElement(“button”, {
+}, "+ Adiantamento"), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return setShowHist(showHist === func.id ? null : func.id);
 },
 style: {
-padding: “8px 10px”,
+padding: "8px 10px",
 borderRadius: 8,
-border: “1px solid “.concat(C.border),
-background: showHist === func.id ? “#EFF6FF” : “none”,
-cursor: “pointer”,
+border: "1px solid ".concat(C.border),
+background: showHist === func.id ? "#EFF6FF" : "none",
+cursor: "pointer",
 fontSize: 11,
 fontWeight: 700,
 color: C.acc
 }
-}, “Hist\xF3rico”), confirmDel === func.id ? /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“button”, {
+}, "Hist\xF3rico"), confirmDel === func.id ? /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 delFunc(func.id);
 setConfirmDel(null);
 setExpanded(null);
 },
 style: {
-padding: “8px 10px”,
+padding: "8px 10px",
 borderRadius: 8,
-border: “1px solid #DC2626”,
-background: “#FEE2E2”,
-cursor: “pointer”,
+border: "1px solid #DC2626",
+background: "#FEE2E2",
+cursor: "pointer",
 fontSize: 11,
 fontWeight: 800,
-color: “#991B1B”
+color: "#991B1B"
 }
-}, “Confirmar”), /*#**PURE***/React.createElement(“button”, {
+}, "Confirmar"), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return setConfirmDel(null);
 },
 style: {
-padding: “8px 10px”,
+padding: "8px 10px",
 borderRadius: 8,
-border: “1px solid “.concat(C.border),
-background: “none”,
-cursor: “pointer”,
+border: "1px solid ".concat(C.border),
+background: "none",
+cursor: "pointer",
 fontSize: 11
 }
-}, “\u2715”)) : /*#**PURE***/React.createElement(“button”, {
+}, "\u2715")) : /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return setConfirmDel(func.id);
 },
 style: {
-padding: “8px 10px”,
+padding: "8px 10px",
 borderRadius: 8,
-border: “1px solid #FEE2E2”,
-background: “#FEE2E2”,
-cursor: “pointer”
+border: "1px solid #FEE2E2",
+background: "#FEE2E2",
+cursor: "pointer"
 }
 }, /*#**PURE***/React.createElement(Trash2, {
 size: 13,
-color: “#DC2626”
+color: "#DC2626"
 }))), showHist === func.id && /*#**PURE***/React.createElement(FuncRelatorio, {
 func: func,
 adiantamentos: data.adiantamentos
@@ -2707,15 +2716,15 @@ adiantamentos: data.adiantamentos
 /* ─── FECHAMENTO ─── */
 function Fechamento(_ref31) {
 var data = _ref31.data;
-var _useState29 = useState(“mes”),
+var _useState29 = useState("mes"),
 _useState30 = _slicedToArray(_useState29, 2),
 p = _useState30[0],
 setP = _useState30[1],
-_useState31 = useState(””),
+_useState31 = useState(""),
 _useState32 = _slicedToArray(_useState31, 2),
 s = _useState32[0],
 setS = _useState32[1],
-_useState33 = useState(””),
+_useState33 = useState(""),
 _useState34 = _slicedToArray(_useState33, 2),
 e = _useState34[0],
 setE = _useState34[1];
@@ -2732,14 +2741,14 @@ td = fD.reduce(function (a, x) {
 return a + (x.valor || 0);
 }, 0);
 var tdPago = fD.filter(function (x) {
-return x.status === “Pago”;
+return x.status === "Pago";
 }).reduce(function (a, x) {
 return a + (x.valor || 0);
 }, 0),
 lucro = tv - tc - td,
 pos = lucro >= 0;
 var fixo = fD.filter(function (d) {
-return d.tipo === “Fixo”;
+return d.tipo === "Fixo";
 }).reduce(function (a, x) {
 return a + (x.valor || 0);
 }, 0),
@@ -2782,20 +2791,20 @@ return x.valor > 0;
 }).sort(function (a, b) {
 return b.valor - a.valor;
 });
-return /*#**PURE***/React.createElement(“div”, null, /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", null, /*#**PURE***/React.createElement("div", {
 style: {
 background: C.sec,
-padding: “28px 20px 20px”,
-color: “#FFF”
+padding: "28px 20px 20px",
+color: "#FFF"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 22,
 fontWeight: 800
 }
-}, “Fechamento \uD83D\uDCCA”)), /*#**PURE***/React.createElement(“div”, {
+}, "Fechamento \uD83D\uDCCA")), /*#**PURE***/React.createElement("div", {
 style: {
-padding: “12px 16px”
+padding: "12px 16px"
 }
 }, /*#**PURE***/React.createElement(PBar, {
 p: p,
@@ -2809,76 +2818,76 @@ style: {
 marginTop: 12,
 background: C.sec
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
-color: “#64748B”,
+color: "#64748B",
 marginBottom: 12,
 fontWeight: 800,
-letterSpacing: “0.07em”
+letterSpacing: "0.07em"
 }
-}, “RESULTADO FINANCEIRO”), [{
-label: “💰 Vendas”,
+}, "RESULTADO FINANCEIRO"), [{
+label: "💰 Vendas",
 val: tv,
-color: “#4ADE80”,
-op: “”
+color: "#4ADE80",
+op: ""
 }, {
-label: “🛒 Compras”,
+label: "🛒 Compras",
 val: tc,
-color: “#FB923C”,
-op: “− “
+color: "#FB923C",
+op: "− "
 }, {
-label: “💸 Despesas”,
+label: "💸 Despesas",
 val: td,
-color: “#F87171”,
-op: “− “
+color: "#F87171",
+op: "− "
 }].map(function (r) {
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 key: r.label,
 style: {
-display: “flex”,
-justifyContent: “space-between”,
+display: "flex",
+justifyContent: "space-between",
 marginBottom: 8
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 12,
-color: “#94A3B8”
+color: "#94A3B8"
 }
-}, r.label), /*#**PURE***/React.createElement(“span”, {
+}, r.label), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 14,
 fontWeight: 800,
 color: r.color
 }
 }, r.op, fmt(r.val)));
-}), /*#**PURE***/React.createElement(“div”, {
+}), /*#**PURE***/React.createElement("div", {
 style: {
-borderTop: “1px solid #334155”,
+borderTop: "1px solid #334155",
 paddingTop: 10,
-display: “flex”,
-justifyContent: “space-between”,
-alignItems: “center”
+display: "flex",
+justifyContent: "space-between",
+alignItems: "center"
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 14,
 fontWeight: 800,
-color: “#FFF”
+color: "#FFF"
 }
-}, pos ? “📈 Lucro” : “📉 Prejuízo”), /*#**PURE***/React.createElement(“span”, {
+}, pos ? "📈 Lucro" : "📉 Prejuízo"), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 20,
 fontWeight: 900,
-color: pos ? “#4ADE80” : “#F87171”
+color: pos ? "#4ADE80" : "#F87171"
 }
 }, fmt(lucro)))), tv > 0 && /*#**PURE***/React.createElement(Card, {
 style: {
 marginTop: 10
 }
 }, /*#**PURE***/React.createElement(SecHead, {
-title: “Vendas por forma de pagamento”
-}), [[“PIX”, vPix, “#8B5CF6”], [“Dinheiro”, vDinheiro, “#16A34A”], [“Fiado”, vFiado, “#D97706”], [“Cartão”, vCartao, “#2563EB”], [“Boleto”, vBoleto, “#0891B2”]].filter(function (_ref32) {
+title: "Vendas por forma de pagamento"
+}), [["PIX", vPix, "#8B5CF6"], ["Dinheiro", vDinheiro, "#16A34A"], ["Fiado", vFiado, "#D97706"], ["Cartão", vCartao, "#2563EB"], ["Boleto", vBoleto, "#0891B2"]].filter(function (_ref32) {
 var _ref33 = _slicedToArray(_ref32, 2),
 v = _ref33[1];
 return v > 0;
@@ -2887,53 +2896,53 @@ var _ref35 = _slicedToArray(_ref34, 3),
 l = _ref35[0],
 v = _ref35[1],
 cl = _ref35[2];
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 key: l,
 style: {
-display: “flex”,
-justifyContent: “space-between”,
-alignItems: “center”,
-padding: “7px 0”,
-borderBottom: “1px solid “.concat(C.border)
+display: "flex",
+justifyContent: "space-between",
+alignItems: "center",
+padding: "7px 0",
+borderBottom: "1px solid ".concat(C.border)
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-alignItems: “center”,
+display: "flex",
+alignItems: "center",
 gap: 8
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 width: 10,
 height: 10,
-borderRadius: “50%”,
+borderRadius: "50%",
 background: cl
 }
-}), /*#**PURE***/React.createElement(“span”, {
+}), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 12,
 color: C.txt
 }
-}, l)), /*#**PURE***/React.createElement(“div”, null, /*#**PURE***/React.createElement(“span”, {
+}, l)), /*#**PURE***/React.createElement("div", null, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 13,
 fontWeight: 800,
 color: cl
 }
-}, fmt(v)), /*#**PURE***/React.createElement(“span”, {
+}, fmt(v)), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 10,
 color: C.muted,
 marginLeft: 6
 }
-}, tv > 0 ? (v / tv * 100).toFixed(1) + “%” : “”)));
+}, tv > 0 ? (v / tv * 100).toFixed(1) + "%" : "")));
 })), tc > 0 && /*#**PURE***/React.createElement(Card, {
 style: {
 marginTop: 10
 }
 }, /*#**PURE***/React.createElement(SecHead, {
-title: “Compras por forma de pagamento”
-}), [[“PIX”, cPix, “#8B5CF6”], [“Dinheiro”, cDinheiro, “#16A34A”], [“A Prazo”, cAprazo, “#DC2626”]].filter(function (_ref36) {
+title: "Compras por forma de pagamento"
+}), [["PIX", cPix, "#8B5CF6"], ["Dinheiro", cDinheiro, "#16A34A"], ["A Prazo", cAprazo, "#DC2626"]].filter(function (_ref36) {
 var _ref37 = _slicedToArray(_ref36, 2),
 v = _ref37[1];
 return v > 0;
@@ -2942,236 +2951,236 @@ var _ref39 = _slicedToArray(_ref38, 3),
 l = _ref39[0],
 v = _ref39[1],
 cl = _ref39[2];
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 key: l,
 style: {
-display: “flex”,
-justifyContent: “space-between”,
-alignItems: “center”,
-padding: “7px 0”,
-borderBottom: “1px solid “.concat(C.border)
+display: "flex",
+justifyContent: "space-between",
+alignItems: "center",
+padding: "7px 0",
+borderBottom: "1px solid ".concat(C.border)
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-alignItems: “center”,
+display: "flex",
+alignItems: "center",
 gap: 8
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 width: 10,
 height: 10,
-borderRadius: “50%”,
+borderRadius: "50%",
 background: cl
 }
-}), /*#**PURE***/React.createElement(“span”, {
+}), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 12,
 color: C.txt
 }
-}, l)), /*#**PURE***/React.createElement(“div”, null, /*#**PURE***/React.createElement(“span”, {
+}, l)), /*#**PURE***/React.createElement("div", null, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 13,
 fontWeight: 800,
 color: cl
 }
-}, fmt(v)), /*#**PURE***/React.createElement(“span”, {
+}, fmt(v)), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 10,
 color: C.muted,
 marginLeft: 6
 }
-}, tc > 0 ? (v / tc * 100).toFixed(1) + “%” : “”)));
+}, tc > 0 ? (v / tc * 100).toFixed(1) + "%" : "")));
 })), /*#**PURE***/React.createElement(Card, {
 style: {
 marginTop: 10
 }
 }, /*#**PURE***/React.createElement(SecHead, {
-title: “Status das Despesas”
-}), /*#**PURE***/React.createElement(“div”, {
+title: "Status das Despesas"
+}), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 8
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 flex: 1,
-background: “#DCFCE7”,
+background: "#DCFCE7",
 borderRadius: 10,
-padding: “10px 12px”
+padding: "10px 12px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
-color: “#14532D”,
+color: "#14532D",
 fontWeight: 700
 }
-}, “\u2705 Pago”), /*#**PURE***/React.createElement(“div”, {
+}, "\u2705 Pago"), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 16,
 fontWeight: 800,
-color: “#14532D”
+color: "#14532D"
 }
-}, fmt(tdPago))), /*#**PURE***/React.createElement(“div”, {
+}, fmt(tdPago))), /*#**PURE***/React.createElement("div", {
 style: {
 flex: 1,
-background: “#FEF3C7”,
+background: "#FEF3C7",
 borderRadius: 10,
-padding: “10px 12px”
+padding: "10px 12px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
-color: “#92400E”,
+color: "#92400E",
 fontWeight: 700
 }
-}, “\u23F3 Pendente”), /*#**PURE***/React.createElement(“div”, {
+}, "\u23F3 Pendente"), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 16,
 fontWeight: 800,
-color: “#92400E”
+color: "#92400E"
 }
 }, fmt(td - tdPago))))), (fixo > 0 || variavel > 0) && /*#**PURE***/React.createElement(Card, {
 style: {
 marginTop: 10
 }
 }, /*#**PURE***/React.createElement(SecHead, {
-title: “Fixo vs Vari\xE1vel”
-}), /*#**PURE***/React.createElement(“div”, {
+title: "Fixo vs Vari\xE1vel"
+}), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 8
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 flex: 1,
-background: “#EFF6FF”,
+background: "#EFF6FF",
 borderRadius: 10,
-padding: “10px 12px”
+padding: "10px 12px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
-color: “#1E40AF”,
+color: "#1E40AF",
 fontWeight: 700
 }
-}, “\uD83D\uDCCC Fixo”), /*#**PURE***/React.createElement(“div”, {
+}, "\uD83D\uDCCC Fixo"), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 15,
 fontWeight: 800,
-color: “#1E40AF”
+color: "#1E40AF"
 }
-}, fmt(fixo))), /*#**PURE***/React.createElement(“div”, {
+}, fmt(fixo))), /*#**PURE***/React.createElement("div", {
 style: {
 flex: 1,
-background: “#F5F3FF”,
+background: "#F5F3FF",
 borderRadius: 10,
-padding: “10px 12px”
+padding: "10px 12px"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
-color: “#5B21B6”,
+color: "#5B21B6",
 fontWeight: 700
 }
-}, “\uD83D\uDD04 Vari\xE1vel”), /*#**PURE***/React.createElement(“div”, {
+}, "\uD83D\uDD04 Vari\xE1vel"), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 15,
 fontWeight: 800,
-color: “#5B21B6”
+color: "#5B21B6"
 }
 }, fmt(variavel))))), catData.length > 0 && /*#**PURE***/React.createElement(Card, {
 style: {
 marginTop: 10
 }
 }, /*#**PURE***/React.createElement(SecHead, {
-title: “Despesas por Categoria”
+title: "Despesas por Categoria"
 }), /*#**PURE***/React.createElement(HorizBarChart, {
 data: catData,
 cats: data.catsDespesa
-}), /*#**PURE***/React.createElement(“div”, {
+}), /*#**PURE***/React.createElement("div", {
 style: {
 marginTop: 10
 }
 }, catData.map(function (item, i) {
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 key: item.cat,
 style: {
-display: “flex”,
-justifyContent: “space-between”,
-alignItems: “center”,
-padding: “5px 0”,
-borderBottom: i < catData.length - 1 ? “1px solid “.concat(C.border) : “none”
+display: "flex",
+justifyContent: "space-between",
+alignItems: "center",
+padding: "5px 0",
+borderBottom: i < catData.length - 1 ? "1px solid ".concat(C.border) : "none"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-alignItems: “center”,
+display: "flex",
+alignItems: "center",
 gap: 8
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 width: 10,
 height: 10,
-borderRadius: “50%”,
+borderRadius: "50%",
 background: catCl(data.catsDespesa, item.cat),
 flexShrink: 0
 }
-}), /*#**PURE***/React.createElement(“span”, {
+}), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 12,
 color: C.txt
 }
-}, item.cat)), /*#**PURE***/React.createElement(“div”, null, /*#**PURE***/React.createElement(“span”, {
+}, item.cat)), /*#**PURE***/React.createElement("div", null, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 12,
 fontWeight: 800,
 color: C.txt
 }
-}, fmt(item.valor)), td > 0 && /*#**PURE***/React.createElement(“span”, {
+}, fmt(item.valor)), td > 0 && /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 10,
 color: C.muted,
 marginLeft: 6
 }
-}, (item.valor / td * 100).toFixed(1), “%”)));
+}, (item.valor / td * 100).toFixed(1), "%")));
 }))), /*#**PURE***/React.createElement(Card, {
 style: {
 marginTop: 10,
 marginBottom: 8
 }
 }, /*#**PURE***/React.createElement(SecHead, {
-title: “Volume de Registros”
-}), /*#**PURE***/React.createElement(“div”, {
+title: "Volume de Registros"
+}), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”
+display: "flex"
 }
 }, [{
-label: “Vendas”,
+label: "Vendas",
 n: fV.length,
-color: “#16A34A”
+color: "#16A34A"
 }, {
-label: “Compras”,
+label: "Compras",
 n: fC.length,
-color: “#D97706”
+color: "#D97706"
 }, {
-label: “Despesas”,
+label: "Despesas",
 n: fD.length,
-color: “#DC2626”
+color: "#DC2626"
 }].map(function (m) {
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 key: m.label,
 style: {
 flex: 1,
-textAlign: “center”
+textAlign: "center"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 26,
 fontWeight: 900,
 color: m.color
 }
-}, m.n), /*#**PURE***/React.createElement(“div”, {
+}, m.n), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 10,
 color: C.sub,
@@ -3185,11 +3194,11 @@ fontWeight: 700
 function Config(_ref40) {
 var data = _ref40.data,
 update = _ref40.update;
-var _useState35 = useState(””),
+var _useState35 = useState(""),
 _useState36 = _slicedToArray(_useState35, 2),
 newD = _useState36[0],
 setNewD = _useState36[1],
-_useState37 = useState(””),
+_useState37 = useState(""),
 _useState38 = _slicedToArray(_useState37, 2),
 newC = _useState38[0],
 setNewC = _useState38[1];
@@ -3222,153 +3231,153 @@ marginBottom: 12
 }
 }, /*#**PURE***/React.createElement(SecHead, {
 title: title
-}), /*#**PURE***/React.createElement(“div”, {
+}), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-flexWrap: “wrap”,
+display: "flex",
+flexWrap: "wrap",
 gap: 6,
 marginBottom: 10
 }
 }, list.map(function (cat) {
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 key: cat,
 style: {
-display: “flex”,
-alignItems: “center”,
+display: "flex",
+alignItems: "center",
 gap: 4,
 background: acBg,
 borderRadius: 20,
-padding: “4px 10px 4px 12px”
+padding: "4px 10px 4px 12px"
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 12,
 color: acCl
 }
-}, cat), /*#**PURE***/React.createElement(“button”, {
+}, cat), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return remCat(field, cat);
 },
 style: {
-background: “none”,
-border: “none”,
-cursor: “pointer”,
+background: "none",
+border: "none",
+cursor: "pointer",
 padding: 2,
-display: “flex”
+display: "flex"
 }
 }, /*#**PURE***/React.createElement(X, {
 size: 11,
 color: acCl
 })));
-})), /*#**PURE***/React.createElement(“div”, {
+})), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 8
 }
-}, /*#**PURE***/React.createElement(“input”, {
+}, /*#**PURE***/React.createElement("input", {
 value: val,
 onChange: function onChange(ev) {
 return setVal(ev.target.value);
 },
-placeholder: “Nova categoria…”,
+placeholder: "Nova categoria…",
 onKeyDown: function onKeyDown(ev) {
-if (ev.key === “Enter”) {
+if (ev.key === "Enter") {
 addCat(field, val, list);
-setVal(””);
+setVal("");
 }
 },
 style: {
 flex: 1,
-padding: “8px 12px”,
+padding: "8px 12px",
 borderRadius: 8,
-border: “1px solid “.concat(C.border),
+border: "1px solid ".concat(C.border),
 fontSize: 12
 }
-}), /*#**PURE***/React.createElement(“button”, {
+}), /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 addCat(field, val, list);
-setVal(””);
+setVal("");
 },
 style: {
-padding: “8px 16px”,
+padding: "8px 16px",
 borderRadius: 8,
 background: acBtn,
-color: “#FFF”,
-border: “none”,
-cursor: “pointer”,
+color: "#FFF",
+border: "none",
+cursor: "pointer",
 fontWeight: 800,
 fontSize: 14
 }
-}, “+”)));
+}, "+")));
 };
-return /*#**PURE***/React.createElement(“div”, null, /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", null, /*#**PURE***/React.createElement("div", {
 style: {
 background: C.sec,
-padding: “28px 20px 20px”,
-color: “#FFF”
+padding: "28px 20px 20px",
+color: "#FFF"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 22,
 fontWeight: 800
 }
-}, “Configura\xE7\xF5es \u2699\uFE0F”)), /*#**PURE***/React.createElement(“div”, {
+}, "Configura\xE7\xF5es \u2699\uFE0F")), /*#**PURE***/React.createElement("div", {
 style: {
-padding: “12px 16px”
+padding: "12px 16px"
 }
 }, /*#**PURE***/React.createElement(CatBlock, {
-title: “Categorias de Despesa”,
-field: “catsDespesa”,
+title: "Categorias de Despesa",
+field: "catsDespesa",
 list: data.catsDespesa,
 val: newD,
 setVal: setNewD,
-acBg: “#EFF6FF”,
+acBg: "#EFF6FF",
 acCl: C.acc,
 acBtn: C.acc
 }), /*#**PURE***/React.createElement(CatBlock, {
-title: “Categorias de Compra”,
-field: “catsCompra”,
+title: "Categorias de Compra",
+field: "catsCompra",
 list: data.catsCompra,
 val: newC,
 setVal: setNewC,
-acBg: “#FEF3C7”,
-acCl: “#D97706”,
-acBtn: “#D97706”
+acBg: "#FEF3C7",
+acCl: "#D97706",
+acBtn: "#D97706"
 }), /*#**PURE***/React.createElement(Card, null, /*#**PURE***/React.createElement(SecHead, {
-title: “Resumo do Sistema”
-}), [[“Dias de venda”, data.vendas.length], [“Dias de compra”, data.compras.length], [“Despesas”, data.despesas.length], [“Funcionários”, data.funcionarios.length], [“Adiantamentos”, data.adiantamentos.length]].map(function (_ref42) {
+title: "Resumo do Sistema"
+}), [["Dias de venda", data.vendas.length], ["Dias de compra", data.compras.length], ["Despesas", data.despesas.length], ["Funcionários", data.funcionarios.length], ["Adiantamentos", data.adiantamentos.length]].map(function (_ref42) {
 var _ref43 = _slicedToArray(_ref42, 2),
 l = _ref43[0],
 v = _ref43[1];
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 key: l,
 style: {
-display: “flex”,
-justifyContent: “space-between”,
-padding: “6px 0”,
-borderBottom: “1px solid “.concat(C.border)
+display: "flex",
+justifyContent: "space-between",
+padding: "6px 0",
+borderBottom: "1px solid ".concat(C.border)
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 12,
 color: C.sub
 }
-}, l), /*#**PURE***/React.createElement(“span”, {
+}, l), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 12,
 fontWeight: 800,
 color: C.txt
 }
-}, v, “ reg.”));
-})), /*#**PURE***/React.createElement(“div”, {
+}, v, " reg."));
+})), /*#**PURE***/React.createElement("div", {
 style: {
-textAlign: “center”,
+textAlign: "center",
 marginTop: 24,
 color: C.muted,
 fontSize: 11,
 paddingBottom: 8
 }
-}, “ERP Financeiro Murilo \xB7 v4.0 \xB7 2026”)));
+}, "ERP Financeiro Murilo \xB7 v4.0 \xB7 2026")));
 }
 
 /* ─── MODAL — estado LOCAL para não perder foco ─── */
@@ -3392,29 +3401,29 @@ return setForm(function (f) {
 return _objectSpread(_objectSpread({}, f), {}, _defineProperty({}, k, v));
 });
 }, []);
-var iV = type === “venda”,
-iC = type === “compra”,
-iD = type === “despesa”;
+var iV = type === "venda",
+iC = type === "compra",
+iD = type === "despesa";
 var lbl = {
 fontSize: 10,
 fontWeight: 800,
 color: C.sub,
-textTransform: “uppercase”,
-letterSpacing: “0.06em”,
+textTransform: "uppercase",
+letterSpacing: "0.06em",
 marginBottom: 4,
-display: “block”
+display: "block"
 };
 var fldSt = {
-width: “100%”,
-padding: “10px 12px”,
+width: "100%",
+padding: "10px 12px",
 borderRadius: 10,
-border: “1px solid “.concat(C.border),
+border: "1px solid ".concat(C.border),
 fontSize: 13,
-background: “#FAFAFA”,
-boxSizing: “border-box”,
+background: "#FAFAFA",
+boxSizing: "border-box",
 color: C.txt,
 marginBottom: 8,
-fontFamily: “inherit”
+fontFamily: "inherit"
 };
 var vTotal = iV ? toNum(form.pix) + toNum(form.dinheiro) + toNum(form.fiado) + toNum(form.cartao) + toNum(form.boleto) : 0;
 var cTotal = iC ? toNum(form.pix) + toNum(form.dinheiro) + toNum(form.aprazo) : 0;
@@ -3424,7 +3433,7 @@ var payload;
 if (iV) {
 payload = {
 data: form.data,
-obs: form.obs || “”,
+obs: form.obs || "",
 pix: toNum(form.pix),
 dinheiro: toNum(form.dinheiro),
 fiado: toNum(form.fiado),
@@ -3434,8 +3443,8 @@ boleto: toNum(form.boleto)
 } else if (iC) {
 payload = {
 data: form.data,
-obs: form.obs || “”,
-categoria: form.categoria || “”,
+obs: form.obs || "",
+categoria: form.categoria || "",
 pix: toNum(form.pix),
 dinheiro: toNum(form.dinheiro),
 aprazo: toNum(form.aprazo)
@@ -3447,412 +3456,412 @@ valor: toNum(form.valor)
 }
 onSubmit(type, editId, payload);
 };
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 style: {
-position: “fixed”,
+position: "fixed",
 inset: 0,
 zIndex: 200,
-display: “flex”,
-flexDirection: “column”,
-justifyContent: “flex-end”
+display: "flex",
+flexDirection: "column",
+justifyContent: "flex-end"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 onClick: onClose,
 style: {
-position: “absolute”,
+position: "absolute",
 inset: 0,
-background: “rgba(15,23,42,0.55)”
+background: "rgba(15,23,42,0.55)"
 }
-}), /*#**PURE***/React.createElement(“div”, {
+}), /*#**PURE***/React.createElement("div", {
 style: {
-position: “relative”,
-background: “#FFF”,
-borderRadius: “22px 22px 0 0”,
-padding: “20px 20px 40px”,
-maxHeight: “92vh”,
-overflowY: “auto”,
+position: "relative",
+background: "#FFF",
+borderRadius: "22px 22px 0 0",
+padding: "20px 20px 40px",
+maxHeight: "92vh",
+overflowY: "auto",
 maxWidth: 480,
-margin: “0 auto”,
-width: “100%”
+margin: "0 auto",
+width: "100%"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 width: 36,
 height: 4,
 background: C.border,
 borderRadius: 2,
-margin: “0 auto 18px”
+margin: "0 auto 18px"
 }
-}), /*#**PURE***/React.createElement(“div”, {
+}), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-alignItems: “center”,
-justifyContent: “space-between”,
+display: "flex",
+alignItems: "center",
+justifyContent: "space-between",
 marginBottom: 16
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 18,
 fontWeight: 800,
 color: C.txt
 }
-}, editId ? “Editar” : “Novo Lançamento”), /*#**PURE***/React.createElement(“button”, {
+}, editId ? "Editar" : "Novo Lançamento"), /*#**PURE***/React.createElement("button", {
 onClick: onClose,
 style: {
 width: 32,
 height: 32,
-borderRadius: “50%”,
+borderRadius: "50%",
 background: C.bg,
-border: “none”,
-cursor: “pointer”,
-display: “flex”,
-alignItems: “center”,
-justifyContent: “center”
+border: "none",
+cursor: "pointer",
+display: "flex",
+alignItems: "center",
+justifyContent: "center"
 }
 }, /*#**PURE***/React.createElement(X, {
 size: 15,
 color: C.sub
-}))), !editId && /*#**PURE***/React.createElement(“div”, {
+}))), !editId && /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 6,
 marginBottom: 16
 }
 }, [{
-k: “venda”,
-l: “💰 Venda”,
-c: “#16A34A”,
-b: “#DCFCE7”
+k: "venda",
+l: "💰 Venda",
+c: "#16A34A",
+b: "#DCFCE7"
 }, {
-k: “compra”,
-l: “🛒 Compra”,
-c: “#D97706”,
-b: “#FEF3C7”
+k: "compra",
+l: "🛒 Compra",
+c: "#D97706",
+b: "#FEF3C7"
 }, {
-k: “despesa”,
-l: “💸 Despesa”,
-c: “#DC2626”,
-b: “#FEE2E2”
+k: "despesa",
+l: "💸 Despesa",
+c: "#DC2626",
+b: "#FEE2E2"
 }].map(function (t) {
-return /*#**PURE***/React.createElement(“button”, {
+return /*#**PURE***/React.createElement("button", {
 key: t.k,
 onClick: function onClick() {
 return setType(t.k);
 },
 style: {
 flex: 1,
-padding: “10px 4px”,
+padding: "10px 4px",
 borderRadius: 10,
-border: “2px solid “.concat(type === t.k ? t.c : C.border),
-background: type === t.k ? t.b : “#FFF”,
-cursor: “pointer”,
+border: "2px solid ".concat(type === t.k ? t.c : C.border),
+background: type === t.k ? t.b : "#FFF",
+cursor: "pointer",
 fontSize: 11,
 fontWeight: 800,
 color: type === t.k ? t.c : C.muted
 }
 }, t.l);
-})), /*#**PURE***/React.createElement(“label”, {
+})), /*#**PURE***/React.createElement("label", {
 style: lbl
-}, “Data”), /*#**PURE***/React.createElement(“input”, {
-type: “date”,
-value: form.data || “”,
+}, "Data"), /*#**PURE***/React.createElement("input", {
+type: "date",
+value: form.data || "",
 onChange: function onChange(ev) {
-return set(“data”, ev.target.value);
+return set("data", ev.target.value);
 },
 style: fldSt
-}), iV && /*#**PURE***/React.createElement(“div”, {
+}), iV && /*#**PURE***/React.createElement("div", {
 style: {
-background: “#F8FAFC”,
+background: "#F8FAFC",
 borderRadius: 12,
-padding: “12px”,
+padding: "12px",
 marginBottom: 8
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 11,
 fontWeight: 800,
 color: C.sub,
 marginBottom: 12,
-textTransform: “uppercase”
+textTransform: "uppercase"
 }
-}, “Formas de recebimento”), /*#**PURE***/React.createElement(“div”, {
+}, "Formas de recebimento"), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-flexWrap: “wrap”,
+display: "flex",
+flexWrap: "wrap",
 gap: 8
 }
 }, /*#**PURE***/React.createElement(PgField, {
-label: “PIX”,
+label: "PIX",
 value: form.pix,
 onChange: function onChange(ev) {
-return set(“pix”, ev.target.value);
+return set("pix", ev.target.value);
 },
-color: “#8B5CF6”
+color: "#8B5CF6"
 }), /*#**PURE***/React.createElement(PgField, {
-label: “Dinheiro”,
+label: "Dinheiro",
 value: form.dinheiro,
 onChange: function onChange(ev) {
-return set(“dinheiro”, ev.target.value);
+return set("dinheiro", ev.target.value);
 },
-color: “#16A34A”
+color: "#16A34A"
 }), /*#**PURE***/React.createElement(PgField, {
-label: “Fiado”,
+label: "Fiado",
 value: form.fiado,
 onChange: function onChange(ev) {
-return set(“fiado”, ev.target.value);
+return set("fiado", ev.target.value);
 },
-color: “#D97706”
+color: "#D97706"
 }), /*#**PURE***/React.createElement(PgField, {
-label: “Cart\xE3o”,
+label: "Cart\xE3o",
 value: form.cartao,
 onChange: function onChange(ev) {
-return set(“cartao”, ev.target.value);
+return set("cartao", ev.target.value);
 },
-color: “#2563EB”
+color: "#2563EB"
 }), /*#**PURE***/React.createElement(PgField, {
-label: “Boleto”,
+label: "Boleto",
 value: form.boleto,
 onChange: function onChange(ev) {
-return set(“boleto”, ev.target.value);
+return set("boleto", ev.target.value);
 },
-color: “#0891B2”
-})), vTotal > 0 && /*#**PURE***/React.createElement(“div”, {
+color: "#0891B2"
+})), vTotal > 0 && /*#**PURE***/React.createElement("div", {
 style: {
 marginTop: 8,
-padding: “10px 12px”,
-background: “#DCFCE7”,
+padding: "10px 12px",
+background: "#DCFCE7",
 borderRadius: 10,
-display: “flex”,
-justifyContent: “space-between”,
-alignItems: “center”
+display: "flex",
+justifyContent: "space-between",
+alignItems: "center"
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 12,
 fontWeight: 700,
-color: “#14532D”
+color: "#14532D"
 }
-}, “Total do dia”), /*#**PURE***/React.createElement(“span”, {
+}, "Total do dia"), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 20,
 fontWeight: 900,
-color: “#16A34A”
+color: "#16A34A"
 }
-}, fmt(vTotal)))), iC && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“div”, {
+}, fmt(vTotal)))), iC && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("div", {
 style: {
-background: “#FFFBEB”,
+background: "#FFFBEB",
 borderRadius: 12,
-padding: “12px”,
+padding: "12px",
 marginBottom: 8
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 11,
 fontWeight: 800,
-color: “#92400E”,
+color: "#92400E",
 marginBottom: 12,
-textTransform: “uppercase”
+textTransform: "uppercase"
 }
-}, “Formas de pagamento”), /*#**PURE***/React.createElement(“div”, {
+}, "Formas de pagamento"), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-flexWrap: “wrap”,
+display: "flex",
+flexWrap: "wrap",
 gap: 8
 }
 }, /*#**PURE***/React.createElement(PgField, {
-label: “PIX”,
+label: "PIX",
 value: form.pix,
 onChange: function onChange(ev) {
-return set(“pix”, ev.target.value);
+return set("pix", ev.target.value);
 },
-color: “#8B5CF6”
+color: "#8B5CF6"
 }), /*#**PURE***/React.createElement(PgField, {
-label: “Dinheiro”,
+label: "Dinheiro",
 value: form.dinheiro,
 onChange: function onChange(ev) {
-return set(“dinheiro”, ev.target.value);
+return set("dinheiro", ev.target.value);
 },
-color: “#16A34A”
+color: "#16A34A"
 }), /*#**PURE***/React.createElement(PgField, {
-label: “A Prazo”,
+label: "A Prazo",
 value: form.aprazo,
 onChange: function onChange(ev) {
-return set(“aprazo”, ev.target.value);
+return set("aprazo", ev.target.value);
 },
-color: “#DC2626”
-})), cTotal > 0 && /*#**PURE***/React.createElement(“div”, {
+color: "#DC2626"
+})), cTotal > 0 && /*#**PURE***/React.createElement("div", {
 style: {
 marginTop: 8,
-padding: “10px 12px”,
-background: “#FEF3C7”,
+padding: "10px 12px",
+background: "#FEF3C7",
 borderRadius: 10,
-display: “flex”,
-justifyContent: “space-between”,
-alignItems: “center”
+display: "flex",
+justifyContent: "space-between",
+alignItems: "center"
 }
-}, /*#**PURE***/React.createElement(“span”, {
+}, /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 12,
 fontWeight: 700,
-color: “#92400E”
+color: "#92400E"
 }
-}, “Total do dia”), /*#**PURE***/React.createElement(“span”, {
+}, "Total do dia"), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 20,
 fontWeight: 900,
-color: “#D97706”
+color: "#D97706"
 }
-}, fmt(cTotal)))), /*#**PURE***/React.createElement(“label”, {
+}, fmt(cTotal)))), /*#**PURE***/React.createElement("label", {
 style: lbl
-}, “Categoria”), /*#**PURE***/React.createElement(“select”, {
-value: form.categoria || “”,
+}, "Categoria"), /*#**PURE***/React.createElement("select", {
+value: form.categoria || "",
 onChange: function onChange(ev) {
-return set(“categoria”, ev.target.value);
+return set("categoria", ev.target.value);
 },
 style: _objectSpread(_objectSpread({}, fldSt), {}, {
-appearance: “none”
+appearance: "none"
 })
-}, /*#**PURE***/React.createElement(“option”, {
-value: “”
-}, “Selecione…”), cats.compra.map(function (c) {
-return /*#**PURE***/React.createElement(“option”, {
+}, /*#**PURE***/React.createElement("option", {
+value: ""
+}, "Selecione…"), cats.compra.map(function (c) {
+return /*#**PURE***/React.createElement("option", {
 key: c,
 value: c
 }, c);
-}))), iD && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“label”, {
+}))), iD && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("label", {
 style: lbl
-}, “Valor (R$)”), /*#**PURE***/React.createElement(“input”, {
-type: “number”,
-step: “0.01”,
-placeholder: “0,00”,
-value: form.valor || “”,
+}, "Valor (R$)"), /*#**PURE***/React.createElement("input", {
+type: "number",
+step: "0.01",
+placeholder: "0,00",
+value: form.valor || "",
 onChange: function onChange(ev) {
-return set(“valor”, ev.target.value);
+return set("valor", ev.target.value);
 },
 style: _objectSpread(_objectSpread({}, fldSt), {}, {
 fontSize: 22,
 fontWeight: 800
 })
-}), /*#**PURE***/React.createElement(“label”, {
+}), /*#**PURE***/React.createElement("label", {
 style: lbl
-}, “Descri\xE7\xE3o”), /*#**PURE***/React.createElement(“input”, {
-placeholder: “Ex: Conta de luz”,
-value: form.descricao || “”,
+}, "Descri\xE7\xE3o"), /*#**PURE***/React.createElement("input", {
+placeholder: "Ex: Conta de luz",
+value: form.descricao || "",
 onChange: function onChange(ev) {
-return set(“descricao”, ev.target.value);
+return set("descricao", ev.target.value);
 },
 style: fldSt
-}), /*#**PURE***/React.createElement(“label”, {
+}), /*#**PURE***/React.createElement("label", {
 style: lbl
-}, “Categoria”), /*#**PURE***/React.createElement(“select”, {
-value: form.categoria || “”,
+}, "Categoria"), /*#**PURE***/React.createElement("select", {
+value: form.categoria || "",
 onChange: function onChange(ev) {
-return set(“categoria”, ev.target.value);
+return set("categoria", ev.target.value);
 },
 style: _objectSpread(_objectSpread({}, fldSt), {}, {
-appearance: “none”
+appearance: "none"
 })
-}, /*#**PURE***/React.createElement(“option”, {
-value: “”
-}, “Selecione…”), cats.despesa.map(function (c) {
-return /*#**PURE***/React.createElement(“option”, {
+}, /*#**PURE***/React.createElement("option", {
+value: ""
+}, "Selecione…"), cats.despesa.map(function (c) {
+return /*#**PURE***/React.createElement("option", {
 key: c,
 value: c
 }, c);
-})), /*#**PURE***/React.createElement(“label”, {
+})), /*#**PURE***/React.createElement("label", {
 style: lbl
-}, “Tipo”), /*#**PURE***/React.createElement(“div”, {
+}, "Tipo"), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 8,
 marginBottom: 8
 }
-}, [[“Fixo”, “📌 Fixo”], [“Variavel”, “🔄 Variável”]].map(function (_ref45) {
+}, [["Fixo", "📌 Fixo"], ["Variavel", "🔄 Variável"]].map(function (_ref45) {
 var _ref46 = _slicedToArray(_ref45, 2),
 k = _ref46[0],
 l = _ref46[1];
-return /*#**PURE***/React.createElement(“button”, {
+return /*#**PURE***/React.createElement("button", {
 key: k,
 onClick: function onClick() {
-return set(“tipo”, k);
+return set("tipo", k);
 },
 style: {
 flex: 1,
 padding: 10,
 borderRadius: 10,
-border: “2px solid “.concat(form.tipo === k ? C.acc : C.border),
-background: form.tipo === k ? “#EFF6FF” : “#FFF”,
-cursor: “pointer”,
+border: "2px solid ".concat(form.tipo === k ? C.acc : C.border),
+background: form.tipo === k ? "#EFF6FF" : "#FFF",
+cursor: "pointer",
 fontSize: 13,
 fontWeight: 700,
 color: form.tipo === k ? C.acc : C.muted
 }
 }, l);
-})), /*#**PURE***/React.createElement(“label”, {
+})), /*#**PURE***/React.createElement("label", {
 style: lbl
-}, “Status”), /*#**PURE***/React.createElement(“div”, {
+}, "Status"), /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
+display: "flex",
 gap: 8,
 marginBottom: 8
 }
-}, [[“Pago”, “✅ Pago”, “#16A34A”, “#DCFCE7”], [“A Pagar”, “📅 A Pagar”, C.acc, “#EFF6FF”]].map(function (_ref47) {
+}, [["Pago", "✅ Pago", "#16A34A", "#DCFCE7"], ["A Pagar", "📅 A Pagar", C.acc, "#EFF6FF"]].map(function (_ref47) {
 var _ref48 = _slicedToArray(_ref47, 4),
 k = _ref48[0],
 l = _ref48[1],
 cl = _ref48[2],
 bg = _ref48[3];
-return /*#**PURE***/React.createElement(“button”, {
+return /*#**PURE***/React.createElement("button", {
 key: k,
 onClick: function onClick() {
-return set(“status”, k);
+return set("status", k);
 },
 style: {
 flex: 1,
 padding: 10,
 borderRadius: 10,
-border: “2px solid “.concat(form.status === k ? cl : C.border),
-background: form.status === k ? bg : “#FFF”,
-cursor: “pointer”,
+border: "2px solid ".concat(form.status === k ? cl : C.border),
+background: form.status === k ? bg : "#FFF",
+cursor: "pointer",
 fontSize: 13,
 fontWeight: 700,
 color: form.status === k ? cl : C.muted
 }
 }, l);
-})), form.status === “A Pagar” && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“label”, {
+})), form.status === "A Pagar" && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("label", {
 style: lbl
-}, “Vencimento (opcional)”), /*#**PURE***/React.createElement(“input”, {
-type: “date”,
-value: form.vencimento || “”,
+}, "Vencimento (opcional)"), /*#**PURE***/React.createElement("input", {
+type: "date",
+value: form.vencimento || "",
 onChange: function onChange(ev) {
-return set(“vencimento”, ev.target.value);
+return set("vencimento", ev.target.value);
 },
 style: fldSt
-}))), (iV || iC) && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement(“label”, {
+}))), (iV || iC) && /*#**PURE***/React.createElement(React.Fragment, null, /*#**PURE***/React.createElement("label", {
 style: lbl
-}, “Observa\xE7\xE3o (opcional)”), /*#**PURE***/React.createElement(“input”, {
-placeholder: “Ex: Movimento fraco, chuva…”,
-value: form.obs || “”,
+}, "Observa\xE7\xE3o (opcional)"), /*#**PURE***/React.createElement("input", {
+placeholder: "Ex: Movimento fraco, chuva…",
+value: form.obs || "",
 onChange: function onChange(ev) {
-return set(“obs”, ev.target.value);
+return set("obs", ev.target.value);
 },
 style: fldSt
-})), /*#**PURE***/React.createElement(“button”, {
+})), /*#**PURE***/React.createElement("button", {
 onClick: handleSubmit,
 style: {
-width: “100%”,
+width: "100%",
 padding: 15,
 borderRadius: 12,
-border: “none”,
-background: iV ? “#16A34A” : iC ? “#D97706” : C.acc,
-color: “#FFF”,
+border: "none",
+background: iV ? "#16A34A" : iC ? "#D97706" : C.acc,
+color: "#FFF",
 fontWeight: 800,
 fontSize: 15,
-cursor: “pointer”,
+cursor: "pointer",
 marginTop: 4,
-fontFamily: “inherit”
+fontFamily: "inherit"
 }
-}, editId ? “Salvar Alterações” : iV ? “Registrar Venda do Dia” : iC ? “Registrar Compra do Dia” : “Lançar Despesa”)));
+}, editId ? "Salvar Alterações" : iV ? "Registrar Venda do Dia" : iC ? "Registrar Compra do Dia" : "Lançar Despesa")));
 }
 
 /* ─── BOTTOM NAV ─── */
@@ -3869,48 +3878,48 @@ Icon = _ref50.Icon,
 label = _ref50.label,
 bdg = _ref50.bdg;
 var active = nav === k;
-return /*#**PURE***/React.createElement(“button”, {
+return /*#**PURE***/React.createElement("button", {
 onClick: function onClick() {
 return setNav(k);
 },
 style: {
 flex: 1,
-padding: “10px 0 8px”,
-border: “none”,
-background: “none”,
-cursor: “pointer”,
-display: “flex”,
-flexDirection: “column”,
-alignItems: “center”,
+padding: "10px 0 8px",
+border: "none",
+background: "none",
+cursor: "pointer",
+display: "flex",
+flexDirection: "column",
+alignItems: "center",
 gap: 2,
-position: “relative”
+position: "relative"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-position: “relative”
+position: "relative"
 }
 }, /*#**PURE***/React.createElement(Icon, {
 size: 22,
 color: active ? C.acc : C.muted,
 strokeWidth: active ? 2.5 : 1.8
-}), bdg > 0 && /*#**PURE***/React.createElement(“span”, {
+}), bdg > 0 && /*#**PURE***/React.createElement("span", {
 style: {
-position: “absolute”,
+position: "absolute",
 top: -5,
 right: -7,
-background: “#EF4444”,
-color: “#FFF”,
+background: "#EF4444",
+color: "#FFF",
 fontSize: 9,
 fontWeight: 800,
 minWidth: 15,
 height: 15,
 borderRadius: 8,
-display: “flex”,
-alignItems: “center”,
-justifyContent: “center”,
-padding: “0 3px”
+display: "flex",
+alignItems: "center",
+justifyContent: "center",
+padding: "0 3px"
 }
-}, bdg)), /*#**PURE***/React.createElement(“span”, {
+}, bdg)), /*#**PURE***/React.createElement("span", {
 style: {
 fontSize: 10,
 fontWeight: active ? 800 : 500,
@@ -3918,107 +3927,107 @@ color: active ? C.acc : C.muted
 }
 }, label));
 };
-return /*#**PURE***/React.createElement(React.Fragment, null, nav === “mais” && /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement(React.Fragment, null, nav === "mais" && /*#**PURE***/React.createElement("div", {
 style: {
-position: “fixed”,
+position: "fixed",
 bottom: 68,
-left: “50%”,
-transform: “translateX(-50%)”,
-width: “100%”,
+left: "50%",
+transform: "translateX(-50%)",
+width: "100%",
 maxWidth: 480,
-background: “#FFF”,
-borderTop: “1px solid “.concat(C.border),
-padding: “8px 16px”,
-display: “flex”,
+background: "#FFF",
+borderTop: "1px solid ".concat(C.border),
+padding: "8px 16px",
+display: "flex",
 gap: 6,
-boxSizing: “border-box”,
+boxSizing: "border-box",
 zIndex: 99
 }
-}, [[“salarios”, “👥 Salários”], [“fechamento”, “📊 Fechamento”], [“config”, “⚙️ Config”]].map(function (_ref51) {
+}, [["salarios", "👥 Salários"], ["fechamento", "📊 Fechamento"], ["config", "⚙️ Config"]].map(function (_ref51) {
 var _ref52 = _slicedToArray(_ref51, 2),
 k = _ref52[0],
 l = _ref52[1];
-return /*#**PURE***/React.createElement(“button”, {
+return /*#**PURE***/React.createElement("button", {
 key: k,
 onClick: function onClick() {
 return setMais(k);
 },
 style: {
 flex: 1,
-padding: “8px 4px”,
+padding: "8px 4px",
 borderRadius: 10,
-border: “none”,
-cursor: “pointer”,
+border: "none",
+cursor: "pointer",
 fontSize: 11,
 fontWeight: 700,
 background: mais === k ? C.acc : C.bg,
-color: mais === k ? “#FFF” : C.sub
+color: mais === k ? "#FFF" : C.sub
 }
 }, l);
-})), /*#**PURE***/React.createElement(“div”, {
+})), /*#**PURE***/React.createElement("div", {
 style: {
-position: “fixed”,
+position: "fixed",
 bottom: 0,
-left: “50%”,
-transform: “translateX(-50%)”,
-width: “100%”,
+left: "50%",
+transform: "translateX(-50%)",
+width: "100%",
 maxWidth: 480,
-background: “#FFF”,
-borderTop: “1px solid “.concat(C.border),
-display: “flex”,
+background: "#FFF",
+borderTop: "1px solid ".concat(C.border),
+display: "flex",
 zIndex: 100
 }
 }, /*#**PURE***/React.createElement(Btn, {
-k: “dashboard”,
+k: "dashboard",
 Icon: Home,
-label: “In\xEDcio”
+label: "In\xEDcio"
 }), /*#**PURE***/React.createElement(Btn, {
-k: “registros”,
+k: "registros",
 Icon: FileText,
-label: “Registros”
-}), /*#**PURE***/React.createElement(“div”, {
+label: "Registros"
+}), /*#**PURE***/React.createElement("div", {
 style: {
 flex: 1,
-display: “flex”,
-justifyContent: “center”,
-alignItems: “center”,
+display: "flex",
+justifyContent: "center",
+alignItems: "center",
 paddingTop: 4
 }
-}, /*#**PURE***/React.createElement(“button”, {
+}, /*#**PURE***/React.createElement("button", {
 onClick: onPlus,
 style: {
 width: 50,
 height: 50,
-borderRadius: “50%”,
+borderRadius: "50%",
 background: C.acc,
-border: “none”,
-cursor: “pointer”,
-display: “flex”,
-alignItems: “center”,
-justifyContent: “center”,
-boxShadow: “0 4px 14px rgba(37,99,235,0.45)”,
+border: "none",
+cursor: "pointer",
+display: "flex",
+alignItems: "center",
+justifyContent: "center",
+boxShadow: "0 4px 14px rgba(37,99,235,0.45)",
 marginBottom: 6
 }
 }, /*#**PURE***/React.createElement(Plus, {
 size: 24,
-color: “#FFF”,
+color: "#FFF",
 strokeWidth: 2.5
 }))), /*#**PURE***/React.createElement(Btn, {
-k: “vencimentos”,
+k: "vencimentos",
 Icon: Bell,
-label: “Contas”,
+label: "Contas",
 bdg: badge
 }), /*#**PURE***/React.createElement(Btn, {
-k: “mais”,
+k: "mais",
 Icon: BarChart2,
-label: “Mais”
+label: "Mais"
 })));
 }
 
 /* ─── APP ROOT ─── */
 function App() {
 var _ses = useState(getSession()), session = _ses[0], setSession2 = _ses[1];
-var isViewer = session && session.role === “viewer”;
+var isViewer = session && session.role === "viewer";
 var _useState43 = useState(INIT),
 _useState44 = _slicedToArray(_useState43, 2),
 data = _useState44[0],
@@ -4027,11 +4036,11 @@ var _useState45 = useState(false),
 _useState46 = _slicedToArray(_useState45, 2),
 ready = _useState46[0],
 setReady = _useState46[1];
-var _useState47 = useState(“dashboard”),
+var _useState47 = useState("dashboard"),
 _useState48 = _slicedToArray(_useState47, 2),
 nav = _useState48[0],
 setNav = _useState48[1];
-var _useState49 = useState(“salarios”),
+var _useState49 = useState("salarios"),
 _useState50 = _slicedToArray(_useState49, 2),
 mais = _useState50[0],
 setMais = _useState50[1];
@@ -4039,19 +4048,19 @@ var _useState51 = useState(null),
 _useState52 = _slicedToArray(_useState51, 2),
 modal = _useState52[0],
 setModal = _useState52[1]; // {type, editId, initialForm}
-var _useState53 = useState(“despesas”),
+var _useState53 = useState("despesas"),
 _useState54 = _slicedToArray(_useState53, 2),
 regTab = _useState54[0],
 setRegTab = _useState54[1];
-var _useState55 = useState(“mes”),
+var _useState55 = useState("mes"),
 _useState56 = _slicedToArray(_useState55, 2),
 p = _useState56[0],
 setP = _useState56[1],
-_useState57 = useState(””),
+_useState57 = useState(""),
 _useState58 = _slicedToArray(_useState57, 2),
 s = _useState58[0],
 setS = _useState58[1],
-_useState59 = useState(””),
+_useState59 = useState(""),
 _useState60 = _slicedToArray(_useState59, 2),
 e = _useState60[0],
 setE = _useState60[1];
@@ -4094,41 +4103,53 @@ return x.id !== id;
 };
 var ops = {
 addV: function addV(v) {
-return add(“vendas”, v);
+if (isViewer) return;
+return add("vendas", v);
 },
 addC: function addC(c) {
-return add(“compras”, c);
+if (isViewer) return;
+return add("compras", c);
 },
 addD: function addD(dp) {
-return add(“despesas”, dp);
+if (isViewer) return;
+return add("despesas", dp);
 },
 updV: function updV(id, ch) {
-return upd(“vendas”, id, ch);
+if (isViewer) return;
+return upd("vendas", id, ch);
 },
 updC: function updC(id, ch) {
-return upd(“compras”, id, ch);
+if (isViewer) return;
+return upd("compras", id, ch);
 },
 updD: function updD(id, ch) {
-return upd(“despesas”, id, ch);
+if (isViewer) return;
+return upd("despesas", id, ch);
 },
 delV: function delV(id) {
-return del(“vendas”, id);
+if (isViewer) return;
+return del("vendas", id);
 },
 delC: function delC(id) {
-return del(“compras”, id);
+if (isViewer) return;
+return del("compras", id);
 },
 delD: function delD(id) {
-return del(“despesas”, id);
+if (isViewer) return;
+return del("despesas", id);
 },
 addFunc: function addFunc(f) {
-return add(“funcionarios”, _objectSpread({
+if (isViewer) return;
+return add("funcionarios", _objectSpread({
 ativo: true
 }, f));
 },
 updFunc: function updFunc(id, ch) {
-return upd(“funcionarios”, id, ch);
+if (isViewer) return;
+return upd("funcionarios", id, ch);
 },
 delFunc: function delFunc(id) {
+if (isViewer) return;
 return mut(function (d) {
 return _objectSpread(_objectSpread({}, d), {}, {
 funcionarios: d.funcionarios.filter(function (x) {
@@ -4141,6 +4162,7 @@ return x.funcId !== id;
 });
 },
 addAdiant: function addAdiant(a) {
+if (isViewer) return;
 var id = uid();
 mut(function (d) {
 return _objectSpread(_objectSpread({}, d), {}, {
@@ -4150,19 +4172,20 @@ id: id
 despesas: [].concat(_toConsumableArray(d.despesas), [{
 id: uid(),
 data: a.data,
-descricao: “Vale \u2014 “.concat((d.funcionarios.find(function (f) {
+descricao: "Vale \u2014 ".concat((d.funcionarios.find(function (f) {
 return f.id === a.funcId;
-}) || {}).nome || “Funcionário”),
-categoria: “Funcionarios”,
-tipo: “Variavel”,
+}) || {}).nome || "Funcionário"),
+categoria: "Funcionarios",
+tipo: "Variavel",
 valor: a.valor,
-status: “Pago”,
+status: "Pago",
 _adiantId: id
 }])
 });
 });
 },
 delAdiant: function delAdiant(id) {
+if (isViewer) return;
 return mut(function (d) {
 return _objectSpread(_objectSpread({}, d), {}, {
 adiantamentos: d.adiantamentos.filter(function (x) {
@@ -4193,7 +4216,7 @@ var td = filt.despesas.reduce(function (a, x) {
 return a + (x.valor || 0);
 }, 0);
 var tdPago = filt.despesas.filter(function (x) {
-return x.status === “Pago”;
+return x.status === "Pago";
 }).reduce(function (a, x) {
 return a + (x.valor || 0);
 }, 0);
@@ -4228,7 +4251,7 @@ vBoleto: vBoleto
 }, [filt]);
 var venc = useMemo(function () {
 return data.despesas.filter(function (d) {
-return d.vencimento && d.status === “A Pagar”;
+return d.vencimento && d.status === "A Pagar";
 }).sort(function (a, b) {
 return a.vencimento.localeCompare(b.vencimento);
 });
@@ -4240,15 +4263,15 @@ return dd !== null && dd <= 3;
 });
 }, [venc]);
 var openNew = function openNew() {
-var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : “despesa”;
+var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "despesa";
 if (isViewer) return;
 return setModal({
 type: type,
 editId: null,
 initialForm: {
 data: today(),
-status: “A Pagar”,
-tipo: “Variavel”
+status: "A Pagar",
+tipo: "Variavel"
 }
 });
 };
@@ -4264,10 +4287,14 @@ var closeModal = function closeModal() {
 return setModal(null);
 };
 var handleSubmit = function handleSubmit(type, editId, payload) {
+if (isViewer) return;
+if (type === "venda" && !(toNum(payload.pix)+toNum(payload.dinheiro)+toNum(payload.fiado)+toNum(payload.cartao)+toNum(payload.boleto) > 0)) return;
+if (type === "compra" && !(toNum(payload.pix)+toNum(payload.dinheiro)+toNum(payload.aprazo) > 0)) return;
+if (type === "despesa" && (!payload.descricao || toNum(payload.valor) <= 0)) return;
 if (editId) {
-if (type === “venda”) ops.updV(editId, payload);else if (type === “compra”) ops.updC(editId, payload);else ops.updD(editId, payload);
+if (type === "venda") ops.updV(editId, payload);else if (type === "compra") ops.updC(editId, payload);else ops.updD(editId, payload);
 } else {
-if (type === “venda”) ops.addV(payload);else if (type === “compra”) ops.addC(payload);else ops.addD(payload);
+if (type === "venda") ops.addV(payload);else if (type === "compra") ops.addC(payload);else ops.addD(payload);
 }
 closeModal();
 };
@@ -4275,51 +4302,51 @@ if (!session) {
 return React.createElement(LoginScreen, { onLogin: function(u){ setSession2(u); } });
 }
 if (!ready) {
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 style: {
-display: “flex”,
-alignItems: “center”,
-justifyContent: “center”,
-height: “100vh”,
-background: “#0F172A”
+display: "flex",
+alignItems: "center",
+justifyContent: "center",
+height: "100vh",
+background: "#0F172A"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
-textAlign: “center”,
-color: “#94A3B8”,
-fontFamily: “system-ui”
+textAlign: "center",
+color: "#94A3B8",
+fontFamily: "system-ui"
 }
-}, /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 40,
 marginBottom: 12
 }
-}, “\uD83D\uDCCA”), /*#**PURE***/React.createElement(“div”, {
+}, "\uD83D\uDCCA"), /*#**PURE***/React.createElement("div", {
 style: {
 fontSize: 14,
 fontWeight: 600
 }
-}, “Carregando ERP…”)));
+}, "Carregando ERP…")));
 }
-return /*#**PURE***/React.createElement(“div”, {
+return /*#**PURE***/React.createElement("div", {
 style: {
 maxWidth: 480,
-margin: “0 auto”,
-height: “100vh”,
-display: “flex”,
-flexDirection: “column”,
+margin: "0 auto",
+height: "100vh",
+display: "flex",
+flexDirection: "column",
 background: C.bg,
-fontFamily: “‘Segoe UI’,system-ui,sans-serif”,
-overflow: “hidden”,
-position: “relative”
+fontFamily: "'Segoe UI',system-ui,sans-serif",
+overflow: "hidden",
+position: "relative"
 }
-}, /*#**PURE***/React.createElement(OfflineBar, null), /*#**PURE***/React.createElement(UserBar, { session: session, onLogout: function(){ clearSession(); setSession2(null); } }), /*#**PURE***/React.createElement(“div”, {
+}, /*#**PURE***/React.createElement(OfflineBar, null), /*#**PURE***/React.createElement(UserBar, { session: session, onLogout: function(){ clearSession(); setSession2(null); } }), /*#**PURE***/React.createElement("div", {
 style: {
 flex: 1,
-overflowY: “auto”,
-paddingBottom: nav === “mais” ? 136 : 72
+overflowY: "auto",
+paddingBottom: nav === "mais" ? 136 : 72
 }
-}, nav === “dashboard” && /*#**PURE***/React.createElement(Dashboard, {
+}, nav === "dashboard" && /*#**PURE***/React.createElement(Dashboard, {
 data: data,
 totals: totals,
 alertas: alertas,
@@ -4330,7 +4357,7 @@ setS: setS,
 e: e,
 setE: setE,
 onNew: openNew
-}), nav === “registros” && /*#**PURE***/React.createElement(Registros, {
+}), nav === "registros" && /*#**PURE***/React.createElement(Registros, {
 data: data,
 tab: regTab,
 setTab: setRegTab,
@@ -4342,30 +4369,31 @@ onToggle: function onToggle(id) {
 var cur = data.despesas.find(function (d) {
 return d.id === id;
 });
-if (cur) ops.updD(id, {
-status: cur.status === “Pago” ? “A Pagar” : “Pago”
+if (!isViewer && cur) ops.updD(id, {
+status: cur.status === "Pago" ? "A Pagar" : "Pago"
 });
 }
-}), nav === “vencimentos” && /*#**PURE***/React.createElement(Vencimentos, {
+}), nav === "vencimentos" && /*#**PURE***/React.createElement(Vencimentos, {
 venc: venc,
 onEdit: function onEdit(d) {
-return openEdit(“despesa”, d);
+return openEdit("despesa", d);
 },
 onToggle: function onToggle(id) {
+if (isViewer) return;
 return ops.updD(id, {
-status: “Pago”
+status: "Pago"
 });
 }
-}), nav === “mais” && mais === “salarios” && /*#**PURE***/React.createElement(Salarios, {
+}), nav === "mais" && mais === "salarios" && /*#**PURE***/React.createElement(Salarios, {
 data: data,
 addFunc: ops.addFunc,
 updFunc: ops.updFunc,
 delFunc: ops.delFunc,
 addAdiant: ops.addAdiant,
 delAdiant: ops.delAdiant
-}), nav === “mais” && mais === “fechamento” && /*#**PURE***/React.createElement(Fechamento, {
+}), nav === "mais" && mais === "fechamento" && /*#**PURE***/React.createElement(Fechamento, {
 data: data
-}), nav === “mais” && mais === “config” && /*#**PURE***/React.createElement(Config, {
+}), nav === "mais" && mais === "config" && /*#**PURE***/React.createElement(Config, {
 data: data,
 update: setData
 })), /*#**PURE***/React.createElement(Nav, {
@@ -4391,44 +4419,14 @@ onClose: closeModal
 }
 
 // Mount
-var root = ReactDOM.createRoot(document.getElementById(‘root’));
-root.render(/*#**PURE***/React.createElement(App, null));
+var root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(React.createElement(App));
 
 // Service Worker
-if (‘serviceWorker’ in navigator) {
-window.addEventListener(‘load’, function () {
-return navigator.serviceWorker.register(‘sw.js’);
-});
-}
-
-// Hide loading screen and mount app
-try {
-document.getElementById(‘loading’).style.display = ‘none’;
-var _root = ReactDOM.createRoot(document.getElementById(‘root’));
-_root.render(React.createElement(App));
-} catch(err) {
-document.getElementById(‘loading’).innerHTML = ’<div style="color:#F87171;font-size:14px;padding:20px;text-align:center;">Erro: ’ + err.message + ‘</div>’;
-document.getElementById(‘loading’).style.display = ‘flex’;
-console.error(err);
-}
-
-// Service Worker
-if (‘serviceWorker’ in navigator) {
-window.addEventListener(‘load’, function() {
-navigator.serviceWorker.register(‘sw.js’).catch(function(){});
-});
-}
-try {
-document.getElementById(‘loading’).style.display = ‘none’;
-var _root = ReactDOM.createRoot(document.getElementById(‘root’));
-_root.render(React.createElement(App));
-} catch(err) {
-document.getElementById(‘loading’).innerHTML = ‘<div style="color:#F87171;font-size:13px;padding:20px;text-align:center;"><b>Erro ao carregar</b><br/><br/>’ + err.message + ‘</div>’;
-document.getElementById(‘loading’).style.display = ‘flex’;
-console.error(err);
-}
-if (‘serviceWorker’ in navigator) {
-window.addEventListener(‘load’, function() { navigator.serviceWorker.register(‘sw.js’).catch(function(){}); });
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function(){});
+  });
 }
 </script>
 
