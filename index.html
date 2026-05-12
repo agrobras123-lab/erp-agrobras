@@ -1008,19 +1008,126 @@ transition: "width 0.3s"
 })));
 }));
 }
+function DonutChart(_ref17) {
+var data = _ref17.data;
+if (!data || data.length === 0) return null;
+var total = data.reduce(function (acc, item) {
+return acc + (item.value || 0);
+}, 0);
+if (total <= 0) return null;
+var size = 140;
+var stroke = 20;
+var r = (size - stroke) / 2;
+var c = 2 * Math.PI * r;
+var offset = 0;
+return /*#**PURE__*/React.createElement("div", {
+style: {
+display: "flex",
+alignItems: "center",
+gap: 12
+}
+}, /*#**PURE__*/React.createElement("svg", {
+width: size,
+height: size,
+viewBox: "0 0 ".concat(size, " ").concat(size)
+}, /*#**PURE__*/React.createElement("circle", {
+cx: size / 2,
+cy: size / 2,
+r: r,
+fill: "none",
+stroke: "#E2E8F0",
+strokeWidth: stroke
+}), data.map(function (item) {
+var val = item.value || 0;
+if (val <= 0) return null;
+var pct = val / total;
+var seg = pct * c;
+var dashoffset = c - offset;
+offset += seg;
+return /*#**PURE__*/React.createElement("circle", {
+key: item.label,
+cx: size / 2,
+cy: size / 2,
+r: r,
+fill: "none",
+stroke: item.color,
+strokeWidth: stroke,
+strokeDasharray: "".concat(seg, " ").concat(c - seg),
+strokeDashoffset: dashoffset,
+transform: "rotate(-90 ".concat(size / 2, " ").concat(size / 2, ")"),
+strokeLinecap: "butt"
+});
+}), /*#**PURE__*/React.createElement("text", {
+x: "50%",
+y: "48%",
+textAnchor: "middle",
+fontSize: "14",
+fontWeight: "800",
+fill: C.txt
+}, fmt(total)), /*#**PURE__*/React.createElement("text", {
+x: "50%",
+y: "60%",
+textAnchor: "middle",
+fontSize: "10",
+fill: C.muted
+}, "Total")), /*#**PURE__*/React.createElement("div", {
+style: {
+flex: 1
+}
+}, data.filter(function (x) {
+return (x.value || 0) > 0;
+}).map(function (item) {
+var pct = total > 0 ? Math.round(item.value / total * 100) : 0;
+return /*#**PURE__*/React.createElement("div", {
+key: item.label,
+style: {
+display: "flex",
+alignItems: "center",
+justifyContent: "space-between",
+gap: 8,
+marginBottom: 6
+}
+}, /*#**PURE__*/React.createElement("div", {
+style: {
+display: "flex",
+alignItems: "center",
+gap: 6
+}
+}, /*#**PURE__*/React.createElement("span", {
+style: {
+width: 10,
+height: 10,
+borderRadius: 999,
+background: item.color,
+display: "inline-block"
+}
+}), /*#**PURE__*/React.createElement("span", {
+style: {
+fontSize: 11,
+color: C.sub
+}
+}, item.label)), /*#**PURE__*/React.createElement("span", {
+style: {
+fontSize: 11,
+fontWeight: 700,
+color: C.txt
+}
+}, fmt(item.value), " (", pct, "%)"));
+})));
+}
 
 /* ─── DASHBOARD ─── */
-function Dashboard(_ref17) {
-var data = _ref17.data,
-totals = _ref17.totals,
-alertas = _ref17.alertas,
-p = _ref17.p,
-setP = _ref17.setP,
-s = _ref17.s,
-setS = _ref17.setS,
-e = _ref17.e,
-setE = _ref17.setE,
-onNew = _ref17.onNew;
+function Dashboard(_ref18) {
+var data = _ref18.data,
+totals = _ref18.totals,
+alertas = _ref18.alertas,
+p = _ref18.p,
+setP = _ref18.setP,
+s = _ref18.s,
+setS = _ref18.setS,
+e = _ref18.e,
+setE = _ref18.setE,
+onNew = _ref18.onNew;
 var pos = totals.lucro >= 0;
 var now = new Date();
 var weekData = useMemo(function () {
@@ -1294,10 +1401,30 @@ color: cl,
 opacity: 0.7
 }
 }, totals.tv > 0 ? (v / totals.tv * 100).toFixed(0) + "%" : ""));
-})))), /*#**PURE***/React.createElement("div", {
-style: {
-margin: "0 16px 12px"
-}
+	})))), /*#**PURE__*/React.createElement("div", {
+	style: {
+	margin: "0 16px 12px"
+	}
+	}, /*#**PURE__*/React.createElement(Card, null, /*#**PURE__*/React.createElement(SecHead, {
+	title: "Distribuição Financeira"
+	}), /*#**PURE__*/React.createElement(DonutChart, {
+	data: [{
+	label: "Vendas",
+	value: totals.tv,
+	color: "#16A34A"
+	}, {
+	label: "Compras",
+	value: totals.tc,
+	color: "#D97706"
+	}, {
+	label: "Despesas",
+	value: totals.td,
+	color: "#DC2626"
+	}]
+	}))), /*#**PURE__*/React.createElement("div", {
+	style: {
+	margin: "0 16px 12px"
+	}
 }, /*#**PURE***/React.createElement(Card, null, /*#**PURE***/React.createElement(SecHead, {
 title: "Status Despesas"
 }), /*#**PURE***/React.createElement("div", {
@@ -1464,7 +1591,8 @@ onDelC = _ref22.onDelC,
 onDelD = _ref22.onDelD,
 onToggle = _ref22.onToggle,
 search = _ref22.search,
-setSearch = _ref22.setSearch;
+setSearch = _ref22.setSearch,
+onExportCsv = _ref22.onExportCsv;
 var _useState = useState(null),
 _useState2 = _slicedToArray(_useState, 2),
 confirm = _useState2[0],
@@ -1510,10 +1638,23 @@ fontSize: 22,
 fontWeight: 800,
 marginBottom: 14
 }
-}, "Registros \uD83D\uDCCB"), /*#**PURE***/React.createElement("div", {
-style: {
-display: "flex"
-}
+	}, "Registros \uD83D\uDCCB"), /*#**PURE__*/React.createElement("button", {
+	onClick: onExportCsv,
+	style: {
+	padding: "6px 10px",
+	borderRadius: 8,
+	border: "1px solid #334155",
+	background: "#1E293B",
+	color: "#FFF",
+	cursor: "pointer",
+	fontSize: 11,
+	fontWeight: 700,
+	marginBottom: 10
+	}
+	}, "\u2B07\uFE0F Exportar CSV"), /*#**PURE__*/React.createElement("div", {
+	style: {
+	display: "flex"
+	}
 }, [["despesas", "Despesas", data.despesas.length], ["vendas", "Vendas", data.vendas.length], ["compras", "Compras", data.compras.length]].map(function (_ref23) {
 var _ref24 = _slicedToArray(_ref23, 3),
 k = _ref24[0],
@@ -1588,7 +1729,7 @@ marginBottom: 8
 icon: "\uD83D\uDCC2",
 title: "Nenhum registro",
 sub: "Use o + para lan\xE7ar"
-}) : pageItems.map(function (item) {
+}) : /*#**PURE__*/React.createElement(React.Fragment, null, pageItems.map(function (item) {
 var vi = tab === "despesas" ? vencInfo(item) : null;
 var total = totalFn(item);
 return /*#**PURE***/React.createElement(Card, {
@@ -1750,8 +1891,56 @@ cursor: "pointer"
 }, /*#**PURE***/React.createElement(Trash2, {
 size: 11,
 color: "#DC2626"
-}))))));
-})));
+	}))))));
+	})), totalPages > 1 && /*#**PURE__*/React.createElement("div", {
+	style: {
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "space-between",
+	gap: 8,
+	marginTop: 10
+	}
+	}, /*#**PURE__*/React.createElement("button", {
+	onClick: function onClick() {
+	return setPage(function (p) {
+	return Math.max(1, p - 1);
+	});
+	},
+	disabled: page <= 1,
+	style: {
+	padding: "6px 8px",
+	borderRadius: 8,
+	border: "1px solid ".concat(C.border),
+	background: page <= 1 ? "#F8FAFC" : "#FFF",
+	color: page <= 1 ? C.muted : C.txt,
+	cursor: page <= 1 ? "not-allowed" : "pointer",
+	fontSize: 11,
+	fontWeight: 600
+	}
+	}, "\u2190 Anterior"), /*#**PURE__*/React.createElement("span", {
+	style: {
+	fontSize: 11,
+	color: C.muted,
+	fontWeight: 600
+	}
+	}, page, " / ", totalPages), /*#**PURE__*/React.createElement("button", {
+	onClick: function onClick() {
+	return setPage(function (p) {
+	return Math.min(totalPages, p + 1);
+	});
+	},
+	disabled: page >= totalPages,
+	style: {
+	padding: "6px 8px",
+	borderRadius: 8,
+	border: "1px solid ".concat(C.border),
+	background: page >= totalPages ? "#F8FAFC" : "#FFF",
+	color: page >= totalPages ? C.muted : C.txt,
+	cursor: page >= totalPages ? "not-allowed" : "pointer",
+	fontSize: 11,
+	fontWeight: 600
+	}
+		}, "Pr\xF3xima \u2192"))));
 }
 
 /* ─── VENC CARD ─── */
@@ -4353,6 +4542,48 @@ initialForm: _objectSpread({}, item)
 var closeModal = function closeModal() {
 return setModal(null);
 };
+var exportCsv = function exportCsv() {
+var rows = [["tipo", "data", "descricao", "categoria", "valor", "status", "obs"]];
+[{
+tipo: "despesa",
+items: data.despesas,
+getValor: function getValor(i) {
+return i.valor || 0;
+}
+}, {
+tipo: "venda",
+items: data.vendas,
+getValor: function getValor(i) {
+return vtotal(i);
+}
+}, {
+tipo: "compra",
+items: data.compras,
+getValor: function getValor(i) {
+return ctotal(i);
+}
+}].forEach(function (group) {
+group.items.forEach(function (item) {
+rows.push([group.tipo, item.data || "", item.descricao || "", item.categoria || "", String(group.getValor(item)).replace(".", ","), item.status || "", item.obs || ""]);
+});
+});
+var csv = rows.map(function (r) {
+return r.map(function (cell) {
+return "\"".concat(String(cell).replace(/\"/g, "\"\""), "\"");
+}).join(";");
+}).join("\n");
+var blob = new Blob([csv], {
+type: "text/csv;charset=utf-8;"
+});
+var url = URL.createObjectURL(blob);
+var a = document.createElement("a");
+a.href = url;
+a.download = "registros_".concat(today(), ".csv");
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+URL.revokeObjectURL(url);
+};
 var handleSubmit = function handleSubmit(type, editId, payload) {
 if (isViewer) return;
 if (type === "venda" && !(toNum(payload.pix)+toNum(payload.dinheiro)+toNum(payload.fiado)+toNum(payload.cartao)+toNum(payload.boleto) > 0)) return;
@@ -4431,10 +4662,11 @@ setTab: setRegTab,
 onEdit: openEdit,
 onDelV: ops.delV,
 onDelC: ops.delC,
-onDelD: ops.delD,
-search: regSearch,
-setSearch: setRegSearch,
-onToggle: function onToggle(id) {
+	onDelD: ops.delD,
+	search: regSearch,
+	setSearch: setRegSearch,
+	onExportCsv: exportCsv,
+	onToggle: function onToggle(id) {
 var cur = data.despesas.find(function (d) {
 return d.id === id;
 });
