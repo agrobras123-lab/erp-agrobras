@@ -35,26 +35,12 @@
     if (!loadingEl) return;
     loadingEl.innerHTML = '<div style="font-size:40px">⚠️</div><span style="max-width:260px;text-align:center;line-height:1.4">'+msg+'</span>';
   }
-
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function(regs){
-      return Promise.all(regs.map(function(reg){ return reg.unregister(); }));
-    }).then(function(){
-      return caches && caches.keys ? caches.keys().then(function(keys){ return Promise.all(keys.map(function(k){ return caches.delete(k); })); }) : null;
-    }).then(function(){
-      if (!sessionStorage.getItem("erp_cache_reset")) {
-        sessionStorage.setItem("erp_cache_reset", "1");
-        location.reload();
-      }
-    }).catch(function(){});
-  }
-
   window.addEventListener("error", function(){
     fail("Falha ao iniciar o sistema. Atualize a página (Ctrl+F5).");
   });
   setTimeout(function(){
     if (loadingEl && loadingEl.style.display !== "none") {
-      fail("Demora inesperada ao carregar. Verifique internet/CDN e recarregue.");
+      fail("Demora inesperada ao carregar. Limpe o cache e recarregue.");
     }
   }, 8000);
 })();
@@ -4445,6 +4431,13 @@ root.render(React.createElement(App));
 var loadingEl = document.getElementById("loading");
 if (loadingEl) {
   loadingEl.style.display = "none";
+}
+
+// Service Worker
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function(){});
+  });
 }
 
 </script>
