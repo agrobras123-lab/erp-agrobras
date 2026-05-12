@@ -4138,6 +4138,7 @@ updFunc: function updFunc(id, ch) {
 return upd("funcionarios", id, ch);
 },
 delFunc: function delFunc(id) {
+if (isViewer) return;
 return mut(function (d) {
 return _objectSpread(_objectSpread({}, d), {}, {
 funcionarios: d.funcionarios.filter(function (x) {
@@ -4150,6 +4151,7 @@ return x.funcId !== id;
 });
 },
 addAdiant: function addAdiant(a) {
+if (isViewer) return;
 var id = uid();
 mut(function (d) {
 return _objectSpread(_objectSpread({}, d), {}, {
@@ -4172,6 +4174,7 @@ _adiantId: id
 });
 },
 delAdiant: function delAdiant(id) {
+if (isViewer) return;
 return mut(function (d) {
 return _objectSpread(_objectSpread({}, d), {}, {
 adiantamentos: d.adiantamentos.filter(function (x) {
@@ -4273,6 +4276,10 @@ var closeModal = function closeModal() {
 return setModal(null);
 };
 var handleSubmit = function handleSubmit(type, editId, payload) {
+if (isViewer) return;
+if (type === "venda" && !(toNum(payload.pix)+toNum(payload.dinheiro)+toNum(payload.fiado)+toNum(payload.cartao)+toNum(payload.boleto) > 0)) return;
+if (type === "compra" && !(toNum(payload.pix)+toNum(payload.dinheiro)+toNum(payload.aprazo) > 0)) return;
+if (type === "despesa" && (!payload.descricao || toNum(payload.valor) <= 0)) return;
 if (editId) {
 if (type === "venda") ops.updV(editId, payload);else if (type === "compra") ops.updC(editId, payload);else ops.updD(editId, payload);
 } else {
@@ -4361,6 +4368,7 @@ onEdit: function onEdit(d) {
 return openEdit("despesa", d);
 },
 onToggle: function onToggle(id) {
+if (isViewer) return;
 return ops.updD(id, {
 status: "Pago"
 });
