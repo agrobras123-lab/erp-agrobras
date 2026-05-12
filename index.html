@@ -1462,7 +1462,9 @@ onEdit = _ref22.onEdit,
 onDelV = _ref22.onDelV,
 onDelC = _ref22.onDelC,
 onDelD = _ref22.onDelD,
-onToggle = _ref22.onToggle;
+onToggle = _ref22.onToggle,
+search = _ref22.search,
+setSearch = _ref22.setSearch;
 var _useState = useState(null),
 _useState2 = _slicedToArray(_useState, 2),
 confirm = _useState2[0],
@@ -1475,6 +1477,23 @@ var raw = tab === "vendas" ? data.vendas : tab === "compras" ? data.compras : da
 var sorted = _toConsumableArray(raw).sort(function (a, b) {
 return (b.data || "").localeCompare(a.data || "");
 });
+var term = (search || "").trim().toLowerCase();
+var filtered = term ? sorted.filter(function (item) {
+var txt = [item.descricao || "", item.obs || "", item.data || "", item.categoria || "", item.tipo || ""].join(" ").toLowerCase();
+return txt.indexOf(term) !== -1;
+}) : sorted;
+var _useState3 = useState(1),
+_useState4 = _slicedToArray(_useState3, 2),
+page = _useState4[0],
+setPage = _useState4[1];
+useEffect(function () {
+setPage(1);
+}, [tab, term]);
+var totalPages = Math.max(1, Math.ceil(filtered.length / 12));
+useEffect(function () {
+if (page > totalPages) setPage(totalPages);
+}, [page, totalPages]);
+var pageItems = filtered.slice((page - 1) * 12, page * 12);
 var totalFn = function totalFn(item) {
 return tab === "vendas" ? vtotal(item) : tab === "compras" ? ctotal(item) : item.valor || 0;
 };
@@ -1505,6 +1524,7 @@ key: k,
 onClick: function onClick() {
 setTab(k);
 setConfirm(null);
+setSearch("");
 },
 style: {
 flex: 1,
@@ -1527,11 +1547,48 @@ opacity: 0.7
 style: {
 padding: "12px 16px"
 }
-}, sorted.length === 0 ? /*#**PURE***/React.createElement(Empty, {
+}, /*#**PURE***/React.createElement("div", {
+style: {
+display: "flex",
+gap: 8,
+marginBottom: 8
+}
+}, /*#**PURE***/React.createElement("input", {
+value: search,
+onChange: function onChange(ev) {
+return setSearch(ev.target.value);
+},
+placeholder: "Buscar registros...",
+style: {
+flex: 1,
+padding: "8px 10px",
+borderRadius: 8,
+border: "1px solid ".concat(C.border),
+fontSize: 12
+}
+}), search && /*#**PURE__*/React.createElement("button", {
+onClick: function onClick() {
+return setSearch("");
+},
+style: {
+padding: "6px 8px",
+borderRadius: 8,
+border: "1px solid ".concat(C.border),
+background: "#FFF",
+cursor: "pointer",
+fontSize: 11
+}
+}, "Limpar")), term && /*#**PURE__*/React.createElement("div", {
+style: {
+fontSize: 11,
+color: C.muted,
+marginBottom: 8
+}
+}, filtered.length, " resultados para \"", search, "\""), filtered.length === 0 ? /*#**PURE***/React.createElement(Empty, {
 icon: "\uD83D\uDCC2",
 title: "Nenhum registro",
 sub: "Use o + para lan\xE7ar"
-}) : sorted.map(function (item) {
+}) : pageItems.map(function (item) {
 var vi = tab === "despesas" ? vencInfo(item) : null;
 var total = totalFn(item);
 return /*#**PURE***/React.createElement(Card, {
@@ -4069,18 +4126,22 @@ var _useState53 = useState("despesas"),
 _useState54 = _slicedToArray(_useState53, 2),
 regTab = _useState54[0],
 setRegTab = _useState54[1];
-var _useState55 = useState("mes"),
+var _useState55 = useState(""),
 _useState56 = _slicedToArray(_useState55, 2),
-p = _useState56[0],
-setP = _useState56[1],
-_useState57 = useState(""),
+regSearch = _useState56[0],
+setRegSearch = _useState56[1];
+var _useState57 = useState("mes"),
 _useState58 = _slicedToArray(_useState57, 2),
-s = _useState58[0],
-setS = _useState58[1],
+p = _useState58[0],
+setP = _useState58[1],
 _useState59 = useState(""),
 _useState60 = _slicedToArray(_useState59, 2),
-e = _useState60[0],
-setE = _useState60[1];
+s = _useState60[0],
+setS = _useState60[1],
+_useState61 = useState(""),
+_useState62 = _slicedToArray(_useState61, 2),
+e = _useState62[0],
+setE = _useState62[1];
 useEffect(function () {
 load().then(function (d) {
 if (d) setData(function (prev) {
@@ -4371,6 +4432,8 @@ onEdit: openEdit,
 onDelV: ops.delV,
 onDelC: ops.delC,
 onDelD: ops.delD,
+search: regSearch,
+setSearch: setRegSearch,
 onToggle: function onToggle(id) {
 var cur = data.despesas.find(function (d) {
 return d.id === id;
