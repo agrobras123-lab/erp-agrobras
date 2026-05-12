@@ -4103,49 +4103,38 @@ return x.id !== id;
 };
 var ops = {
 addV: function addV(v) {
-if (isViewer) return;
 return add("vendas", v);
 },
 addC: function addC(c) {
-if (isViewer) return;
 return add("compras", c);
 },
 addD: function addD(dp) {
-if (isViewer) return;
 return add("despesas", dp);
 },
 updV: function updV(id, ch) {
-if (isViewer) return;
 return upd("vendas", id, ch);
 },
 updC: function updC(id, ch) {
-if (isViewer) return;
 return upd("compras", id, ch);
 },
 updD: function updD(id, ch) {
-if (isViewer) return;
 return upd("despesas", id, ch);
 },
 delV: function delV(id) {
-if (isViewer) return;
 return del("vendas", id);
 },
 delC: function delC(id) {
-if (isViewer) return;
 return del("compras", id);
 },
 delD: function delD(id) {
-if (isViewer) return;
 return del("despesas", id);
 },
 addFunc: function addFunc(f) {
-if (isViewer) return;
 return add("funcionarios", _objectSpread({
 ativo: true
 }, f));
 },
 updFunc: function updFunc(id, ch) {
-if (isViewer) return;
 return upd("funcionarios", id, ch);
 },
 delFunc: function delFunc(id) {
@@ -4369,7 +4358,7 @@ onToggle: function onToggle(id) {
 var cur = data.despesas.find(function (d) {
 return d.id === id;
 });
-if (!isViewer && cur) ops.updD(id, {
+if (cur) ops.updD(id, {
 status: cur.status === "Pago" ? "A Pagar" : "Pago"
 });
 }
