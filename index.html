@@ -1588,7 +1588,7 @@ marginBottom: 8
 icon: "\uD83D\uDCC2",
 title: "Nenhum registro",
 sub: "Use o + para lan\xE7ar"
-}) : pageItems.map(function (item) {
+}) : /*#**PURE__*/React.createElement(React.Fragment, null, pageItems.map(function (item) {
 var vi = tab === "despesas" ? vencInfo(item) : null;
 var total = totalFn(item);
 return /*#**PURE***/React.createElement(Card, {
@@ -1750,8 +1750,56 @@ cursor: "pointer"
 }, /*#**PURE***/React.createElement(Trash2, {
 size: 11,
 color: "#DC2626"
-}))))));
-})));
+	}))))));
+	})), totalPages > 1 && /*#**PURE__*/React.createElement("div", {
+	style: {
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "space-between",
+	gap: 8,
+	marginTop: 10
+	}
+	}, /*#**PURE__*/React.createElement("button", {
+	onClick: function onClick() {
+	return setPage(function (p) {
+	return Math.max(1, p - 1);
+	});
+	},
+	disabled: page <= 1,
+	style: {
+	padding: "6px 8px",
+	borderRadius: 8,
+	border: "1px solid ".concat(C.border),
+	background: page <= 1 ? "#F8FAFC" : "#FFF",
+	color: page <= 1 ? C.muted : C.txt,
+	cursor: page <= 1 ? "not-allowed" : "pointer",
+	fontSize: 11,
+	fontWeight: 600
+	}
+	}, "\u2190 Anterior"), /*#**PURE__*/React.createElement("span", {
+	style: {
+	fontSize: 11,
+	color: C.muted,
+	fontWeight: 600
+	}
+	}, page, " / ", totalPages), /*#**PURE__*/React.createElement("button", {
+	onClick: function onClick() {
+	return setPage(function (p) {
+	return Math.min(totalPages, p + 1);
+	});
+	},
+	disabled: page >= totalPages,
+	style: {
+	padding: "6px 8px",
+	borderRadius: 8,
+	border: "1px solid ".concat(C.border),
+	background: page >= totalPages ? "#F8FAFC" : "#FFF",
+	color: page >= totalPages ? C.muted : C.txt,
+	cursor: page >= totalPages ? "not-allowed" : "pointer",
+	fontSize: 11,
+	fontWeight: 600
+	}
+	}, "Pr\xF3xima \u2192")));
 }
 
 /* ─── VENC CARD ─── */
