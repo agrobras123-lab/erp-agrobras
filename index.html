@@ -4567,9 +4567,16 @@ group.items.forEach(function (item) {
 rows.push([group.tipo, item.data || "", item.descricao || "", item.categoria || "", String(group.getValor(item)).replace(".", ","), item.status || "", item.obs || ""]);
 });
 });
+var sanitizeCsvCell = function sanitizeCsvCell(cell) {
+var text = String(cell == null ? "" : cell);
+if (/^[\t\r ]*[=+\-@]/.test(text)) {
+return "'".concat(text);
+}
+return text;
+};
 var csv = rows.map(function (r) {
 return r.map(function (cell) {
-return "\"".concat(String(cell).replace(/\"/g, "\"\""), "\"");
+return "\"".concat(sanitizeCsvCell(cell).replace(/\"/g, "\"\""), "\"");
 }).join(";");
 }).join("\n");
 var blob = new Blob([csv], {
