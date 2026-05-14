@@ -119,7 +119,7 @@ function saveData(data,onStatus){
   });
 }
 function loadData(){
-  return fetch(FB_URL).then(function(r){if(!r.ok)throw new Error("e");return r.json()}).then(function(j){return JSON.parse(j.fields.payload.stringValue)}).catch(function(){try{var p=localStorage.getItem(OFK);if(p)return JSON.parse(p)}catch(e){}return null});
+  return fetch(FB_URL).then(function(r){if(!r.ok)throw new Error("e");return r.json()}).then(function(j){return{data:JSON.parse(j.fields.payload.stringValue),source:"cloud"}}).catch(function(){try{var p=localStorage.getItem(OFK);if(p)return{data:JSON.parse(p),source:"local"}}catch(e){}return{data:null,source:"empty"}});
 }
 window.addEventListener("online",function(){
   try{
@@ -167,7 +167,7 @@ function AppIcon(p){
 function SyncBar(p){
   var st=p.status;
   if(!st||st==='idle')return null;
-  var map={saving:{bg:"#D97706",txt:"⏳ Salvando..."},cloud:{bg:"#16A34A",txt:"☁️ Salvo na nuvem"},local:{bg:"#92400E",txt:"📱 Salvo localmente — sem internet"},error:{bg:"#DC2626",txt:"⚠️ Erro — salvo localmente"},syncing:{bg:"#1B5E20",txt:"🔄 Sincronizando..."},synced:{bg:"#16A34A",txt:"✅ Sincronizado com sucesso"}};
+  var map={saving:{bg:"#D97706",txt:"⏳ Salvando..."},cloud:{bg:"#16A34A",txt:"☁️ Salvo na nuvem"},local:{bg:"#92400E",txt:"📱 Salvo localmente — sem internet"},error:{bg:"#DC2626",txt:"⚠️ Erro — salvo localmente"},syncing:{bg:"#1B5E20",txt:"🔄 Sincronizando..."},synced:{bg:"#16A34A",txt:"✅ Sincronizado com sucesso"},loadLocal:{bg:"#92400E",txt:"📱 Dados carregados localmente — Firestore indisponível"},loadError:{bg:"#DC2626",txt:"⚠️ Firestore indisponível e sem dados locais — verifique a conexão"}};
   var c=map[st];if(!c)return null;
   var isPulse=st==='saving'||st==='syncing';
   return ce("div",{style:{position:"fixed",top:14,left:"50%",transform:"translateX(-50%)",background:c.bg,color:"#FFF",padding:"7px 18px",borderRadius:24,fontSize:11,fontWeight:700,zIndex:9999,boxShadow:"0 4px 18px rgba(0,0,0,.25)",animation:isPulse?"blink 1.3s infinite":"fadeIn .25s ease",whiteSpace:"nowrap",letterSpacing:".01em"}},c.txt);
@@ -960,9 +960,11 @@ function App(){
   window._setSyncStatus=setSyncSt;
 
   useEffect(function(){
-    loadData().then(function(d){
-      if(d)setData(function(prev){return _o({},INIT,d)});
+    loadData().then(function(result){
+      if(result.data)setData(function(prev){return _o({},INIT,result.data)});
       setReady(true);
+      if(result.source==="local"){setSyncSt("loadLocal");setTimeout(function(){setSyncSt("idle")},5000);}
+      else if(result.source==="empty"){setSyncSt("loadError");setTimeout(function(){setSyncSt("idle")},8000);}
     });
   },[]);
 
