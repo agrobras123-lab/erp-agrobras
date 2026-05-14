@@ -344,7 +344,7 @@ function LoginScreen(p){
   );
 }
 
-var INIT={vendas:[],compras:[],despesas:[],funcionarios:[],adiantamentos:[],catsDespesa:["Funcionarios","Gastos Ext","Banco","Veiculos","Impostos","Outros"],catsCompra:["Matéria-prima","Embalagem","Insumos","Outros"]};
+var INIT={vendas:[],compras:[],despesas:[],funcionarios:[],adiantamentos:[],catsDespesa:["Funcionários","Gastos Ext","Banco","Veiculos","Impostos","Outros"],catsCompra:["Matéria-prima","Embalagem","Insumos","Outros"]};
 
 /* DASHBOARD */
 function Dashboard(p){
@@ -880,7 +880,7 @@ function Modal(p){
           ce("option",{value:""},"Selecione…"),p.cats.despesa.map(function(c){return ce("option",{key:c,value:c},c)})),
         ce("label",{style:lbl},"Tipo"),
         ce("div",{style:{display:"flex",gap:8,marginBottom:8}},
-          [["Fixo","📌 Fixo"],["Variavel","🔄 Variável"]].map(function(it){return ce("button",{key:it[0],onClick:function(){set("tipo",it[0])},style:{flex:1,padding:10,borderRadius:10,border:"2px solid "+(form.tipo===it[0]?C.acc:C.border),background:form.tipo===it[0]?"#F1F8E9":"#FFF",cursor:"pointer",fontSize:13,fontWeight:700,color:form.tipo===it[0]?C.acc:C.muted}},it[1])})
+          [["Fixo","📌 Fixo"],["Variável","🔄 Variável"]].map(function(it){return ce("button",{key:it[0],onClick:function(){set("tipo",it[0])},style:{flex:1,padding:10,borderRadius:10,border:"2px solid "+(form.tipo===it[0]?C.acc:C.border),background:form.tipo===it[0]?"#F1F8E9":"#FFF",cursor:"pointer",fontSize:13,fontWeight:700,color:form.tipo===it[0]?C.acc:C.muted}},it[1])})
         ),
         ce("label",{style:lbl},"Status"),
         ce("div",{style:{display:"flex",gap:8,marginBottom:8}},
@@ -1006,7 +1006,7 @@ function App(){
     delFunc:guard(function(id){mut(function(d){return _o({},d,{funcionarios:d.funcionarios.filter(function(x){return x.id!==id}),adiantamentos:d.adiantamentos.filter(function(x){return x.funcId!==id})})})}),
     addAdiant:guard(function(a){
       var aid=uid();
-      mut(function(d){var fn=d.funcionarios.find(function(f){return f.id===a.funcId});return _o({},d,{adiantamentos:d.adiantamentos.concat([_o({id:aid},a)]),despesas:d.despesas.concat([{id:uid(),data:a.data,descricao:"Vale — "+(fn?fn.nome:"Funcionário"),categoria:"Funcionarios",tipo:"Variavel",valor:a.valor,status:"Pago",_adiantId:aid}])})});
+      mut(function(d){var fn=d.funcionarios.find(function(f){return f.id===a.funcId});return _o({},d,{adiantamentos:d.adiantamentos.concat([_o({id:aid},a)]),despesas:d.despesas.concat([{id:uid(),data:a.data,descricao:"Vale — "+(fn?fn.nome:"Funcionário"),categoria:"Funcionários",tipo:"Variável",valor:a.valor,status:"Pago",_adiantId:aid}])})});
     }),
     delAdiant:guard(function(id){mut(function(d){return _o({},d,{adiantamentos:d.adiantamentos.filter(function(x){return x.id!==id}),despesas:d.despesas.filter(function(x){return x._adiantId!==id})})})})
   };
@@ -1022,7 +1022,7 @@ function App(){
   var venc=useMemo(function(){return data.despesas.filter(function(d){return d.vencimento&&d.status==="A Pagar"}).sort(function(a,b){return vencInfo(a).ord-vencInfo(b).ord})},[data.despesas]);
   var alertas=useMemo(function(){return venc.filter(function(d){var dd=diffDays(d.vencimento);return dd!==null&&dd<=3})},[venc]);
 
-  function openNew(type){if(isViewer)return;setModal({type:type||"despesa",editId:null,initialForm:{data:today(),status:"A Pagar",tipo:"Variavel",recorrente:false,frequencia:"mensal",nRep:"6"}})}
+  function openNew(type){if(isViewer)return;setModal({type:type||"despesa",editId:null,initialForm:{data:today(),status:"A Pagar",tipo:"Variável",recorrente:false,frequencia:"mensal",nRep:"6"}})}
   function openEdit(type,item){if(isViewer)return;setModal({type:type,editId:item.id,initialForm:_o({},item)})}
   function closeModal(){setModal(null)}
   function goVenc(){setNav("vencimentos")}
