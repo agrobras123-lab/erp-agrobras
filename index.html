@@ -501,7 +501,8 @@ function Registros(p){
                 item.categoria&&ce(Badge,{text:item.categoria,bg:"#F1F8E9",cl:C.acc}),
                 item.tipo&&ce(Badge,{text:item.tipo,bg:"#F8FAFC",cl:C.sub}),
                 vi&&ce(Badge,{text:vi.icon+" "+vi.label,bg:vi.bg,cl:vi.cl}),
-                item.vencimento&&ce("span",{style:{fontSize:10,color:C.muted}},"Venc: "+fmtD(item.vencimento))
+                item.vencimento&&ce("span",{style:{fontSize:10,color:C.muted}},"Venc: "+fmtD(item.vencimento)),
+                item.dataPagamento&&ce("span",{style:{fontSize:10,color:"#16A34A",fontWeight:700}},"Pago em: "+fmtD(item.dataPagamento))
               ),
               tab==="compras"&&item.categoria&&ce("div",{style:{marginTop:4}},ce(Badge,{text:item.categoria,bg:"#FEF3C7",cl:"#D97706"}))
             ),
@@ -792,6 +793,23 @@ function Config(p){
   var data=p.data,update=p.update,isViewer=p.isViewer;
   var s1=useState(""),newD=s1[0],setNewD=s1[1];
   var s2=useState(""),newC=s2[0],setNewC=s2[1];
+  var sbl=useState(null),backups=sbl[0],setBackups=sbl[1];
+  var slb=useState(false),loadingBkp=slb[0],setLoadingBkp=slb[1];
+  var scr=useState(null),confirmRestore=scr[0],setConfirmRestore=scr[1];
+  function fmtTag(tag){var p2=tag.replace("backup_","").split("_");if(p2.length<2)return tag;var dt=p2[0].split("-"),tm=p2[1].split("-");return dt[2]+"/"+dt[1]+"/"+dt[0]+" "+tm[0]+":"+tm[1]+":"+tm[2]}
+  function fetchBackups(){
+    setLoadingBkp(true);setBackups(null);
+    fetch(FB_BASE+"/backups?key="+FB_KEY+"&pageSize=30")
+      .then(function(r){return r.json()})
+      .then(function(j){var docs=(j.documents||[]).map(function(doc){return{tag:doc.name.split("/").pop(),name:doc.name}});docs.sort(function(a,b){return b.tag.localeCompare(a.tag)});setBackups(docs);setLoadingBkp(false)})
+      .catch(function(){setBackups([]);setLoadingBkp(false)});
+  }
+  function doRestore(tag){
+    fetch(FB_BASE+"/backups/"+tag+"?key="+FB_KEY)
+      .then(function(r){return r.json()})
+      .then(function(j){var d=JSON.parse(j.fields.payload.stringValue);update(function(){return _o({},INIT,d)});setConfirmRestore(null);setBackups(null)})
+      .catch(function(){setConfirmRestore(null)});
+  }
   function addCat(field,val,list){var v=val.trim();if(!v||list.includes(v))return;update(function(d){var n=_o({},d);n[field]=d[field].concat([v]);return n})}
   function remCat(field,cat){update(function(d){var n=_o({},d);n[field]=d[field].filter(function(c){return c!==cat});return n})}
   function CatBlock(bp){
@@ -812,6 +830,27 @@ function Config(p){
       ce(CatBlock,{title:"Categorias de Compra",field:"catsCompra",list:data.catsCompra,val:newC,setVal:setNewC,acBg:"#FEF3C7",acCl:"#D97706",acBtn:"#D97706"}),
       ce(Card,null,ce(SecHead,{title:"Resumo do Sistema"}),
         [["Dias de venda",data.vendas.length],["Dias de compra",data.compras.length],["Despesas",data.despesas.length],["Funcionários",data.funcionarios.length],["Adiantamentos",data.adiantamentos.length]].map(function(it){return ce("div",{key:it[0],style:{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:"1px solid "+C.border}},ce("span",{style:{fontSize:12,color:C.sub}},it[0]),ce("span",{style:{fontSize:12,fontWeight:800,color:C.txt}},it[1]+" reg."))})
+      ),
+      !isViewer&&ce(Card,{style:{marginBottom:12}},
+        ce(SecHead,{title:"Backups do Firestore"}),
+        confirmRestore
+          ?ce("div",{style:{background:"#FEE2E2",borderRadius:10,padding:12,border:"1px solid #FECACA"}},
+              ce("div",{style:{fontSize:12,fontWeight:700,color:"#991B1B",marginBottom:6}},"⚠️ Restaurar substituirá TODOS os dados atuais."),
+              ce("div",{style:{fontSize:11,color:"#991B1B",marginBottom:10}},"Backup: "+fmtTag(confirmRestore)),
+              ce("div",{style:{display:"flex",gap:8}},
+                ce("button",{onClick:function(){doRestore(confirmRestore)},style:{flex:1,padding:"8px 0",borderRadius:8,background:"#DC2626",color:"#FFF",border:"none",cursor:"pointer",fontWeight:800,fontSize:12}},"Confirmar restauração"),
+                ce("button",{onClick:function(){setConfirmRestore(null)},style:{flex:1,padding:"8px 0",borderRadius:8,background:"none",border:"1px solid "+C.border,cursor:"pointer",fontSize:12,fontWeight:700}},"Cancelar")))
+          :ce(R.Fragment,null,
+              ce("button",{onClick:fetchBackups,disabled:loadingBkp,style:{width:"100%",padding:"9px 0",borderRadius:8,background:C.acc,color:"#FFF",border:"none",cursor:loadingBkp?"not-allowed":"pointer",fontWeight:800,fontSize:12,opacity:loadingBkp?0.7:1}},loadingBkp?"⏳ Carregando...":"📦 Listar Backups"),
+              backups!==null&&(backups.length===0
+                ?ce("div",{style:{textAlign:"center",padding:"12px 0",fontSize:12,color:C.muted}},"Nenhum backup encontrado.")
+                :ce("div",{style:{marginTop:10,display:"flex",flexDirection:"column",gap:6}},
+                    backups.map(function(bk){return ce("div",{key:bk.tag,style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"6px 10px",background:"#F8FAFC",borderRadius:8,border:"1px solid "+C.border}},
+                      ce("span",{style:{fontSize:12,color:C.txt,fontWeight:600}},fmtTag(bk.tag)),
+                      ce("button",{onClick:function(){setConfirmRestore(bk.tag)},style:{padding:"4px 10px",borderRadius:6,background:"none",border:"1px solid #DC2626",color:"#DC2626",cursor:"pointer",fontSize:11,fontWeight:700}},"Restaurar"))})
+                  )
+              )
+          )
       ),
       ce("div",{style:{textAlign:"center",marginTop:24,color:C.muted,fontSize:11,paddingBottom:8}},"ERP Agro Bras · v5.0 · 2026")
     )
@@ -916,6 +955,10 @@ function Modal(p){
         form.status==="A Pagar"&&ce(R.Fragment,null,
           ce("label",{style:lbl},"Vencimento (opcional)"),
           ce("input",{type:"date",value:form.vencimento||"",onChange:function(e){set("vencimento",e.target.value)},style:fst})
+        ),
+        form.status==="Pago"&&ce(R.Fragment,null,
+          ce("label",{style:lbl},"Data do pagamento"),
+          ce("input",{type:"date",value:form.dataPagamento||"",onChange:function(e){set("dataPagamento",e.target.value)},style:fst})
         ),
         !p.editId&&ce(R.Fragment,null,
           ce("div",{style:{borderTop:"1px solid "+C.border,paddingTop:12,marginTop:4}}),
@@ -1090,8 +1133,8 @@ function App(){
     ),
     ce("div",{style:{flex:1,overflowY:"auto",paddingBottom:nav==="mais"?136:72}},
       nav==="dashboard"&&ce(Dashboard,{data:data,totals:totals,alertas:alertas,p:per,setP:setPer,s:s,setS:setS,e:e,setE:setE,onNew:openNew,onGoVenc:goVenc}),
-      nav==="registros"&&ce(Registros,{data:data,tab:regTab,setTab:setRegTab,onEdit:openEdit,isViewer:isViewer,onDelV:ops.delV,onDelC:ops.delC,onDelD:ops.delD,onToggle:function(id){if(isViewer)return;var cur=data.despesas.find(function(d){return d.id===id});if(cur)ops.updD(id,{status:cur.status==="Pago"?"A Pagar":"Pago"})},onBatchPay:function(ids){if(isViewer)return;var now=localDate();mut(function(d){var n=_o({},d);n.despesas=d.despesas.map(function(x){return ids.indexOf(x.id)>=0?_o({},x,{status:"Pago",dataPagamento:now}):x});return n})}}),
-      nav==="vencimentos"&&ce(Vencimentos,{venc:venc,isViewer:isViewer,onEdit:function(d){openEdit("despesa",d)},onToggle:function(id){if(isViewer)return;ops.updD(id,{status:"Pago"})}}),
+      nav==="registros"&&ce(Registros,{data:data,tab:regTab,setTab:setRegTab,onEdit:openEdit,isViewer:isViewer,onDelV:ops.delV,onDelC:ops.delC,onDelD:ops.delD,onToggle:function(id){if(isViewer)return;var cur=data.despesas.find(function(d){return d.id===id});if(cur)ops.updD(id,{status:cur.status==="Pago"?"A Pagar":"Pago",dataPagamento:cur.status==="Pago"?null:localDate()})},onBatchPay:function(ids){if(isViewer)return;var now=localDate();mut(function(d){var n=_o({},d);n.despesas=d.despesas.map(function(x){return ids.indexOf(x.id)>=0?_o({},x,{status:"Pago",dataPagamento:now}):x});return n})}}),
+      nav==="vencimentos"&&ce(Vencimentos,{venc:venc,isViewer:isViewer,onEdit:function(d){openEdit("despesa",d)},onToggle:function(id){if(isViewer)return;ops.updD(id,{status:"Pago",dataPagamento:localDate()})}}),
       nav==="mais"&&mais==="salarios"&&ce(Salarios,{data:data,isViewer:isViewer,addFunc:ops.addFunc,updFunc:ops.updFunc,delFunc:ops.delFunc,addAdiant:ops.addAdiant,delAdiant:ops.delAdiant}),
       nav==="mais"&&mais==="fechamento"&&ce(Fechamento,{data:data}),
       nav==="mais"&&mais==="config"&&ce(Config,{data:data,isViewer:isViewer,update:isViewer?function(){}:setData})
