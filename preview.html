@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Preview — Agro Bras</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#1a1a2e;font-family:'Segoe UI',system-ui,sans-serif;display:flex;gap:24px;padding:24px;justify-content:center;flex-wrap:wrap;min-height:100vh;align-items:flex-start}
+.phone{width:375px;height:780px;border-radius:40px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.6);border:8px solid #2a2a3e;position:relative;flex-shrink:0}
+.phone-label{color:#94A3B8;font-size:12px;font-weight:600;text-align:center;margin-bottom:10px;letter-spacing:.08em;text-transform:uppercase}
+.screen{width:100%;height:100%;overflow-y:auto;background:#F1F5F9}
+/* LOGIN */
+.login-bg{min-height:100%;background:linear-gradient(160deg,#071f07 0%,#0d3b0d 40%,#1B5E20 100%);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;position:relative;overflow:hidden}
+.login-circle-1{position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.06)}
+.login-circle-2{position:absolute;top:60px;left:-100px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.04)}
+.login-circle-3{position:absolute;top:180px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05)}
+.login-top{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:48px;position:relative;z-index:1}
+.login-icon-wrap{background:rgba(255,255,255,.12);border-radius:22px;padding:18px;margin-bottom:18px;border:1px solid rgba(255,255,255,.2)}
+.login-icon{width:56px;height:56px}
+.login-brand{color:#fff;font-size:28px;font-weight:800;letter-spacing:-.02em}
+.login-sub{color:rgba(255,255,255,.6);font-size:13px;margin-top:6px;font-weight:500}
+.login-card{background:#fff;border-radius:28px 28px 0 0;padding:32px 24px 44px;width:100%;position:relative;z-index:1;box-shadow:0 -12px 48px rgba(0,0,0,.2)}
+.login-title{font-size:22px;font-weight:800;color:#1E293B;letter-spacing:-.01em}
+.login-desc{font-size:14px;color:#94A3B8;margin-top:4px;margin-bottom:28px}
+.field-label{font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.field-input{width:100%;padding:15px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#F8FAFC;color:#1E293B;font-size:15px;font-family:inherit;margin-bottom:16px}
+.login-btn{width:100%;padding:17px;border-radius:14px;border:none;background:linear-gradient(135deg,#1B5E20,#16A34A);color:#fff;font-weight:800;font-size:16px;cursor:pointer;box-shadow:0 6px 24px rgba(27,94,32,.4);letter-spacing:-.01em}
+.login-secure{margin-top:20px;text-align:center;font-size:11px;color:#94A3B8;font-weight:500}
+/* DASHBOARD */
+.dash{background:#F1F5F9;min-height:100%}
+.userbar{background:#0A2E0A;padding:5px 16px;display:flex;align-items:center;justify-content:space-between}
+.userbar-left{display:flex;align-items:center;gap:8px}
+.userbar-name{color:#fff;font-weight:700;font-size:11px}
+.userbar-role{color:rgba(255,255,255,.55);font-size:11px}
+.userbar-btn{background:none;border:1px solid rgba(255,255,255,.2);border-radius:6px;color:rgba(255,255,255,.55);font-size:10px;padding:3px 10px;cursor:pointer}
+.header{background:linear-gradient(160deg,#071f07 0%,#0d3b0d 45%,#1B5E20 100%);padding:24px 20px 20px;color:#fff;position:relative;overflow:hidden}
+.h-circle-1{position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.05)}
+.h-circle-2{position:absolute;bottom:-70px;right:10px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.04)}
+.h-content{position:relative}
+.h-date{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:4px;font-weight:500;text-transform:capitalize}
+.h-greet{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:2px}
+.h-sub{font-size:12px;color:rgba(255,255,255,.45);font-weight:500}
+.pbar{display:flex;gap:6px;padding:14px 16px 0}
+.pbar-btn{flex:1;padding:7px 4px;border-radius:20px;border:none;cursor:pointer;font-weight:700;font-size:11px}
+.pbar-btn.active{background:#1B5E20;color:#fff}
+.pbar-btn.inactive{background:#E2E8F0;color:#64748B}
+.kpi-grid{padding:12px 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.kpi-icon-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.kpi-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.kpi-label{font-size:11px;color:#64748B;font-weight:700;text-transform:uppercase;letter-spacing:.07em;line-height:1.2}
+.kpi-val{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.resultado{margin:0 16px 12px}
+.resultado-card{background:linear-gradient(135deg,#0d3b0d,#1B5E20);border-radius:14px;padding:16px;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.res-label{font-size:10px;color:rgba(255,255,255,.5);margin-bottom:6px;font-weight:700;letter-spacing:.08em}
+.res-val{font-size:28px;font-weight:800;color:#4ADE80;letter-spacing:-.02em;margin-bottom:12px}
+.res-divider{border-top:1px solid rgba(255,255,255,.1);padding-top:10px;display:flex;flex-direction:column;gap:5px}
+.res-row{display:flex;justify-content:space-between;font-size:12px}
+.res-row-label{color:rgba(255,255,255,.55)}
+.quick{margin:0 16px 14px}
+.quick-sec{font-size:12px;font-weight:800;color:#64748B;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
+.quick-row{display:flex;justify-content:space-around}
+.quick-btn{display:flex;flex-direction:column;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:4px 20px}
+.quick-circle{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.quick-label{font-size:12px;font-weight:700;color:#1E293B}
+.despesas-sec{margin:0 16px 12px}
+.card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.status-row{display:flex;gap:8px;margin-top:10px}
+.status-item{flex:1;border-radius:12px;padding:12px 14px}
+.status-label{font-size:11px;font-weight:700;margin-bottom:4px}
+.status-val{font-size:20px;font-weight:800}
+.nav{background:#fff;border-top:1px solid #E2E8F0;display:flex;padding:8px 0 16px;position:sticky;bottom:0}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-icon{font-size:20px}
+.nav-label{font-size:10px;font-weight:600;color:#94A3B8}
+.nav-label.active{color:#1B5E20}
+.nav-fab{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1B5E20,#16A34A);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 16px rgba(27,94,32,.45);margin-top:-14px}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div>
+  <div class="phone-label">Login</div>
+  <div class="phone">
+    <div class="screen">
+      <div class="login-bg">
+        <div class="login-circle-1"></div>
+        <div class="login-circle-2"></div>
+        <div class="login-circle-3"></div>
+        <div class="login-top">
+          <div class="login-icon-wrap">
+            <svg class="login-icon" viewBox="0 0 64 64" fill="none">
+              <circle cx="32" cy="32" r="32" fill="#16A34A"/>
+              <text x="32" y="42" text-anchor="middle" font-size="30" fill="white">🌿</text>
+            </svg>
+          </div>
+          <div class="login-brand">Agro Bras</div>
+          <div class="login-sub">Gestão financeira agrícola</div>
+        </div>
+        <div class="login-card">
+          <div class="login-title">Bem-vindo de volta</div>
+          <div class="login-desc">Entre com suas credenciais para acessar</div>
+          <div class="field-label">Usuário</div>
+          <input class="field-input" placeholder="Seu nome de usuário" style="display:block"/>
+          <div class="field-label">Senha</div>
+          <input class="field-input" type="password" placeholder="••••••••" style="display:block"/>
+          <button class="login-btn">Entrar →</button>
+          <div class="login-secure">🔒 Conexão segura e criptografada</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div>
+  <div class="phone-label">Dashboard</div>
+  <div class="phone">
+    <div class="screen dash">
+      <!-- UserBar -->
+      <div class="userbar">
+        <div class="userbar-left">
+          <span style="font-size:18px">🌿</span>
+          <span class="userbar-role">Olá, <span class="userbar-name">João</span></span>
+        </div>
+        <button class="userbar-btn">Sair</button>
+      </div>
+      <!-- Header -->
+      <div class="header">
+        <div class="h-circle-1"></div>
+        <div class="h-circle-2"></div>
+        <div class="h-content">
+          <div class="h-date">segunda-feira, 19 de maio</div>
+          <div class="h-greet">Bom dia, João!</div>
+          <div class="h-sub">🌿 Agro Bras · Painel Financeiro</div>
+        </div>
+      </div>
+      <!-- Period bar -->
+      <div class="pbar">
+        <button class="pbar-btn active">Hoje</button>
+        <button class="pbar-btn inactive">Semana</button>
+        <button class="pbar-btn inactive">Mês</button>
+        <button class="pbar-btn inactive">Período</button>
+      </div>
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon-row">
+            <div class="kpi-icon" style="background:#DCFCE7">💰</div>
+            <div class="kpi-label">Vendas</div>
+          </div>
+          <div class="kpi-val" style="color:#16A34A">R$&nbsp;4.850</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-row">
+            <div class="kpi-icon" style="background:#FEF3C7">🛒</div>
+            <div class="kpi-label">Compras</div>
+          </div>
+          <div class="kpi-val" style="color:#D97706">R$&nbsp;1.200</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-row">
+            <div class="kpi-icon" style="background:#FEE2E2">💸</div>
+            <div class="kpi-label">Despesas</div>
+          </div>
+          <div class="kpi-val" style="color:#DC2626">R$&nbsp;980</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-row">
+            <div class="kpi-icon" style="background:#DCFCE7">📈</div>
+            <div class="kpi-label">Lucro</div>
+          </div>
+          <div class="kpi-val" style="color:#16A34A">R$&nbsp;2.670</div>
+        </div>
+      </div>
+      <!-- Resultado -->
+      <div class="resultado">
+        <div class="resultado-card">
+          <div class="res-label">RESULTADO DO PERÍODO</div>
+          <div class="res-val">R$ 2.670</div>
+          <div class="res-divider">
+            <div class="res-row"><span class="res-row-label">+&nbsp; Vendas</span><span style="color:#4ADE80;font-weight:700">R$ 4.850</span></div>
+            <div class="res-row"><span class="res-row-label">−&nbsp; Compras</span><span style="color:#FB923C;font-weight:700">R$ 1.200</span></div>
+            <div class="res-row"><span class="res-row-label">−&nbsp; Despesas</span><span style="color:#F87171;font-weight:700">R$ 980</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Quick actions -->
+      <div class="quick">
+        <div class="quick-sec">Lançar rápido</div>
+        <div class="quick-row">
+          <button class="quick-btn">
+            <div class="quick-circle" style="background:#1B5E20">💰</div>
+            <span class="quick-label">Venda</span>
+          </button>
+          <button class="quick-btn">
+            <div class="quick-circle" style="background:#B45309">🛒</div>
+            <span class="quick-label">Compra</span>
+          </button>
+          <button class="quick-btn">
+            <div class="quick-circle" style="background:#B91C1C">💸</div>
+            <span class="quick-label">Despesa</span>
+          </button>
+        </div>
+      </div>
+      <!-- Status Despesas -->
+      <div class="despesas-sec">
+        <div class="card">
+          <div class="quick-sec">Status Despesas</div>
+          <div class="status-row">
+            <div class="status-item" style="background:#DCFCE7">
+              <div class="status-label" style="color:#1B5E20">✅ Pago</div>
+              <div class="status-val" style="color:#1B5E20">R$ 680</div>
+            </div>
+            <div class="status-item" style="background:#FEF3C7">
+              <div class="status-label" style="color:#92400E">⏳ Pendente</div>
+              <div class="status-val" style="color:#92400E">R$ 300</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Nav -->
+      <div class="nav">
+        <button class="nav-btn"><span class="nav-icon">🏠</span><span class="nav-label active">Início</span></button>
+        <button class="nav-btn"><span class="nav-icon">📋</span><span class="nav-label">Registros</span></button>
+        <button class="nav-fab">➕</button>
+        <button class="nav-btn"><span class="nav-icon">🔔</span><span class="nav-label">Avisos</span></button>
+        <button class="nav-btn"><span class="nav-icon">⋯</span><span class="nav-label">Mais</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
