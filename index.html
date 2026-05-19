@@ -1083,7 +1083,7 @@ function App(){
 
   useEffect(function(){
     loadData().then(function(result){
-      if(result.data){var rd=result.data;if(rd.despesas)rd=_o({},rd,{despesas:rd.despesas.map(function(d){return d.categoria==="Funcionarios"?_o({},d,{categoria:"Funcionários"}):d})});setData(function(prev){return _o({},INIT,rd)});}
+      if(result.data){var rd=result.data;if(rd.despesas)rd=_o({},rd,{despesas:rd.despesas.map(function(d){var fix=_o({},d);if(fix.categoria==="Funcionarios")fix.categoria="Funcionários";if(fix._adiantId&&fix.tipo==="Variável")fix.tipo="Fixo";return fix;})});setData(function(prev){return _o({},INIT,rd)});}
       setReady(true);
       setHasPending(!!localStorage.getItem(OFK));
       if(result.source==="local"){setSyncSt("loadLocal");setTimeout(function(){setSyncSt("idle")},5000);}
