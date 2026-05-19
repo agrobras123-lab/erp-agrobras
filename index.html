@@ -317,7 +317,7 @@ function UserBar(p){
   );
 }
 
-/* LOGIN (melhoria 8) */
+/* LOGIN */
 function LoginScreen(p){
   var s1=useState(""),user=s1[0],setUser=s1[1];
   var s2=useState(""),pass=s2[0],setPass=s2[1];
@@ -333,29 +333,35 @@ function LoginScreen(p){
       setLoading(false);
     }).catch(function(){setError("Não foi possível verificar. Tente novamente.");setLoading(false)});
   }
-  var inp={width:"100%",padding:"12px 14px",borderRadius:10,border:"1.5px solid #334155",background:"#0F172A",color:"#FFF",fontSize:14,boxSizing:"border-box",fontFamily:"inherit",outline:"none"};
-  return ce("div",{style:{minHeight:"100vh",background:"linear-gradient(160deg,#064E3B 0%,#0A2010 55%)",display:"flex",alignItems:"center",justifyContent:"center",padding:20}},
-    ce("div",{style:{background:"rgba(30,41,59,.97)",borderRadius:24,padding:"36px 28px",width:"100%",maxWidth:360,boxShadow:"0 20px 60px rgba(0,0,0,.45)",border:"1px solid rgba(255,255,255,.08)"},className:"card-in"},
-      ce("div",{style:{textAlign:"center",marginBottom:32}},
-        ce(AppIcon,{size:88}),
-        ce("div",{style:{color:"#FFF",fontSize:24,fontWeight:900,marginTop:16,letterSpacing:"-.01em"}},"ERP Financeiro"),
-        ce("div",{style:{color:"#F9A825",fontSize:18,fontWeight:800,marginTop:2}},"Agro Bras"),
-        ce("div",{style:{color:"#64748B",fontSize:12,marginTop:6}},
-          "Gestão simples, segura e eficiente")
+  var inp={width:"100%",padding:"15px 16px",borderRadius:12,border:"1.5px solid #E2E8F0",background:"#F8FAFC",color:"#1E293B",fontSize:15,boxSizing:"border-box",fontFamily:"inherit",outline:"none"};
+  return ce("div",{style:{minHeight:"100vh",background:"linear-gradient(160deg,#071f07 0%,#0d3b0d 40%,#1B5E20 100%)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-end",position:"relative",overflow:"hidden"}},
+    ce("div",{style:{position:"absolute",top:-80,right:-80,width:260,height:260,borderRadius:"50%",background:"rgba(255,255,255,.06)",pointerEvents:"none"}}),
+    ce("div",{style:{position:"absolute",top:60,left:-100,width:320,height:320,borderRadius:"50%",background:"rgba(255,255,255,.04)",pointerEvents:"none"}}),
+    ce("div",{style:{position:"absolute",top:180,right:-40,width:160,height:160,borderRadius:"50%",background:"rgba(255,255,255,.05)",pointerEvents:"none"}}),
+    ce("div",{style:{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",paddingTop:48,position:"relative",zIndex:1}},
+      ce("div",{style:{background:"rgba(255,255,255,.12)",borderRadius:22,padding:18,marginBottom:18,border:"1px solid rgba(255,255,255,.2)"}},
+        ce(AppIcon,{size:56})
       ),
-      ce("div",{style:{marginBottom:12}},
-        ce("div",{style:{fontSize:10,fontWeight:800,color:"#64748B",textTransform:"uppercase",letterSpacing:".06em",marginBottom:6}},"Usuário"),
-        ce("input",{value:user,onChange:function(e){setUser(e.target.value)},placeholder:"Seu nome",onKeyDown:function(e){if(e.key==="Enter")handle()},style:inp})
+      ce("div",{style:{color:"#FFF",fontSize:28,fontWeight:800,letterSpacing:"-.02em"}},"Agro Bras"),
+      ce("div",{style:{color:"rgba(255,255,255,.6)",fontSize:13,marginTop:6,fontWeight:500}},"Gestão financeira agrícola")
+    ),
+    ce("div",{style:{background:"#FFFFFF",borderRadius:"28px 28px 0 0",padding:"32px 24px 44px",width:"100%",maxWidth:480,boxShadow:"0 -12px 48px rgba(0,0,0,.2)",position:"relative",zIndex:1},className:"card-in"},
+      ce("div",{style:{marginBottom:28}},
+        ce("div",{style:{fontSize:22,fontWeight:800,color:"#1E293B",letterSpacing:"-.01em"}},"Bem-vindo de volta"),
+        ce("div",{style:{fontSize:14,color:"#94A3B8",marginTop:4}},"Entre com suas credenciais para acessar")
       ),
-      ce("div",{style:{marginBottom:20}},
-        ce("div",{style:{fontSize:10,fontWeight:800,color:"#64748B",textTransform:"uppercase",letterSpacing:".06em",marginBottom:6}},"Senha"),
+      ce("div",{style:{marginBottom:16}},
+        ce("div",{style:{fontSize:11,fontWeight:700,color:"#64748B",textTransform:"uppercase",letterSpacing:".06em",marginBottom:8}},"Usuário"),
+        ce("input",{value:user,onChange:function(e){setUser(e.target.value)},placeholder:"Seu nome de usuário",onKeyDown:function(e){if(e.key==="Enter")handle()},style:inp})
+      ),
+      ce("div",{style:{marginBottom:22}},
+        ce("div",{style:{fontSize:11,fontWeight:700,color:"#64748B",textTransform:"uppercase",letterSpacing:".06em",marginBottom:8}},"Senha"),
         ce("input",{type:"password",value:pass,onChange:function(e){setPass(e.target.value)},placeholder:"••••••••",onKeyDown:function(e){if(e.key==="Enter")handle()},style:inp})
       ),
-      error&&ce("div",{style:{color:"#FCA5A5",fontSize:12,marginBottom:14,textAlign:"center",fontWeight:600}},error),
-      ce("button",{onClick:handle,disabled:loading,style:{width:"100%",padding:14,borderRadius:12,border:"none",background:"linear-gradient(135deg,#1B5E20,#16A34A)",color:"#FFF",fontWeight:800,fontSize:15,cursor:"pointer",opacity:loading?0.7:1,boxShadow:"0 4px 14px rgba(27,94,32,.4)"}},loading?"Verificando…":"Entrar"),
-      ce("div",{style:{marginTop:24,padding:"12px 14px",background:"rgba(5,150,105,.1)",borderRadius:10,border:"1px solid rgba(5,150,105,.2)"}},
-        ce("div",{style:{fontSize:10,color:"#34D399",fontWeight:700,textAlign:"center"}},
-          "🌿 Hortifruti · Financeiro · Gestão")
+      error&&ce("div",{style:{color:"#DC2626",fontSize:13,marginBottom:16,fontWeight:600,padding:"11px 14px",background:"#FEF2F2",borderRadius:10,border:"1px solid #FECACA"}},"⚠️ "+error),
+      ce("button",{onClick:handle,disabled:loading,style:{width:"100%",padding:17,borderRadius:14,border:"none",background:"linear-gradient(135deg,#1B5E20,#16A34A)",color:"#FFF",fontWeight:800,fontSize:16,cursor:"pointer",opacity:loading?0.7:1,boxShadow:"0 6px 24px rgba(27,94,32,.4)",letterSpacing:"-.01em"}},loading?"Verificando…":"Entrar →"),
+      ce("div",{style:{marginTop:20,display:"flex",alignItems:"center",justifyContent:"center",gap:6}},
+        ce("span",{style:{fontSize:11,color:"#94A3B8",fontWeight:500}},"🔒 Conexão segura e criptografada")
       )
     )
   );
@@ -367,6 +373,8 @@ var INIT={vendas:[],compras:[],despesas:[],funcionarios:[],adiantamentos:[],cats
 function Dashboard(p){
   var data=p.data,totals=p.totals,alertas=p.alertas,onNew=p.onNew,onGoVenc=p.onGoVenc,alertDismissed=p.alertDismissed,onDismissAlert=p.onDismissAlert;
   var pos=totals.lucro>=0,now=new Date();
+  var ses=getSession();var sNome=ses?ses.nome:"";
+  var hora=now.getHours();var saud=hora<12?"Bom dia":hora<18?"Boa tarde":"Boa noite";
   var weekData=useMemo(function(){
     var days=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
     var todayStr=today();
@@ -379,10 +387,14 @@ function Dashboard(p){
   },[data]);
   var pgSlices=[{label:"PIX",valor:totals.vPix,color:"#8B5CF6"},{label:"Dinheiro",valor:totals.vDinheiro,color:"#16A34A"},{label:"Fiado",valor:totals.vFiado,color:"#D97706"},{label:"Cartão",valor:totals.vCartao,color:"#1B5E20"},{label:"Boleto",valor:totals.vBoleto,color:"#16A34A"}].filter(function(x){return x.valor>0});
   return ce("div",{className:"pg"},
-    ce("div",{style:{background:"linear-gradient(135deg,#0A2E0A 0%,#1B5E20 100%)",padding:"28px 20px 16px",color:"#FFF"}},
-      ce("div",{style:{fontSize:11,color:"rgba(255,255,255,0.55)",marginBottom:2}},now.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long",year:"numeric"})),
-      ce("div",{style:{fontSize:20,fontWeight:800,letterSpacing:"-.01em"}},"Painel Financeiro 📊"),
-      alertas.length>0&&!alertDismissed&&ce("div",{style:{background:"linear-gradient(135deg,#7F1D1D,#DC2626)",borderRadius:14,padding:12,marginTop:12}},
+    ce("div",{style:{background:"linear-gradient(160deg,#071f07 0%,#0d3b0d 45%,#1B5E20 100%)",padding:"28px 20px 20px",color:"#FFF",position:"relative",overflow:"hidden"}},
+      ce("div",{style:{position:"absolute",top:-50,right:-50,width:180,height:180,borderRadius:"50%",background:"rgba(255,255,255,.05)",pointerEvents:"none"}}),
+      ce("div",{style:{position:"absolute",bottom:-70,right:10,width:220,height:220,borderRadius:"50%",background:"rgba(255,255,255,.04)",pointerEvents:"none"}}),
+      ce("div",{style:{position:"relative"}},
+        ce("div",{style:{fontSize:12,color:"rgba(255,255,255,.5)",marginBottom:4,fontWeight:500,textTransform:"capitalize"}},now.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"})),
+        ce("div",{style:{fontSize:24,fontWeight:800,letterSpacing:"-.02em",marginBottom:2}},saud+(sNome?", "+sNome+"!":"!")),
+        ce("div",{style:{fontSize:12,color:"rgba(255,255,255,.45)",fontWeight:500}},"🌿 Agro Bras · Painel Financeiro"),
+        alertas.length>0&&!alertDismissed&&ce("div",{style:{background:"rgba(220,38,38,.85)",borderRadius:12,padding:"10px 14px",marginTop:14,backdropFilter:"blur(4px)"}},
         ce("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}},
           ce("span",{style:{fontSize:12,fontWeight:800,color:"#FFF"}},"⚠️ Contas em atraso ou urgentes"),
           ce("button",{onClick:onDismissAlert,style:{background:"rgba(255,255,255,.2)",border:"none",cursor:"pointer",borderRadius:"50%",width:22,height:22,display:"flex",alignItems:"center",justifyContent:"center",color:"#FFF",fontSize:13,fontWeight:900,flexShrink:0}},"✕")
@@ -394,25 +406,29 @@ function Dashboard(p){
             ce("div",{key:"t",style:{flex:1,background:"rgba(0,0,0,.25)",borderRadius:10,padding:"8px 10px",textAlign:"center"}},ce("div",{style:{fontSize:13,fontWeight:900,color:"#FCA5A5"}},fmt(total)),ce("div",{style:{fontSize:10,color:"#FECACA",fontWeight:700}},"Total R$"))
           ]})()
         ),
-        ce("button",{onClick:onGoVenc,style:{width:"100%",padding:"7px 0",borderRadius:8,background:"rgba(255,255,255,.15)",border:"1px solid rgba(255,255,255,.3)",color:"#FFF",fontSize:12,fontWeight:700,cursor:"pointer"}},"Ver todas →")
+        ce("button",{onClick:onGoVenc,style:{width:"100%",padding:"7px 0",borderRadius:8,background:"rgba(255,255,255,.2)",border:"1px solid rgba(255,255,255,.25)",color:"#FFF",fontSize:12,fontWeight:700,cursor:"pointer"}},"Ver todas →")
       )
+      ),
     ),
     ce("div",{style:{padding:"14px 16px 0"}},ce(PBar,{p:p.p,setP:p.setP,s:p.s,setS:p.setS,e:p.e,setE:p.setE})),
     ce("div",{style:{padding:"12px 16px",display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}},
-      [["💰 Vendas",totals.tv,"#16A34A"],["🛒 Compras",totals.tc,"#D97706"],["💸 Despesas",totals.td,"#DC2626"],[pos?"📈 Lucro":"📉 Prejuízo",totals.lucro,pos?"#1B5E20":"#DC2626"]].map(function(it){
-        return ce(Card,{key:it[0],style:{borderLeft:"4px solid "+it[2],padding:"12px 14px"}},
-          ce("div",{style:{fontSize:11,color:C.sub,fontWeight:700,textTransform:"uppercase",letterSpacing:".08em",marginBottom:4}},it[0]),
-          ce("div",{style:{fontSize:20,fontWeight:800,color:it[2]}},fmt(it[1])));
+      [["💰","Vendas",totals.tv,"#16A34A","#DCFCE7"],["🛒","Compras",totals.tc,"#D97706","#FEF3C7"],["💸","Despesas",totals.td,"#DC2626","#FEE2E2"],[pos?"📈":"📉",pos?"Lucro":"Prejuízo",totals.lucro,pos?"#16A34A":"#DC2626",pos?"#DCFCE7":"#FEE2E2"]].map(function(it){
+        return ce(Card,{key:it[1],style:{padding:"14px"}},
+          ce("div",{style:{display:"flex",alignItems:"center",gap:8,marginBottom:10}},
+            ce("div",{style:{width:34,height:34,borderRadius:10,background:it[4],display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}},it[0]),
+            ce("div",{style:{fontSize:11,color:C.sub,fontWeight:700,textTransform:"uppercase",letterSpacing:".07em",lineHeight:1.2}},it[1])
+          ),
+          ce("div",{style:{fontSize:22,fontWeight:800,color:it[3],letterSpacing:"-.02em"}},fmt(it[2])));
       })
     ),
     ce("div",{style:{margin:"0 16px 12px"}},
-      ce(Card,{style:{background:"#1E293B"}},
-        ce("div",{style:{fontSize:10,color:"rgba(148,163,184,0.85)",marginBottom:10,fontWeight:800,letterSpacing:".07em"}},"RESULTADO DO PERÍODO"),
-        ce("div",{style:{display:"flex",alignItems:"center",flexWrap:"wrap",gap:6,fontSize:12}},
-          ce("span",{style:{color:"#4ADE80",fontWeight:700}},fmt(totals.tv)),ce("span",{style:{color:"rgba(148,163,184,0.6)"}},"−"),
-          ce("span",{style:{color:"#FB923C",fontWeight:700}},fmt(totals.tc)),ce("span",{style:{color:"rgba(148,163,184,0.6)"}},"−"),
-          ce("span",{style:{color:"#F87171",fontWeight:700}},fmt(totals.td)),ce("span",{style:{color:"rgba(148,163,184,0.6)"}},"="),
-          ce("span",{style:{color:pos?"#4ADE80":"#F87171",fontWeight:900,fontSize:16}},fmt(totals.lucro))
+      ce(Card,{style:{background:"linear-gradient(135deg,#0d3b0d,#1B5E20)",border:"none"}},
+        ce("div",{style:{fontSize:10,color:"rgba(255,255,255,.5)",marginBottom:6,fontWeight:700,letterSpacing:".08em"}},"RESULTADO DO PERÍODO"),
+        ce("div",{style:{fontSize:28,fontWeight:800,color:pos?"#4ADE80":"#F87171",letterSpacing:"-.02em",marginBottom:12}},fmt(totals.lucro)),
+        ce("div",{style:{borderTop:"1px solid rgba(255,255,255,.1)",paddingTop:10,display:"flex",flexDirection:"column",gap:5}},
+          ce("div",{style:{display:"flex",justifyContent:"space-between",fontSize:12}},ce("span",{style:{color:"rgba(255,255,255,.55)"}},"+  Vendas"),ce("span",{style:{color:"#4ADE80",fontWeight:700}},fmt(totals.tv))),
+          ce("div",{style:{display:"flex",justifyContent:"space-between",fontSize:12}},ce("span",{style:{color:"rgba(255,255,255,.55)"}},"−  Compras"),ce("span",{style:{color:"#FB923C",fontWeight:700}},fmt(totals.tc))),
+          ce("div",{style:{display:"flex",justifyContent:"space-between",fontSize:12}},ce("span",{style:{color:"rgba(255,255,255,.55)"}},"−  Despesas"),ce("span",{style:{color:"#F87171",fontWeight:700}},fmt(totals.td)))
         )
       )
     ),
@@ -420,17 +436,18 @@ function Dashboard(p){
     ce("div",{style:{margin:"0 16px 12px"}},
       ce(Card,null,ce(SecHead,{title:"Status Despesas"}),
         ce("div",{style:{display:"flex",gap:8}},
-          ce("div",{style:{flex:1,background:"#DCFCE7",borderRadius:10,padding:"10px 12px"}},ce("div",{style:{fontSize:10,color:"#1B5E20",fontWeight:700}},"✅ Pago"),ce("div",{style:{fontSize:17,fontWeight:800,color:"#1B5E20",marginTop:2}},fmt(totals.tdPago))),
-          ce("div",{style:{flex:1,background:"#FEF3C7",borderRadius:10,padding:"10px 12px"}},ce("div",{style:{fontSize:10,color:"#92400E",fontWeight:700}},"⏳ Pendente"),ce("div",{style:{fontSize:17,fontWeight:800,color:"#92400E",marginTop:2}},fmt(totals.tdPend)))
+          ce("div",{style:{flex:1,background:"#DCFCE7",borderRadius:12,padding:"12px 14px"}},ce("div",{style:{fontSize:11,color:"#1B5E20",fontWeight:700,marginBottom:4}},"✅ Pago"),ce("div",{style:{fontSize:20,fontWeight:800,color:"#1B5E20"}},fmt(totals.tdPago))),
+          ce("div",{style:{flex:1,background:"#FEF3C7",borderRadius:12,padding:"12px 14px"}},ce("div",{style:{fontSize:11,color:"#92400E",fontWeight:700,marginBottom:4}},"⏳ Pendente"),ce("div",{style:{fontSize:20,fontWeight:800,color:"#92400E"}},fmt(totals.tdPend)))
         )
       )
     ),
-    ce("div",{style:{margin:"0 16px 12px"}},
+    ce("div",{style:{margin:"0 16px 14px"}},
       ce(SecHead,{title:"Lançar rápido"}),
-      ce("div",{style:{display:"flex",gap:8}},
-        [{t:"venda",l:"Venda",i:"💰",c:"#16A34A",b:"#DCFCE7"},{t:"compra",l:"Compra",i:"🛒",c:"#D97706",b:"#FEF3C7"},{t:"despesa",l:"Despesa",i:"💸",c:"#DC2626",b:"#FEE2E2"}].map(function(q){
-          return ce("button",{key:q.t,onClick:function(){onNew(q.t)},style:{flex:1,background:q.b,border:"1px solid rgba(0,0,0,.08)",borderRadius:14,padding:"14px 6px",cursor:"pointer",textAlign:"center"}},
-            ce("div",{style:{fontSize:22}},q.i),ce("div",{style:{fontSize:11,fontWeight:800,color:q.c,marginTop:4}},q.l));
+      ce("div",{style:{display:"flex",justifyContent:"space-around"}},
+        [{t:"venda",l:"Venda",i:"💰",c:"#1B5E20"},{t:"compra",l:"Compra",i:"🛒",c:"#B45309"},{t:"despesa",l:"Despesa",i:"💸",c:"#B91C1C"}].map(function(q){
+          return ce("button",{key:q.t,onClick:function(){onNew(q.t)},style:{display:"flex",flexDirection:"column",alignItems:"center",gap:8,background:"none",border:"none",cursor:"pointer",padding:"4px 20px"}},
+            ce("div",{style:{width:54,height:54,borderRadius:"50%",background:q.c,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,boxShadow:"0 4px 14px rgba(0,0,0,.18)"}},q.i),
+            ce("div",{style:{fontSize:12,fontWeight:700,color:C.txt}},q.l));
         })
       )
     ),
