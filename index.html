@@ -700,7 +700,8 @@ function Salarios(p){
       data.funcionarios.length===0&&!showForm&&ce(Empty,{icon:"👥",title:"Nenhum funcionário",sub:"Adicione para controlar adiantamentos"}),
       data.funcionarios.map(function(func){
         var adts=getAdts(func.id),vales=totalVales(func.id),saldo=(func.salarioBase||0)-vales,open=expanded===func.id;var salPago=data.despesas.find(function(x){return x._salFuncId===func.id&&x._salMes===mesSel});
-        var scl=saldo<0?"#DC2626":saldo===0?"#92400E":"#16A34A",slb=saldo<0?"EXCEDIDO":saldo===0?"FECHADO":"A PAGAR";
+        var saldoDisp=salPago?0:saldo;
+        var scl=saldoDisp<0?"#DC2626":saldoDisp===0?"#92400E":"#16A34A",slb=saldoDisp<0?"EXCEDIDO":saldoDisp===0?"FECHADO":"A PAGAR";
         return ce(Card,{key:func.id,style:{marginBottom:10}},
           ce("div",{style:{display:"flex",alignItems:"center",gap:10}},
             ce("div",{style:{flex:1}},
@@ -718,7 +719,7 @@ function Salarios(p){
                     !isViewer&&ce("button",{onClick:function(){setEditSal(func.id);setEditSalVal(func.salarioBase||"")},style:{background:"none",border:"none",cursor:"pointer",padding:1}},ce(IcoEdit,{size:11,color:C.muted})))
             ),
             ce("div",{style:{textAlign:"right"}},
-              ce("div",{style:{fontSize:15,fontWeight:800,color:scl}},fmt(saldo)),
+              ce("div",{style:{fontSize:15,fontWeight:800,color:scl}},fmt(saldoDisp)),
               ce("div",{style:{fontSize:9,color:scl,fontWeight:800}},slb),
               ce("button",{onClick:function(){setExpanded(open?null:func.id)},style:{background:"none",border:"none",cursor:"pointer",marginTop:2}},
                 ce(IcoChev,{size:16,color:C.muted,style:{transform:open?"rotate(180deg)":"none",transition:".2s"}}))
