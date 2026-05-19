@@ -699,7 +699,7 @@ function Salarios(p){
       ),
       data.funcionarios.length===0&&!showForm&&ce(Empty,{icon:"👥",title:"Nenhum funcionário",sub:"Adicione para controlar adiantamentos"}),
       data.funcionarios.map(function(func){
-        var adts=getAdts(func.id),vales=totalVales(func.id),saldo=(func.salarioBase||0)-vales,open=expanded===func.id;
+        var adts=getAdts(func.id),vales=totalVales(func.id),saldo=(func.salarioBase||0)-vales,open=expanded===func.id;var salPago=data.despesas.find(function(x){return x._salFuncId===func.id&&x._salMes===mesSel});
         var scl=saldo<0?"#DC2626":saldo===0?"#92400E":"#16A34A",slb=saldo<0?"EXCEDIDO":saldo===0?"FECHADO":"A PAGAR";
         return ce(Card,{key:func.id,style:{marginBottom:10}},
           ce("div",{style:{display:"flex",alignItems:"center",gap:10}},
@@ -742,7 +742,9 @@ function Salarios(p){
                       setAVal("");setADesc("");setAData(today());setShowAdiant(null);
                     },style:{flex:1,padding:8,borderRadius:8,background:'#1B5E20',color:"#FFF",border:"none",cursor:"pointer",fontWeight:800,fontSize:12}},"Salvar"),
                     ce("button",{onClick:function(){setShowAdiant(null)},style:{padding:"8px 12px",borderRadius:8,border:"1px solid "+C.border,background:"none",cursor:"pointer",fontSize:12}},"✕")))
-              :ce("div",{style:{display:"flex",gap:6,marginTop:8}},
+              :ce("div",{style:{display:"flex",gap:6,marginTop:8,flexWrap:"wrap"}},
+                  saldo>0&&!salPago&&ce("button",{onClick:function(){p.pagarSalario(func.id,mesSel)},style:{width:"100%",padding:9,borderRadius:8,background:"#1B5E20",color:"#FFF",border:"none",cursor:"pointer",fontWeight:800,fontSize:12}},"💰 Pagar Salário — "+fmt(saldo)),
+                  salPago&&ce("div",{style:{width:"100%",padding:"8px 12px",borderRadius:8,background:"#DCFCE7",textAlign:"center",fontSize:12,fontWeight:700,color:"#14532D"}},"✓ Salário pago: "+fmt(salPago.valor)),
                   ce("button",{onClick:function(){setShowAdiant(func.id);setAVal("");setADesc("");setAData(mesSel+"-01")},style:{flex:1,padding:8,borderRadius:8,border:"1px dashed "+C.border,background:"none",cursor:"pointer",color:'#1B5E20',fontWeight:700,fontSize:12}},"+Adiantamento"),
                   ce("button",{onClick:function(){setShowHist(showHist===func.id?null:func.id)},style:{padding:"8px 10px",borderRadius:8,border:"1px solid "+C.border,background:showHist===func.id?"#F1F8E9":"none",cursor:"pointer",fontSize:11,fontWeight:700,color:'#1B5E20'}},"Histórico"),
                   confirmDel===func.id
@@ -1081,7 +1083,7 @@ function App(){
 
   useEffect(function(){
     loadData().then(function(result){
-      if(result.data)setData(function(prev){return _o({},INIT,result.data)});
+      if(result.data){var rd=result.data;if(rd.despesas)rd=_o({},rd,{despesas:rd.despesas.map(function(d){return d.categoria==="Funcionarios"?_o({},d,{categoria:"Funcionários"}):d})});setData(function(prev){return _o({},INIT,rd)});}
       setReady(true);
       setHasPending(!!localStorage.getItem(OFK));
       if(result.source==="local"){setSyncSt("loadLocal");setTimeout(function(){setSyncSt("idle")},5000);}
@@ -1126,12 +1128,13 @@ function App(){
     delD:guard(function(id){del("despesas",id)}),
     addFunc:guard(function(f){add("funcionarios",_o({ativo:true},f))}),
     updFunc:guard(function(id,ch){upd("funcionarios",id,ch)}),
-    delFunc:guard(function(id){mut(function(d){return _o({},d,{funcionarios:d.funcionarios.filter(function(x){return x.id!==id}),adiantamentos:d.adiantamentos.filter(function(x){return x.funcId!==id})})})}),
+    delFunc:guard(function(id){mut(function(d){return _o({},d,{funcionarios:d.funcionarios.filter(function(x){return x.id!==id}),adiantamentos:d.adiantamentos.filter(function(x){return x.funcId!==id}),despesas:d.despesas.filter(function(x){return x._salFuncId!==id})})})}),
     addAdiant:guard(function(a){
       var aid=uid();
-      mut(function(d){var fn=d.funcionarios.find(function(f){return f.id===a.funcId});return _o({},d,{adiantamentos:d.adiantamentos.concat([_o({id:aid},a)]),despesas:d.despesas.concat([{id:uid(),data:a.data,descricao:"Vale — "+(fn?fn.nome:"Funcionário"),categoria:"Funcionários",tipo:"Variável",valor:a.valor,status:"Pago",_adiantId:aid}])})});
+      mut(function(d){var fn=d.funcionarios.find(function(f){return f.id===a.funcId});return _o({},d,{adiantamentos:d.adiantamentos.concat([_o({id:aid},a)]),despesas:d.despesas.concat([{id:uid(),data:a.data,descricao:"Vale — "+(fn?fn.nome:"Funcionário"),categoria:"Funcionários",tipo:"Fixo",valor:a.valor,status:"Pago",_adiantId:aid}])})});
     }),
-    delAdiant:guard(function(id){mut(function(d){return _o({},d,{adiantamentos:d.adiantamentos.filter(function(x){return x.id!==id}),despesas:d.despesas.filter(function(x){return x._adiantId!==id})})})})
+    delAdiant:guard(function(id){mut(function(d){return _o({},d,{adiantamentos:d.adiantamentos.filter(function(x){return x.id!==id}),despesas:d.despesas.filter(function(x){return x._adiantId!==id})})})}),
+    pagarSalario:guard(function(funcId,mes){mut(function(d){var func=d.funcionarios.find(function(f){return f.id===funcId});if(!func)return d;var valesDoMes=d.adiantamentos.filter(function(a){return a.funcId===funcId&&(a.mesRef||a.data.slice(0,7))===mes}).reduce(function(s,a){return s+(a.valor||0)},0);var saldo=(func.salarioBase||0)-valesDoMes;if(saldo<=0)return d;var semSalAnterior=d.despesas.filter(function(x){return!(x._salFuncId===funcId&&x._salMes===mes)});var novaDesp={id:uid(),data:mes+"-01",descricao:"Salário — "+func.nome,categoria:"Funcionários",tipo:"Fixo",valor:saldo,status:"Pago",_salFuncId:funcId,_salMes:mes};return _o({},d,{despesas:semSalAnterior.concat([novaDesp])});})})
   };
 
   var filt=useMemo(function(){return{vendas:byPeriod(data.vendas,per,s,e),compras:byPeriod(data.compras,per,s,e),despesas:byPeriod(data.despesas,per,s,e)}},[data,per,s,e]);
@@ -1199,7 +1202,7 @@ function App(){
       nav==="dashboard"&&ce(Dashboard,{data:data,totals:totals,alertas:alertas,p:per,setP:setPer,s:s,setS:setS,e:e,setE:setE,onNew:openNew,onGoVenc:goVenc,alertDismissed:alertDismissed,onDismissAlert:function(){setAlertDismissed(true)}}),
       nav==="registros"&&ce(Registros,{data:data,tab:regTab,setTab:setRegTab,onEdit:openEdit,isViewer:isViewer,onDelV:ops.delV,onDelC:ops.delC,onDelD:ops.delD,onToggle:function(id){if(isViewer)return;var cur=data.despesas.find(function(d){return d.id===id});if(cur)ops.updD(id,{status:cur.status==="Pago"?"A Pagar":"Pago",dataPagamento:cur.status==="Pago"?null:localDate()})},onBatchPay:function(ids){if(isViewer)return;var now=localDate();mut(function(d){var n=_o({},d);n.despesas=d.despesas.map(function(x){return ids.indexOf(x.id)>=0?_o({},x,{status:"Pago",dataPagamento:now}):x});return n})}}),
       nav==="vencimentos"&&ce(Avisos,{venc:venc,alertas:alertas,isViewer:isViewer,onEdit:function(d){openEdit("despesa",d)},onToggle:function(id){if(isViewer)return;ops.updD(id,{status:"Pago",dataPagamento:localDate()})}}),
-      nav==="mais"&&mais==="salarios"&&ce(Salarios,{data:data,isViewer:isViewer,addFunc:ops.addFunc,updFunc:ops.updFunc,delFunc:ops.delFunc,addAdiant:ops.addAdiant,delAdiant:ops.delAdiant}),
+      nav==="mais"&&mais==="salarios"&&ce(Salarios,{data:data,isViewer:isViewer,addFunc:ops.addFunc,updFunc:ops.updFunc,delFunc:ops.delFunc,addAdiant:ops.addAdiant,delAdiant:ops.delAdiant,pagarSalario:ops.pagarSalario}),
       nav==="mais"&&mais==="fechamento"&&ce(Fechamento,{data:data}),
       nav==="mais"&&mais==="config"&&ce(Config,{data:data,isViewer:isViewer,update:isViewer?function(){}:setData})
     ),
