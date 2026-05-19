@@ -1083,7 +1083,7 @@ function App(){
 
   useEffect(function(){
     loadData().then(function(result){
-      if(result.data){var rd=result.data;if(rd.despesas)rd=_o({},rd,{despesas:rd.despesas.map(function(d){var fix=_o({},d);if(fix.categoria==="Funcionarios")fix.categoria="Funcionários";if(fix._adiantId&&fix.tipo==="Variável")fix.tipo="Fixo";return fix;})});setData(function(prev){return _o({},INIT,rd)});}
+      if(result.data){var rd=result.data;var migrated=false;if(rd.despesas){var newD=rd.despesas.map(function(d){var fix=_o({},d),ch=false;if(fix.categoria==="Funcionarios"){fix.categoria="Funcionários";ch=true;}if(fix._adiantId&&fix.tipo==="Variável"){fix.tipo="Fixo";ch=true;}if(ch)migrated=true;return fix;});if(migrated)rd=_o({},rd,{despesas:newD});}setData(function(prev){return _o({},INIT,rd)});if(migrated)saveData(rd,function(){});}
       setReady(true);
       setHasPending(!!localStorage.getItem(OFK));
       if(result.source==="local"){setSyncSt("loadLocal");setTimeout(function(){setSyncSt("idle")},5000);}
