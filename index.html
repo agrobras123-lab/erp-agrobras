@@ -496,14 +496,33 @@ function Registros(p){
     ),
     ce("div",{style:{padding:"0 16px",marginTop:-18}},
       ce("div",{style:{background:"#FFF",borderRadius:18,padding:"5px",boxShadow:"0 4px 18px rgba(0,0,0,0.10)",display:"flex",gap:3}},
-        [["despesas","Despesas","💸",data.despesas.length],["vendas","Vendas","💰",data.vendas.length],["compras","Compras","🛒",data.compras.length]].map(function(it){
-          var isAct=tab===it[0];
-          return ce("button",{key:it[0],onClick:function(){setTab(it[0]);setConfirm(null);setSearch("");setPage(1);setFilterStatus("");setFilterCat("");setFilterPag("");setSelected([])},style:{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:2,padding:"10px 4px 8px",border:"none",background:isAct?C.acc:"none",borderRadius:13,cursor:"pointer",transition:"background .18s"}},
-            ce("span",{style:{fontSize:22,lineHeight:1}},it[2]),
-            ce("span",{style:{fontSize:11,fontWeight:isAct?800:600,color:isAct?"#FFF":"#64748B",marginTop:2}},it[1]),
-            it[3]>0&&ce("span",{style:{fontSize:9,fontWeight:800,background:isAct?"rgba(255,255,255,0.22)":"#F1F5F9",color:isAct?"#FFF":"#64748B",borderRadius:20,minWidth:18,height:18,display:"inline-flex",alignItems:"center",justifyContent:"center",padding:"0 5px",marginTop:2}},it[3])
+        (function(){
+          var S={w:20,h:20,vB:"0 0 24 24",fill:"none",sLC:"round",sLJ:"round",sW:2};
+          var icoD=ce("svg",{width:S.w,height:S.h,viewBox:S.vB,fill:S.fill,stroke:"currentColor",strokeWidth:S.sW,strokeLinecap:S.sLC,strokeLinejoin:S.sLJ},
+            ce("rect",{x:"2",y:"3",width:"20",height:"5",rx:"1"}),
+            ce("path",{d:"M2 8v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8"}),
+            ce("line",{x1:"8",y1:"13",x2:"16",y2:"13"}),
+            ce("line",{x1:"8",y1:"17",x2:"13",y2:"17"})
           );
-        })
+          var icoV=ce("svg",{width:S.w,height:S.h,viewBox:S.vB,fill:S.fill,stroke:"currentColor",strokeWidth:S.sW,strokeLinecap:S.sLC,strokeLinejoin:S.sLJ},
+            ce("polyline",{points:"23 6 13.5 15.5 8.5 10.5 1 18"}),
+            ce("polyline",{points:"17 6 23 6 23 12"})
+          );
+          var icoC=ce("svg",{width:S.w,height:S.h,viewBox:S.vB,fill:S.fill,stroke:"currentColor",strokeWidth:S.sW,strokeLinecap:S.sLC,strokeLinejoin:S.sLJ},
+            ce("circle",{cx:"9",cy:"21",r:"1"}),
+            ce("circle",{cx:"20",cy:"21",r:"1"}),
+            ce("path",{d:"M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"})
+          );
+          return [["despesas","Despesas",icoD,data.despesas.length],["vendas","Vendas",icoV,data.vendas.length],["compras","Compras",icoC,data.compras.length]].map(function(it){
+            var isAct=tab===it[0];
+            var iconColor=isAct?"#FFF":"#94A3B8";
+            return ce("button",{key:it[0],onClick:function(){setTab(it[0]);setConfirm(null);setSearch("");setPage(1);setFilterStatus("");setFilterCat("");setFilterPag("");setSelected([])},style:{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:2,padding:"10px 4px 8px",border:"none",background:isAct?C.acc:"none",borderRadius:13,cursor:"pointer",transition:"background .18s"}},
+              ce("span",{style:{display:"flex",color:iconColor,marginBottom:1}},it[2]),
+              ce("span",{style:{fontSize:11,fontWeight:isAct?800:600,color:isAct?"#FFF":"#64748B",marginTop:2}},it[1]),
+              it[3]>0&&ce("span",{style:{fontSize:9,fontWeight:800,background:isAct?"rgba(255,255,255,0.22)":"#F1F5F9",color:isAct?"#FFF":"#64748B",borderRadius:20,minWidth:18,height:18,display:"inline-flex",alignItems:"center",justifyContent:"center",padding:"0 5px",marginTop:2}},it[3])
+            );
+          });
+        })()
       )
     ),
     ce("div",{style:{padding:"12px 16px 0"}},
@@ -542,7 +561,7 @@ function Registros(p){
                     ce("div",{style:{display:"flex",alignItems:"center",gap:6,flexWrap:"wrap"}},
                       ce("span",{style:{fontSize:11,color:C.muted}},"📅 "+fmtD(item.data)),
                       item.categoria&&ce(Badge,{text:item.categoria,bg:"#F1F8E9",cl:C.acc}),
-                      item.tipo&&ce(Badge,{text:item.tipo,bg:"#1E293B",cl:"#FFF"})
+                      item.tipo&&ce(Badge,{text:item.tipo,bg:"#475569",cl:"#FFF"})
                     ),
                     item.obs&&!item.dataPagamento&&ce("div",{style:{fontSize:11,color:C.sub,marginTop:3,fontStyle:"italic"}},item.obs),
                     vi&&ce("div",{style:{marginTop:5}},ce(Badge,{text:vi.icon+" "+vi.label,bg:vi.bg,cl:vi.cl})),
