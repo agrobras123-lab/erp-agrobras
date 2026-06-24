@@ -5,8 +5,8 @@
   "start_url": "/erp-agrobras/",
   "scope": "/erp-agrobras/",
   "display": "standalone",
-  "background_color": "#0F172A",
-  "theme_color": "#1E293B",
+  "background_color": "#FAF6EC",
+  "theme_color": "#0A2E0A",
   "orientation": "portrait-primary",
   "lang": "pt-BR",
   "icons": [
