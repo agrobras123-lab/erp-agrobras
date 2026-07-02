@@ -460,11 +460,11 @@ function LoginScreen(p){
       ),
       ce("div",{style:{marginBottom:16}},
         ce("div",{style:{fontSize:T.xs,fontWeight:W.bold,color:"#64748B",textTransform:"uppercase",letterSpacing:".06em",marginBottom:8}},"Usuário"),
-        ce("input",{value:user,onChange:function(e){setUser(e.target.value)},placeholder:"Seu nome de usuário",onKeyDown:function(e){if(e.key==="Enter")handle()},style:inp})
+        ce("input",{value:user,onChange:function(e){setUser(e.target.value)},placeholder:"Seu nome de usuário","aria-label":"Usuário",autoComplete:"username",onKeyDown:function(e){if(e.key==="Enter")handle()},style:inp})
       ),
       ce("div",{style:{marginBottom:22}},
         ce("div",{style:{fontSize:T.xs,fontWeight:W.bold,color:"#64748B",textTransform:"uppercase",letterSpacing:".06em",marginBottom:8}},"Senha"),
-        ce("input",{type:"password",value:pass,onChange:function(e){setPass(e.target.value)},placeholder:"••••••••",onKeyDown:function(e){if(e.key==="Enter")handle()},style:inp})
+        ce("input",{type:"password",value:pass,onChange:function(e){setPass(e.target.value)},placeholder:"••••••••","aria-label":"Senha",autoComplete:"current-password",onKeyDown:function(e){if(e.key==="Enter")handle()},style:inp})
       ),
       error&&ce("div",{style:{color:"#DC2626",fontSize:T.base,marginBottom:16,fontWeight:W.med,padding:"11px 14px",background:"#FEF2F2",borderRadius:10,border:"1px solid #FECACA"}},"⚠️ "+error),
       ce("button",{onClick:handle,disabled:loading,style:{width:"100%",padding:17,borderRadius:14,border:"none",background:"linear-gradient(135deg,#1B5E20,#16A34A)",color:"#FFF",fontWeight:W.heavy,fontSize:T.md,cursor:"pointer",opacity:loading?0.7:1,boxShadow:"0 6px 24px rgba(27,94,32,.4)",letterSpacing:"-.01em"}},loading?"Verificando…":"Entrar →"),
@@ -1004,6 +1004,9 @@ function Config(p){
   var sbl=useState(null),backups=sbl[0],setBackups=sbl[1];
   var slb=useState(false),loadingBkp=slb[0],setLoadingBkp=slb[1];
   var scr=useState(null),confirmRestore=scr[0],setConfirmRestore=scr[1];
+  var sie=useState(null),importData=sie[0],setImportData=sie[1];
+  var sier=useState(""),importErr=sier[0],setImportErr=sier[1];
+  var fileRef=useRef(null);
   function fmtTag(tag){var p2=tag.replace("backup_","").split("_");if(p2.length<2)return tag;var dt=p2[0].split("-"),tm=p2[1].split("-");return dt[2]+"/"+dt[1]+"/"+dt[0]+" "+tm[0]+":"+tm[1]+":"+tm[2]}
   function fetchBackups(){
     setLoadingBkp(true);setBackups(null);
@@ -1018,6 +1021,28 @@ function Config(p){
       .then(function(j){var d=JSON.parse(j.fields.payload.stringValue);update(function(){return _o({},INIT,d)});setConfirmRestore(null);setBackups(null)})
       .catch(function(){setConfirmRestore(null)});
   }
+  function exportJSON(){
+    var blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement("a");a.href=url;a.download="agrobras_backup_"+localDate()+".json";
+    document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+  }
+  function onImportFile(e){
+    setImportErr("");
+    var file=e.target.files&&e.target.files[0];if(!file){return}
+    var reader=new FileReader();
+    reader.onload=function(){
+      try{
+        var parsed=JSON.parse(reader.result);
+        if(!parsed||!Array.isArray(parsed.vendas)||!Array.isArray(parsed.compras)||!Array.isArray(parsed.despesas)){throw new Error("formato")}
+        setImportData(parsed);
+      }catch(err){setImportErr("Arquivo inválido. Selecione um backup JSON exportado pelo app.")}
+    };
+    reader.onerror=function(){setImportErr("Não foi possível ler o arquivo.")};
+    reader.readAsText(file);
+    e.target.value="";
+  }
+  function doImport(){update(function(){return _o({},INIT,importData)});setImportData(null)}
   function addCat(field,val,list){var v=val.trim();if(!v||list.includes(v))return;update(function(d){var n=_o({},d);n[field]=d[field].concat([v]);return n})}
   function remCat(field,cat){update(function(d){var n=_o({},d);n[field]=d[field].filter(function(c){return c!==cat});return n})}
   function CatBlock(bp){
@@ -1060,7 +1085,24 @@ function Config(p){
               )
           )
       ),
-      ce("div",{style:{textAlign:"center",marginTop:24,color:C.sub,fontSize:T.xs,paddingBottom:8}},"ERP Agro Bras · v5.0 · 2026")
+      !isViewer&&ce(Card,{style:{marginBottom:12}},
+        ce(SecHead,{title:"Backup local (arquivo)"}),
+        importErr&&ce("div",{style:{background:C.dangerBg,border:"1px solid "+C.dangerBd,borderRadius:8,padding:"8px 12px",marginBottom:10,fontSize:T.xs,color:C.dangerTx,fontWeight:W.bold}},importErr),
+        importData
+          ?ce("div",{style:{background:"#FEE2E2",borderRadius:10,padding:12,border:"1px solid #FECACA"}},
+              ce("div",{style:{fontSize:T.sm,fontWeight:W.bold,color:"#991B1B",marginBottom:6}},"⚠️ Importar substituirá TODOS os dados atuais."),
+              ce("div",{style:{fontSize:T.xs,color:"#991B1B",marginBottom:10}},"Vendas: "+importData.vendas.length+" · Compras: "+importData.compras.length+" · Despesas: "+importData.despesas.length),
+              ce("div",{style:{display:"flex",gap:8}},
+                ce("button",{onClick:doImport,style:{flex:1,padding:"8px 0",borderRadius:8,background:"#DC2626",color:"#FFF",border:"none",cursor:"pointer",fontWeight:W.heavy,fontSize:T.sm}},"Confirmar importação"),
+                ce("button",{onClick:function(){setImportData(null)},style:{flex:1,padding:"8px 0",borderRadius:8,background:"none",border:"1px solid "+C.border,cursor:"pointer",fontSize:T.sm,fontWeight:W.bold}},"Cancelar")))
+          :ce(R.Fragment,null,
+              ce("div",{style:{fontSize:T.xs,color:C.sub,marginBottom:10}},"Baixe um arquivo com todos os dados ou restaure a partir de um backup salvo no seu dispositivo."),
+              ce("div",{style:{display:"flex",gap:8}},
+                ce("button",{"aria-label":"Exportar backup em JSON",onClick:exportJSON,style:{flex:1,padding:"9px 0",borderRadius:8,background:C.acc,color:"#FFF",border:"none",cursor:"pointer",fontWeight:W.heavy,fontSize:T.sm}},"⬇ Exportar JSON"),
+                ce("button",{"aria-label":"Importar backup em JSON",onClick:function(){if(fileRef.current)fileRef.current.click()},style:{flex:1,padding:"9px 0",borderRadius:8,background:"none",border:"1px solid "+C.acc,color:C.acc,cursor:"pointer",fontWeight:W.heavy,fontSize:T.sm}},"⬆ Importar JSON")),
+              ce("input",{ref:fileRef,type:"file",accept:"application/json,.json","aria-label":"Selecionar arquivo de backup",onChange:onImportFile,style:{display:"none"}}))
+      ),
+      ce("div",{style:{textAlign:"center",marginTop:24,color:C.sub,fontSize:T.xs,paddingBottom:8}},"ERP Agro Bras · v6.0 · 2026")
     )
   );
 }

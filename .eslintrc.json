@@ -1,0 +1,27 @@
+{
+  "root": true,
+  "env": { "browser": true, "es2021": true },
+  "parserOptions": { "ecmaVersion": 2021, "sourceType": "script" },
+  "plugins": ["html"],
+  "globals": {
+    "React": "readonly",
+    "ReactDOM": "readonly"
+  },
+  "rules": {
+    "no-undef": "error",
+    "no-dupe-keys": "error",
+    "no-dupe-args": "error",
+    "no-unreachable": "error",
+    "no-func-assign": "error",
+    "no-cond-assign": ["error", "except-parens"],
+    "no-unused-vars": "off",
+    "no-empty": "off",
+    "no-constant-condition": ["error", { "checkLoops": false }]
+  },
+  "overrides": [
+    {
+      "files": ["sw.js"],
+      "env": { "serviceworker": true, "browser": true }
+    }
+  ]
+}
