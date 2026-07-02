@@ -1,0 +1,12 @@
+# O app é escrito num único arquivo em estilo compacto e intencional.
+# Prettier não deve reformatá-lo (geraria um diff gigante e sem valor).
+index.html
+preview.html
+logo-intro.html
+sw.js
+
+# Dependências e artefatos
+node_modules/
+tests/vendor/
+test-results/
+playwright-report/

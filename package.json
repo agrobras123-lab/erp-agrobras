@@ -1,0 +1,20 @@
+{
+  "name": "erp-agrobras",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ERP Financeiro Agro Bras — PWA estático de gestão financeira agrícola",
+  "scripts": {
+    "check": "node scripts/check-syntax.js",
+    "lint": "eslint index.html sw.js",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "test": "playwright test",
+    "verify": "npm run check && npm run lint && npm test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "eslint": "8.57.1",
+    "eslint-plugin-html": "7.1.0",
+    "prettier": "3.3.3"
+  }
+}
