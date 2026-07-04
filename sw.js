@@ -1,5 +1,5 @@
 'use strict';
-var CACHE = 'erp-agb-v6';
+var CACHE = 'erp-agb-v7';
 var ASSETS = [
   '/erp-agrobras/',
   '/erp-agrobras/index.html',
@@ -19,16 +19,34 @@ self.addEventListener('activate', function(e) {
   }));
   self.clients.claim();
 });
+function cachePut(req, r) {
+  if (r && r.status === 200 && req.method === 'GET') {
+    var cl = r.clone();
+    caches.open(CACHE).then(function(c){ c.put(req, cl); });
+  }
+  return r;
+}
 self.addEventListener('fetch', function(e) {
-  if(e.request.url.includes('firestore.googleapis.com')){
-    e.respondWith(fetch(e.request).catch(function(){return new Response('{}',{headers:{'Content-Type':'application/json'}})}));
+  var req = e.request;
+  if(req.url.includes('firestore.googleapis.com')){
+    e.respondWith(fetch(req).catch(function(){return new Response('{}',{headers:{'Content-Type':'application/json'}})}));
     return;
   }
-  e.respondWith(caches.match(e.request).then(function(cached){
-    var net=fetch(e.request).then(function(r){
-      if(r&&r.status===200&&e.request.method==='GET'){var cl=r.clone();caches.open(CACHE).then(function(c){c.put(e.request,cl)})}
-      return r;
-    }).catch(function(){return cached});
+  // HTML/navegação: rede primeiro, para que atualizações apareçam na hora.
+  // Cai no cache (index.html) apenas quando estiver offline.
+  if(req.mode === 'navigate'){
+    e.respondWith(
+      fetch(req).then(function(r){ return cachePut(req, r); }).catch(function(){
+        return caches.match(req).then(function(cached){
+          return cached || caches.match('/erp-agrobras/index.html');
+        });
+      })
+    );
+    return;
+  }
+  // Demais assets: cache primeiro (rápido), atualizando em segundo plano.
+  e.respondWith(caches.match(req).then(function(cached){
+    var net=fetch(req).then(function(r){ return cachePut(req, r); }).catch(function(){return cached});
     return cached||net;
   }));
 });

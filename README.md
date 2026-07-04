@@ -59,7 +59,9 @@ antes de ir pro ar. O mesmo conjunto roda no **CI** (`.github/workflows/ci.yml`)
 
 Como é estático, publicar = servir os arquivos do repositório (ex.: GitHub
 Pages no escopo `/erp-agrobras/`). Lembre de **incrementar `CACHE` em `sw.js`**
-a cada release para que os usuários recebam a versão nova (o SW é cache-first).
+a cada release. O service worker busca o **HTML pela rede primeiro** (para que
+atualizações apareçam na hora, caindo no cache só quando offline) e mantém os
+demais assets em cache-first.
 
 ## Roadmap de melhorias
 
