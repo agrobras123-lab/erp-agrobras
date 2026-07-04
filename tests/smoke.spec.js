@@ -137,3 +137,27 @@ test("backup local: exporta e importa JSON", async ({ page }) => {
   await page.getByRole("button", { name: "Registros" }).click();
   await expect(page.getByText("REGISTRO IMPORTADO")).toBeVisible({ timeout: 10000 });
 });
+
+test("fechamento gera relatório PDF e config tem lembretes", async ({ page }) => {
+  await stub(page, sample);
+  await page.addInitScript(() => {
+    try {
+      sessionStorage.setItem("erp_agb_s4", JSON.stringify({ nome: "Murilo", role: "admin" }));
+      sessionStorage.setItem("agb-intro", "1");
+    } catch (e) {}
+    window.print = () => {}; // evita abrir o diálogo de impressão no headless
+  });
+  await page.goto("/index.html");
+  await page.getByRole("button", { name: "Mais" }).click();
+
+  // Fechamento -> Gerar PDF preenche o container de impressão com o relatório
+  await page.getByText("📊 Fechamento").first().click();
+  await page.getByRole("button", { name: "Gerar relatório em PDF" }).click();
+  await expect
+    .poll(() => page.locator("#agb-print").innerHTML())
+    .toContain("Relatório de Fechamento");
+
+  // Config expõe o controle de lembretes de vencimento
+  await page.getByText("⚙️ Config").first().click();
+  await expect(page.getByText("Lembretes de vencimento")).toBeVisible({ timeout: 10000 });
+});
