@@ -138,6 +138,108 @@ test("backup local: exporta e importa JSON", async ({ page }) => {
   await expect(page.getByText("REGISTRO IMPORTADO")).toBeVisible({ timeout: 10000 });
 });
 
+test("fechamento contabiliza a folha de funcionários (vales + salários)", async ({ page }) => {
+  const errs = [];
+  page.on("pageerror", (e) => errs.push(e.message));
+  const folha = {
+    vendas: [],
+    compras: [],
+    despesas: [
+      {
+        id: "va1",
+        data: today,
+        descricao: "Vale — João",
+        categoria: "Funcionários",
+        tipo: "Fixo",
+        valor: 300,
+        status: "Pago",
+        _adiantId: "a1"
+      },
+      {
+        id: "sa1",
+        data: today,
+        descricao: "Salário — João",
+        categoria: "Funcionários",
+        tipo: "Fixo",
+        valor: 700,
+        status: "Pago",
+        _salFuncId: "f1",
+        _salMes: today.slice(0, 7)
+      }
+    ],
+    funcionarios: [{ id: "f1", nome: "João", salarioBase: 1000, ativo: true }],
+    adiantamentos: [
+      {
+        id: "a1",
+        funcId: "f1",
+        data: today,
+        mesRef: today.slice(0, 7),
+        valor: 300,
+        descricao: "Vale"
+      }
+    ],
+    catsDespesa: ["Funcionários", "Outros"],
+    catsCompra: ["Outros"]
+  };
+  await stub(page, folha);
+  await page.addInitScript(() => {
+    try {
+      sessionStorage.setItem("erp_agb_s4", JSON.stringify({ nome: "Murilo", role: "admin" }));
+      sessionStorage.setItem("agb-intro", "1");
+    } catch (e) {}
+    window.print = () => {};
+  });
+  await page.goto("/index.html");
+  await page.getByRole("button", { name: "Mais" }).click();
+  await page.getByText("📊 Fechamento").first().click();
+
+  // A seção dedicada da folha aparece com o total (vale 300 + salário 700 = 1000)
+  await expect(page.getByText("Funcionários (Folha)")).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText("Total despesa funcionários")).toBeVisible();
+  await expect(page.getByText("R$ 1.000,00").first()).toBeVisible();
+
+  // O PDF também discrimina a folha de pagamento
+  await page.getByRole("button", { name: "Gerar relatório em PDF" }).click();
+  await expect
+    .poll(() => page.locator("#agb-print").innerHTML())
+    .toContain("Funcionários (folha de pagamento)");
+  expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
+});
+
+test("lança várias despesas no mesmo dia sem reabrir o modal", async ({ page }) => {
+  const errs = [];
+  page.on("pageerror", (e) => errs.push(e.message));
+  await stub(page, sample);
+  await page.addInitScript(() => {
+    try {
+      sessionStorage.setItem("erp_agb_s4", JSON.stringify({ nome: "Murilo", role: "admin" }));
+      sessionStorage.setItem("agb-intro", "1");
+    } catch (e) {}
+  });
+  await page.goto("/index.html");
+
+  // Abre o modal de novo lançamento (padrão: despesa)
+  await page.getByRole("button", { name: "Novo registro" }).click();
+  await page.locator('input[placeholder="0,00"]').fill("50");
+  await page.locator('input[placeholder="Ex: Conta de luz"]').fill("Despesa A");
+  await page.locator(".modal-sheet select").first().selectOption("Outros");
+
+  // "Salvar e lançar outra" mantém o modal aberto e a data
+  await page.getByRole("button", { name: /Salvar e lançar outra/ }).click();
+  await expect(page.getByText(/1 lançamento adicionado/)).toBeVisible();
+
+  // O segundo lançamento reaproveita data/categoria; só o valor/descrição são novos
+  await page.locator('input[placeholder="0,00"]').fill("70");
+  await page.locator('input[placeholder="Ex: Conta de luz"]').fill("Despesa B");
+  await page.getByRole("button", { name: "Salvar e fechar" }).click();
+
+  // Ambas aparecem nos Registros
+  await page.getByRole("button", { name: "Registros" }).click();
+  await expect(page.getByText("Despesa A")).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText("Despesa B")).toBeVisible();
+  expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
+});
+
 test("fechamento gera relatório PDF e config tem lembretes", async ({ page }) => {
   await stub(page, sample);
   await page.addInitScript(() => {
@@ -160,4 +262,110 @@ test("fechamento gera relatório PDF e config tem lembretes", async ({ page }) =
   // Config expõe o controle de lembretes de vencimento
   await page.getByText("⚙️ Config").first().click();
   await expect(page.getByText("Lembretes de vencimento")).toBeVisible({ timeout: 10000 });
+});
+
+const mesCur = today.slice(0, 7);
+const folhaBase = {
+  vendas: [],
+  compras: [],
+  despesas: [
+    {
+      id: "vale1",
+      data: today,
+      descricao: "Vale — João",
+      categoria: "Funcionários",
+      tipo: "Fixo",
+      valor: 300,
+      status: "Pago",
+      _adiantId: "a1"
+    }
+  ],
+  funcionarios: [{ id: "f1", nome: "João", salarioBase: 1000, ativo: true }],
+  adiantamentos: [
+    { id: "a1", funcId: "f1", data: today, mesRef: mesCur, valor: 300, descricao: "Vale" }
+  ],
+  catsDespesa: ["Funcionários", "Outros"],
+  catsCompra: ["Outros"]
+};
+
+async function authGoto(page, payload) {
+  await page.addInitScript(() => {
+    try {
+      sessionStorage.setItem("erp_agb_s4", JSON.stringify({ nome: "Murilo", role: "admin" }));
+      sessionStorage.setItem("agb-intro", "1");
+    } catch (e) {}
+    window.print = () => {};
+  });
+  await stub(page, payload);
+  await page.goto("/index.html");
+}
+
+test("salário: paga na data real e vira despesa só-leitura em Registros", async ({ page }) => {
+  const errs = [];
+  page.on("pageerror", (e) => errs.push(e.message));
+  await authGoto(page, folhaBase);
+
+  await page.getByRole("button", { name: "Mais" }).click();
+  await page.getByText("👥 Salários").first().click();
+  await page.getByRole("button", { name: "Expandir funcionário" }).click();
+  // Salário = base 1000 − vales 300 = 700
+  await page.getByRole("button", { name: /Pagar — / }).click();
+  await expect(page.getByText(/Salário pago:/)).toBeVisible({ timeout: 10000 });
+
+  // Em Registros, vale e salário ficam só-leitura (badge de folha, sem editar)
+  await page.getByRole("button", { name: "Registros" }).click();
+  await expect(page.getByText("Salário ref.", { exact: false }).first()).toBeVisible();
+  await expect(page.getByText("🔒 Salários").first()).toBeVisible();
+
+  expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
+});
+
+test("salário: estorno remove a despesa de salário", async ({ page }) => {
+  await authGoto(page, folhaBase);
+  await page.getByRole("button", { name: "Mais" }).click();
+  await page.getByText("👥 Salários").first().click();
+  await page.getByRole("button", { name: "Expandir funcionário" }).click();
+  await page.getByRole("button", { name: /Pagar — / }).click();
+  await expect(page.getByText(/Salário pago:/)).toBeVisible({ timeout: 10000 });
+
+  await page.getByRole("button", { name: "↩ Estornar salário" }).click();
+  await page.getByRole("button", { name: "Confirmar estorno" }).click();
+  // Volta a oferecer o pagamento
+  await expect(page.getByRole("button", { name: /Pagar — / })).toBeVisible({ timeout: 10000 });
+});
+
+test("duplicar lançamento abre o modal como novo", async ({ page }) => {
+  await authGoto(page, sample);
+  await page.getByRole("button", { name: "Registros" }).click();
+  await page.getByRole("button", { name: "Duplicar registro" }).first().click();
+  await expect(page.getByText("Novo Lançamento")).toBeVisible();
+  await expect(page.locator('input[placeholder="Ex: Conta de luz"]')).toHaveValue("Energia");
+});
+
+test("excluir mostra toast com Desfazer e restaura o registro", async ({ page }) => {
+  await authGoto(page, sample);
+  await page.getByRole("button", { name: "Registros" }).click();
+  await expect(page.getByText("Energia")).toBeVisible();
+  await page.getByRole("button", { name: "Excluir registro" }).first().click();
+  await page.getByRole("button", { name: "OK" }).click();
+  await expect(page.getByText("Despesa excluída")).toBeVisible({ timeout: 10000 });
+  await page.getByRole("button", { name: "Desfazer" }).click();
+  await expect(page.getByText("Energia")).toBeVisible();
+});
+
+test("fechamento mostra comparativo mensal e salários exporta folha", async ({ page }) => {
+  const errs = [];
+  page.on("pageerror", (e) => errs.push(e.message));
+  await authGoto(page, folhaBase);
+  await page.getByRole("button", { name: "Mais" }).click();
+  await page.getByText("📊 Fechamento").first().click();
+  await expect(page.getByText("Comparativo mensal", { exact: false })).toBeVisible({
+    timeout: 10000
+  });
+
+  // Folha em PDF preenche o container de impressão
+  await page.getByText("👥 Salários").first().click();
+  await page.getByRole("button", { name: "Gerar folha em PDF" }).click();
+  await expect.poll(() => page.locator("#agb-print").innerHTML()).toContain("Folha de Pagamento");
+  expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
 });
