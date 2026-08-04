@@ -169,7 +169,14 @@ test("fechamento contabiliza a folha de funcionários (vales + salários)", asyn
     ],
     funcionarios: [{ id: "f1", nome: "João", salarioBase: 1000, ativo: true }],
     adiantamentos: [
-      { id: "a1", funcId: "f1", data: today, mesRef: today.slice(0, 7), valor: 300, descricao: "Vale" }
+      {
+        id: "a1",
+        funcId: "f1",
+        data: today,
+        mesRef: today.slice(0, 7),
+        valor: 300,
+        descricao: "Vale"
+      }
     ],
     catsDespesa: ["Funcionários", "Outros"],
     catsCompra: ["Outros"]
