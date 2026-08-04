@@ -138,6 +138,67 @@ test("backup local: exporta e importa JSON", async ({ page }) => {
   await expect(page.getByText("REGISTRO IMPORTADO")).toBeVisible({ timeout: 10000 });
 });
 
+test("fechamento contabiliza a folha de funcionários (vales + salários)", async ({ page }) => {
+  const errs = [];
+  page.on("pageerror", (e) => errs.push(e.message));
+  const folha = {
+    vendas: [],
+    compras: [],
+    despesas: [
+      {
+        id: "va1",
+        data: today,
+        descricao: "Vale — João",
+        categoria: "Funcionários",
+        tipo: "Fixo",
+        valor: 300,
+        status: "Pago",
+        _adiantId: "a1"
+      },
+      {
+        id: "sa1",
+        data: today,
+        descricao: "Salário — João",
+        categoria: "Funcionários",
+        tipo: "Fixo",
+        valor: 700,
+        status: "Pago",
+        _salFuncId: "f1",
+        _salMes: today.slice(0, 7)
+      }
+    ],
+    funcionarios: [{ id: "f1", nome: "João", salarioBase: 1000, ativo: true }],
+    adiantamentos: [
+      { id: "a1", funcId: "f1", data: today, mesRef: today.slice(0, 7), valor: 300, descricao: "Vale" }
+    ],
+    catsDespesa: ["Funcionários", "Outros"],
+    catsCompra: ["Outros"]
+  };
+  await stub(page, folha);
+  await page.addInitScript(() => {
+    try {
+      sessionStorage.setItem("erp_agb_s4", JSON.stringify({ nome: "Murilo", role: "admin" }));
+      sessionStorage.setItem("agb-intro", "1");
+    } catch (e) {}
+    window.print = () => {};
+  });
+  await page.goto("/index.html");
+  await page.getByRole("button", { name: "Mais" }).click();
+  await page.getByText("📊 Fechamento").first().click();
+
+  // A seção dedicada da folha aparece com o total (vale 300 + salário 700 = 1000)
+  await expect(page.getByText("Funcionários (Folha)")).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText("Total despesa funcionários")).toBeVisible();
+  await expect(page.getByText("R$ 1.000,00").first()).toBeVisible();
+
+  // O PDF também discrimina a folha de pagamento
+  await page.getByRole("button", { name: "Gerar relatório em PDF" }).click();
+  await expect
+    .poll(() => page.locator("#agb-print").innerHTML())
+    .toContain("Funcionários (folha de pagamento)");
+  expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
+});
+
 test("fechamento gera relatório PDF e config tem lembretes", async ({ page }) => {
   await stub(page, sample);
   await page.addInitScript(() => {

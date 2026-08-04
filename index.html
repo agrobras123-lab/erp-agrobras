@@ -936,6 +936,12 @@ function Fechamento(p){
   var vPix=fV.reduce(function(a,x){return a+(x.pix||0)},0),vDin=fV.reduce(function(a,x){return a+(x.dinheiro||0)},0),vFia=fV.reduce(function(a,x){return a+(x.fiado||0)},0),vCart=fV.reduce(function(a,x){return a+(x.cartao||0)},0),vBol=fV.reduce(function(a,x){return a+(x.boleto||0)},0);
   var cPix=fC.reduce(function(a,x){return a+(x.pix||0)},0),cDin=fC.reduce(function(a,x){return a+(x.dinheiro||0)},0),cAp=fC.reduce(function(a,x){return a+(x.aprazo||0)},0);
   var catData=data.catsDespesa.map(function(cat){return{cat:cat,valor:fD.filter(function(d){return d.categoria===cat}).reduce(function(a,x){return a+(x.valor||0)},0)}}).filter(function(x){return x.valor>0}).sort(function(a,b){return b.valor-a.valor});
+  var fFunc=fD.filter(function(d){return d.categoria==="Funcionários"||d._adiantId||d._salFuncId});
+  var funcVales=fFunc.filter(function(d){return d._adiantId}).reduce(function(a,x){return a+(x.valor||0)},0);
+  var funcSal=fFunc.filter(function(d){return d._salFuncId}).reduce(function(a,x){return a+(x.valor||0)},0);
+  var funcOutros=fFunc.filter(function(d){return!d._adiantId&&!d._salFuncId}).reduce(function(a,x){return a+(x.valor||0)},0);
+  var funcTotal=funcVales+funcSal+funcOutros;
+  var funcNVales=fFunc.filter(function(d){return d._adiantId}).length,funcNSal=fFunc.filter(function(d){return d._salFuncId}).length;
   var vSlices=[{label:"PIX",valor:vPix,color:"#8B5CF6"},{label:"Dinheiro",valor:vDin,color:"#16A34A"},{label:"Fiado",valor:vFia,color:"#D97706"},{label:"Cartão",valor:vCart,color:"#1B5E20"},{label:"Boleto",valor:vBol,color:"#16A34A"}].filter(function(x){return x.valor>0});
   var cSlices=[{label:"PIX",valor:cPix,color:"#8B5CF6"},{label:"Dinheiro",valor:cDin,color:"#16A34A"},{label:"A Prazo",valor:cAp,color:"#DC2626"}].filter(function(x){return x.valor>0});
   function exportCSV(){
@@ -945,6 +951,7 @@ function Fechamento(p){
       "=== VENDAS POR PAGAMENTO ===","PIX,"+vPix.toFixed(2),"Dinheiro,"+vDin.toFixed(2),"Fiado,"+vFia.toFixed(2),"Cartão,"+vCart.toFixed(2),"Boleto,"+vBol.toFixed(2),"",
       "=== COMPRAS POR PAGAMENTO ===","PIX,"+cPix.toFixed(2),"Dinheiro,"+cDin.toFixed(2),"A Prazo,"+cAp.toFixed(2),"",
       "=== DESPESAS ===","Pago,"+tdPago.toFixed(2),"Pendente,"+(td-tdPago).toFixed(2),"Fixo,"+fixo.toFixed(2),"Variável,"+variavel.toFixed(2),"",
+      "=== FUNCIONÁRIOS (FOLHA) ===","Vales,"+funcVales.toFixed(2),"Salários,"+funcSal.toFixed(2),"Outros,"+funcOutros.toFixed(2),"Total funcionários,"+funcTotal.toFixed(2),"",
       "=== CATEGORIAS ==="].concat(catData.map(function(c){return c.cat+","+c.valor.toFixed(2)}))
       .concat(["","=== DETALHE VENDAS ===","Data,PIX,Dinheiro,Fiado,Cartão,Boleto,Total"]).concat(fV.map(function(v){return[v.data,v.pix||0,v.dinheiro||0,v.fiado||0,v.cartao||0,v.boleto||0,vtotal(v)].join(",")}))
       .concat(["","=== DETALHE DESPESAS ===","Data,Descrição,Categoria,Tipo,Status,Valor"]).concat(fD.map(function(d){return[d.data,'"'+(d.descricao||"")+'"',d.categoria||"",d.tipo||"",d.status||"",d.valor||0].join(",")}));
@@ -963,6 +970,7 @@ function Fechamento(p){
     var cp=[["PIX",cPix],["Dinheiro",cDin],["A Prazo",cAp]].filter(function(x){return x[1]>0}).map(function(x){return rowKV(x[0],x[1])}).join("");
     var cat=catData.map(function(c){return rowKV(c.cat,c.valor)}).join("");
     var status=rowKV("Pago",tdPago)+rowKV("Pendente",td-tdPago)+rowKV("Fixo",fixo)+rowKV("Variável",variavel);
+    var folha=[["Vales",funcVales],["Salários",funcSal],["Outros",funcOutros]].filter(function(x){return x[1]>0}).map(function(x){return rowKV(x[0],x[1])}).join("")+(funcTotal>0?"<tr><td><b>Total funcionários</b></td><td class='r'><b>"+fmt(funcTotal)+"</b></td></tr>":"");
     var vendasDet=fV.slice().sort(function(a,b){return (a.data||"").localeCompare(b.data||"")}).map(function(v){return "<tr><td>"+fmtD(v.data)+"</td><td class='r'>"+fmt(vtotal(v))+"</td></tr>"}).join("");
     var despDet=fD.slice().sort(function(a,b){return (a.data||"").localeCompare(b.data||"")}).map(function(d){return "<tr><td>"+fmtD(d.data)+"</td><td>"+esc(d.descricao||"—")+"</td><td>"+esc(d.categoria||"")+"</td><td>"+esc(d.status||"")+"</td><td class='r'>"+fmt(d.valor||0)+"</td></tr>"}).join("");
     var css="<style>"
@@ -998,6 +1006,7 @@ function Fechamento(p){
       +tbl("Vendas por forma de recebimento",vp)
       +tbl("Compras por forma de pagamento",cp)
       +"<h2>Status das despesas</h2><table>"+status+"</table>"
+      +(funcTotal>0?"<h2>Funcionários (folha de pagamento)</h2><table>"+folha+"</table>":"")
       +tbl("Despesas por categoria",cat)
       +tbl("Detalhe de vendas (por dia)",vendasDet)
       +(despDet?"<h2>Detalhe de despesas</h2><table><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Status</th><th class='r'>Valor</th></tr>"+despDet+"</table>":"")
@@ -1043,6 +1052,16 @@ function Fechamento(p){
           ce("div",{style:{flex:1,background:"#F1F8E9",borderRadius:10,padding:"10px 12px"}},ce("div",{style:{fontSize:T.xxs,color:"#1B5E20",fontWeight:W.bold}},"📌 Fixo"),ce("div",{style:{fontSize:T.md,fontWeight:W.heavy,color:"#1B5E20"}},fmt(fixo))),
           ce("div",{style:{flex:1,background:"#F5F3FF",borderRadius:10,padding:"10px 12px"}},ce("div",{style:{fontSize:T.xxs,color:"#5B21B6",fontWeight:W.bold}},"🔄 Variável"),ce("div",{style:{fontSize:T.md,fontWeight:W.heavy,color:"#5B21B6"}},fmt(variavel)))
         )
+      ),
+      funcTotal>0&&ce(Card,{style:{marginTop:10}},ce(SecHead,{title:"Funcionários (Folha)"}),
+        ce("div",{style:{display:"flex",gap:8,marginBottom:8}},
+          ce("div",{style:{flex:1,background:"#FEF3C7",borderRadius:10,padding:"10px 12px"}},ce("div",{style:{fontSize:T.xxs,color:"#92400E",fontWeight:W.bold}},"💵 Vales"+(funcNVales?" ("+funcNVales+")":"")),ce("div",{style:{fontSize:T.md,fontWeight:W.heavy,color:"#92400E"}},fmt(funcVales))),
+          ce("div",{style:{flex:1,background:"#DCFCE7",borderRadius:10,padding:"10px 12px"}},ce("div",{style:{fontSize:T.xxs,color:"#1B5E20",fontWeight:W.bold}},"💰 Salários"+(funcNSal?" ("+funcNSal+")":"")),ce("div",{style:{fontSize:T.md,fontWeight:W.heavy,color:"#1B5E20"}},fmt(funcSal)))
+        ),
+        funcOutros>0&&ce("div",{style:{background:C.bg,borderRadius:10,padding:"8px 12px",marginBottom:8,display:"flex",justifyContent:"space-between",alignItems:"center"}},ce("span",{style:{fontSize:T.xs,color:C.sub,fontWeight:W.bold}},"Outros (funcionários)"),ce("span",{style:{fontSize:T.sm,fontWeight:W.heavy,color:C.txt}},fmt(funcOutros))),
+        ce("div",{style:{borderTop:"1px solid "+C.border,paddingTop:10,display:"flex",justifyContent:"space-between",alignItems:"center"}},
+          ce("span",{style:{fontSize:T.sm,fontWeight:W.heavy,color:C.txt}},"Total despesa funcionários"),
+          ce("span",{style:{fontSize:T.lg,fontWeight:W.heavy,color:"#B45309"}},fmt(funcTotal)))
       ),
       catData.length>0&&ce(Card,{style:{marginTop:10}},ce(SecHead,{title:"Despesas por Categoria"}),ce(HorizBar,{data:catData,cats:data.catsDespesa})),
       ce(Card,{style:{marginTop:10,marginBottom:8}},ce(SecHead,{title:"Volume de Registros"}),
