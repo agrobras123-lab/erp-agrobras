@@ -1206,6 +1206,7 @@ function Modal(p){
   var s1=useState(p.type),type=s1[0],setType=s1[1];
   var s2=useState(p.initialForm),form=s2[0],setForm=s2[1];
   var s3=useState(""),formErr=s3[0],setFormErr=s3[1];
+  var s4=useState(0),addedCount=s4[0],setAddedCount=s4[1];
   var set=useCallback(function(k,v){setForm(function(f){var n=_o({},f);n[k]=v;return n});setFormErr("")},[]);
   var iV=type==="venda",iC=type==="compra",iD=type==="despesa";
   var lbl={fontSize:T.xs,fontWeight:W.bold,color:C.sub,textTransform:"uppercase",letterSpacing:".06em",marginBottom:4,display:"block"};
@@ -1231,13 +1232,21 @@ function Modal(p){
     }
     return true;
   }
+  function buildPayload(){
+    if(iV)return{data:form.data,obs:form.obs||"",pix:toNum(form.pix),dinheiro:toNum(form.dinheiro),fiado:toNum(form.fiado),cartao:toNum(form.cartao),boleto:toNum(form.boleto)};
+    if(iC)return{data:form.data,obs:form.obs||"",categoria:form.categoria||"",pix:toNum(form.pix),dinheiro:toNum(form.dinheiro),aprazo:toNum(form.aprazo)};
+    return _o({},form,{valor:toNum(form.valor)});
+  }
   function handleSubmit(){
     if(!validate())return;
-    var pl;
-    if(iV)pl={data:form.data,obs:form.obs||"",pix:toNum(form.pix),dinheiro:toNum(form.dinheiro),fiado:toNum(form.fiado),cartao:toNum(form.cartao),boleto:toNum(form.boleto)};
-    else if(iC)pl={data:form.data,obs:form.obs||"",categoria:form.categoria||"",pix:toNum(form.pix),dinheiro:toNum(form.dinheiro),aprazo:toNum(form.aprazo)};
-    else pl=_o({},form,{valor:toNum(form.valor)});
-    p.onSubmit(type,p.editId,pl);
+    p.onSubmit(type,p.editId,buildPayload());
+  }
+  function handleSubmitMore(){
+    if(!validate())return;
+    p.onSubmit(type,null,buildPayload(),true);
+    setForm(function(f){return _o({},f,{valor:"",descricao:"",obs:"",pix:"",dinheiro:"",fiado:"",cartao:"",boleto:"",aprazo:""})});
+    setAddedCount(function(c){return c+1});
+    setFormErr("");
   }
   return ce("div",{className:"modal-in",style:{position:"fixed",inset:0,zIndex:200,display:"flex",flexDirection:"column",justifyContent:"flex-end"}},
     ce("div",{onClick:p.onClose,style:{position:"absolute",inset:0,background:"rgba(15,23,42,.6)"}}),
@@ -1323,8 +1332,10 @@ function Modal(p){
         ce("label",{style:lbl},"Observação (opcional)"),
         ce("input",{placeholder:"Ex: Chuva, movimento fraco…",value:form.obs||"",onChange:function(e){set("obs",e.target.value)},style:fst})
       ),
+      addedCount>0&&ce("div",{style:{textAlign:"center",fontSize:T.xs,fontWeight:W.bold,color:C.acc,margin:"2px 0 8px"}},"✓ "+addedCount+" "+(addedCount===1?"lançamento adicionado":"lançamentos adicionados")+" · data mantida: "+fmtD(form.data)),
+      !p.editId&&!form.recorrente&&ce("button",{onClick:handleSubmitMore,style:{width:"100%",padding:13,borderRadius:12,border:"2px solid "+C.acc,background:"#F1F8E9",color:C.acc,fontWeight:W.heavy,fontSize:T.sm,cursor:"pointer",marginTop:4,marginBottom:8,fontFamily:"inherit"}},"➕ Salvar e lançar outra (mesmo dia)"),
       ce("button",{onClick:handleSubmit,style:{width:"100%",padding:15,borderRadius:12,border:"none",background:iV?"linear-gradient(135deg,#1B5E20,#16A34A)":iC?"linear-gradient(135deg,#D97706,#B45309)":"linear-gradient(135deg,"+C.acc+",#1B5E20)",color:"#FFF",fontWeight:W.heavy,fontSize:T.md,cursor:"pointer",marginTop:4,fontFamily:"inherit",boxShadow:"0 4px 12px rgba(0,0,0,.15)"}},
-        p.editId?"Salvar Alterações":iV?"Registrar Venda":iC?"Registrar Compra":"Lançar Despesa"+(form.recorrente?" (Recorrente)":""))
+        p.editId?"Salvar Alterações":addedCount>0?"Salvar e fechar":iV?"Registrar Venda":iC?"Registrar Compra":"Lançar Despesa"+(form.recorrente?" (Recorrente)":""))
     )
   );
 }
@@ -1483,7 +1494,7 @@ function App(){
     }).catch(function(){setSyncSt("error");showToast("error","Falha ao sincronizar");});
   }
 
-  function handleSubmit(type,editId,payload){
+  function handleSubmit(type,editId,payload,keepOpen){
     if(isViewer)return;
     if(editId){
       if(type==="venda")ops.updV(editId,payload);else if(type==="compra")ops.updC(editId,payload);else ops.updD(editId,payload);
@@ -1504,6 +1515,7 @@ function App(){
         ops.addD(payload);
       }
     }
+    if(keepOpen){showToast("success","Lançamento adicionado — pronto pro próximo");return;}
     closeModal();
     showToast("success",editId?"Registro atualizado":"Registro adicionado");
   }

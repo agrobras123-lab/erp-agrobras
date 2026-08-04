@@ -206,6 +206,40 @@ test("fechamento contabiliza a folha de funcionários (vales + salários)", asyn
   expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
 });
 
+test("lança várias despesas no mesmo dia sem reabrir o modal", async ({ page }) => {
+  const errs = [];
+  page.on("pageerror", (e) => errs.push(e.message));
+  await stub(page, sample);
+  await page.addInitScript(() => {
+    try {
+      sessionStorage.setItem("erp_agb_s4", JSON.stringify({ nome: "Murilo", role: "admin" }));
+      sessionStorage.setItem("agb-intro", "1");
+    } catch (e) {}
+  });
+  await page.goto("/index.html");
+
+  // Abre o modal de novo lançamento (padrão: despesa)
+  await page.getByRole("button", { name: "Novo registro" }).click();
+  await page.locator('input[placeholder="0,00"]').fill("50");
+  await page.locator('input[placeholder="Ex: Conta de luz"]').fill("Despesa A");
+  await page.locator(".modal-sheet select").first().selectOption("Outros");
+
+  // "Salvar e lançar outra" mantém o modal aberto e a data
+  await page.getByRole("button", { name: /Salvar e lançar outra/ }).click();
+  await expect(page.getByText(/1 lançamento adicionado/)).toBeVisible();
+
+  // O segundo lançamento reaproveita data/categoria; só o valor/descrição são novos
+  await page.locator('input[placeholder="0,00"]').fill("70");
+  await page.locator('input[placeholder="Ex: Conta de luz"]').fill("Despesa B");
+  await page.getByRole("button", { name: "Salvar e fechar" }).click();
+
+  // Ambas aparecem nos Registros
+  await page.getByRole("button", { name: "Registros" }).click();
+  await expect(page.getByText("Despesa A")).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText("Despesa B")).toBeVisible();
+  expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
+});
+
 test("fechamento gera relatório PDF e config tem lembretes", async ({ page }) => {
   await stub(page, sample);
   await page.addInitScript(() => {
