@@ -392,11 +392,27 @@ test("fechamento: calendário abre o dia e permite ver/editar/adicionar", async 
   await expect(page.locator('.modal-sheet input[type="date"]').first()).toHaveValue(today);
   await page.getByRole("button", { name: "Fechar" }).click();
 
-  // Reabre o dia e toca no lançamento para editar
+  // Reabre o dia e REMOVE a venda pelo calendário (com confirmação e "Desfazer")
   await page.getByRole("button", { name: `Dia ${dayNum}, 2 lançamentos`, exact: true }).click();
+  await page.getByRole("button", { name: "Excluir" }).first().click();
+  await page.getByRole("button", { name: "Confirmar" }).click();
+  await expect(page.getByText("Venda excluída")).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText("Venda do dia")).toHaveCount(0);
+
+  // O lançamento restante ainda edita normalmente (mesmo caminho do modal do App)
   await page.getByRole("button", { name: /Energia/ }).click();
   await expect(page.getByText("Editar Lançamento")).toBeVisible();
   await expect(page.locator('input[placeholder="Ex: Conta de luz"]')).toHaveValue("Energia");
+  await page.getByRole("button", { name: "Fechar" }).click();
+
+  // A remoção reflete no contador do dia (agora 1) e some do Registros
+  await expect(
+    page.getByRole("button", { name: `Dia ${dayNum}, 1 lançamento`, exact: true })
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Registros" }).click();
+  await page.getByRole("button", { name: /Vendas/ }).click();
+  await expect(page.getByText("Venda do dia")).toHaveCount(0);
+  await expect(page.getByText("Nenhum registro")).toBeVisible();
 
   expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
 });
