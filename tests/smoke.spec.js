@@ -370,6 +370,60 @@ test("fechamento mostra comparativo mensal e salários exporta folha", async ({ 
   expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
 });
 
+test("dados: falha ao carregar NÃO sobrescreve a nuvem (mostra aviso)", async ({ page }) => {
+  const errs = [];
+  page.on("pageerror", (e) => errs.push(e.message));
+  const patches = [];
+  // Simula o Firestore FORA DO AR na leitura (GET 500). Nenhum PATCH pode acontecer.
+  await page.route("**/*", (route) => {
+    const req = route.request();
+    const u = req.url();
+    if (u.includes("firestore.googleapis.com")) {
+      if (req.method() === "GET")
+        return route.fulfill({ status: 500, contentType: "application/json", body: "{}" });
+      if (req.method() === "PATCH") {
+        patches.push(u);
+        return route.fulfill({ status: 200, contentType: "application/json", body: "{}" });
+      }
+      return route.fulfill({ status: 200, contentType: "application/json", body: "{}" });
+    }
+    if (u.includes("unpkg.com")) {
+      return route.fulfill({
+        status: 200,
+        contentType: "application/javascript",
+        body: u.includes("react-dom") ? reactDomJs : reactJs
+      });
+    }
+    if (u.includes("fonts.googleapis.com"))
+      return route.fulfill({ status: 200, contentType: "text/css", body: "" });
+    if (u.includes("fonts.gstatic.com")) return route.fulfill({ status: 200, body: "" });
+    return route.continue();
+  });
+  await page.addInitScript(() => {
+    try {
+      sessionStorage.setItem("erp_agb_s4", JSON.stringify({ nome: "Murilo", role: "admin" }));
+      sessionStorage.setItem("agb-intro", "1");
+    } catch (e) {}
+  });
+  await page.goto("/index.html");
+
+  // Aviso persistente aparece, deixando claro que nada está sendo salvo
+  await expect(page.getByText(/Não consegui carregar seus dados/)).toBeVisible({ timeout: 15000 });
+
+  // Mesmo lançando algo, o app NÃO deve gravar por cima da nuvem
+  await page.getByRole("button", { name: "Novo registro" }).click();
+  await page.locator('input[placeholder="0,00"]').fill("50");
+  await page.locator('input[placeholder="Ex: Conta de luz"]').fill("Teste sem sobrescrever");
+  await page.locator(".modal-sheet select").first().selectOption("Outros");
+  await page.getByRole("button", { name: /Lançar Despesa/ }).click();
+  await page.waitForTimeout(600);
+
+  expect(patches, "NENHUM PATCH deveria sobrescrever a nuvem: " + patches.join(";")).toHaveLength(
+    0
+  );
+  expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
+});
+
 test("fechamento: calendário abre o dia e permite ver/editar/adicionar", async ({ page }) => {
   const errs = [];
   page.on("pageerror", (e) => errs.push(e.message));

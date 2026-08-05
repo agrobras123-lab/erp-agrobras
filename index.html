@@ -192,10 +192,17 @@ function saveData(data,onStatus){
   });
 }
 function loadData(){
-  return fetch(FB_URL).then(function(r){if(!r.ok)throw new Error("e");return r.json()}).then(function(j){return{data:JSON.parse(j.fields.payload.stringValue),source:"cloud"}}).catch(function(){try{var p=localStorage.getItem(OFK);if(p)return{data:JSON.parse(p),source:"local"}}catch(e){}return{data:null,source:"empty"}});
+  return fetch(FB_URL).then(function(r){if(!r.ok)throw new Error("net");return r.json()}).then(function(j){
+    var d=null;try{d=JSON.parse(j.fields.payload.stringValue)}catch(e){}
+    return d?{data:d,source:"cloud"}:{data:null,source:"new"};
+  }).catch(function(){
+    try{var p=localStorage.getItem(OFK);if(p)return{data:JSON.parse(p),source:"local"}}catch(e){}
+    return{data:null,source:"error"};
+  });
 }
 window.addEventListener("online",function(){
   try{
+    if(!window._loadOk)return;
     var p=localStorage.getItem(OFK);
     if(!p)return;
     if(window._setSyncStatus)window._setSyncStatus('syncing');
@@ -1287,10 +1294,18 @@ function Config(p){
   function fmtTag(tag){var p2=tag.replace("backup_","").split("_");if(p2.length<2)return tag;var dt=p2[0].split("-"),tm=p2[1].split("-");return dt[2]+"/"+dt[1]+"/"+dt[0]+" "+tm[0]+":"+tm[1]+":"+tm[2]}
   function fetchBackups(){
     setLoadingBkp(true);setBackups(null);
-    fetch(FB_BASE+"/backups?key="+FB_KEY+"&pageSize=30")
-      .then(function(r){return r.json()})
-      .then(function(j){var docs=(j.documents||[]).map(function(doc){return{tag:doc.name.split("/").pop(),name:doc.name}});docs.sort(function(a,b){return b.tag.localeCompare(a.tag)});setBackups(docs);setLoadingBkp(false)})
-      .catch(function(){setBackups([]);setLoadingBkp(false)});
+    var all=[];
+    function page(token){
+      var u=FB_BASE+"/backups?key="+FB_KEY+"&pageSize=300"+(token?("&pageToken="+encodeURIComponent(token)):"");
+      return fetch(u).then(function(r){return r.json()}).then(function(j){
+        (j.documents||[]).forEach(function(doc){all.push({tag:doc.name.split("/").pop(),name:doc.name})});
+        if(j.nextPageToken&&all.length<6000)return page(j.nextPageToken);
+      });
+    }
+    page(null).then(function(){
+      all.sort(function(a,b){return b.tag.localeCompare(a.tag)});
+      setBackups(all.slice(0,30));setLoadingBkp(false);
+    }).catch(function(){setBackups([]);setLoadingBkp(false)});
   }
   function doRestore(tag){
     fetch(FB_BASE+"/backups/"+tag+"?key="+FB_KEY)
@@ -1587,6 +1602,8 @@ function App(){
   var aTL=useState(false),tLeaving=aTL[0],setTLeaving=aTL[1];
   var toastTimers=useRef([]);
   var firstLoad=useRef(true),syncTimer=useRef(null),prevData=useRef(null);
+  var loadOk=useRef(false);
+  var aLE=useState(false),loadErr=aLE[0],setLoadErr=aLE[1];
   window._setSyncStatus=setSyncSt;
   window._setHasPending=setHasPending;
   function showToast(type,msg,action){
@@ -1600,16 +1617,19 @@ function App(){
   useEffect(function(){
     loadData().then(function(result){
       if(result.data){var rd=result.data;var migrated=false;if(rd.despesas){var newD=rd.despesas.map(function(d){var fix=_o({},d),ch=false;if(fix.categoria==="Funcionarios"){fix.categoria="Funcionários";ch=true;}if(fix._adiantId&&fix.tipo==="Variável"){fix.tipo="Fixo";ch=true;}if(ch)migrated=true;return fix;});if(migrated)rd=_o({},rd,{despesas:newD});}setData(function(prev){return _o({},INIT,rd)});if(migrated)saveData(rd,function(){});}
+      var ok=result.source!=="error";
+      loadOk.current=ok;window._loadOk=ok;
       setReady(true);
       setHasPending(!!localStorage.getItem(OFK));
       if(result.source==="local"){setSyncSt("loadLocal");setTimeout(function(){setSyncSt("idle")},5000);}
-      else if(result.source==="empty"){setSyncSt("loadError");setTimeout(function(){setSyncSt("idle")},8000);}
+      else if(result.source==="error"){setLoadErr(true);setSyncSt("loadError");}
     });
   },[]);
 
   useEffect(function(){
     if(!ready)return;
     if(firstLoad.current){firstLoad.current=false;prevData.current=data;return}
+    if(!loadOk.current)return;
     if(JSON.stringify(data)===JSON.stringify(prevData.current))return;
     prevData.current=data;
     clearTimeout(syncTimer.current);
@@ -1734,6 +1754,9 @@ function App(){
   return ce("div",{style:{maxWidth:480,margin:"0 auto",height:"100vh",display:"flex",flexDirection:"column",background:C.bg,fontFamily:FONT.ui,overflow:"hidden",position:"relative"}},
     ce(Toast,{toast:toast,leaving:tLeaving,onAction:function(){toastTimers.current.forEach(clearTimeout);toastTimers.current=[];setToast(null);setTLeaving(false)}}),
     ce("div",{style:{position:"relative",zIndex:300}},
+      loadErr&&ce("div",{style:{background:C.danger,color:"#FFF",padding:"10px 14px",fontSize:T.sm,fontWeight:W.bold,display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}},
+        ce("span",null,"⚠️ Não consegui carregar seus dados. As alterações NÃO estão sendo salvas, para não sobrescrever o que está na nuvem. Verifique a internet."),
+        ce("button",{onClick:function(){location.reload()},style:{background:"#FFF",color:C.danger,border:"none",borderRadius:8,padding:"6px 12px",fontWeight:W.heavy,cursor:"pointer",flexShrink:0,fontSize:T.xs}},"Recarregar")),
       ce(SyncBar,{status:syncSt}),
       ce(OfflineBar,null),
       ce(PendingBar,{hasPending:hasPending,onSync:syncNow}),
