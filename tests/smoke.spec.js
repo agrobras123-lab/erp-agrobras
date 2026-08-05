@@ -369,3 +369,34 @@ test("fechamento mostra comparativo mensal e salários exporta folha", async ({ 
   await expect.poll(() => page.locator("#agb-print").innerHTML()).toContain("Folha de Pagamento");
   expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
 });
+
+test("fechamento: calendário abre o dia e permite ver/editar/adicionar", async ({ page }) => {
+  const errs = [];
+  page.on("pageerror", (e) => errs.push(e.message));
+  await authGoto(page, sample); // 1 venda + 1 despesa ("Energia") em `today`
+  await page.getByRole("button", { name: "Mais" }).click();
+  await page.getByText("📊 Fechamento").first().click();
+
+  // O calendário aparece no Fechamento
+  await expect(page.getByText("Calendário de lançamentos")).toBeVisible({ timeout: 10000 });
+
+  // O dia de hoje está destacado com 2 lançamentos; abre o detalhe do dia
+  const dayNum = Number(today.slice(8, 10));
+  await page.getByRole("button", { name: `Dia ${dayNum}, 2 lançamentos`, exact: true }).click();
+  await expect(page.getByText("Venda do dia")).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText("Energia")).toBeVisible();
+
+  // "＋ Despesa" abre o modal Novo já com a data do dia
+  await page.getByRole("button", { name: "＋ Despesa" }).click();
+  await expect(page.getByText("Novo Lançamento")).toBeVisible();
+  await expect(page.locator('.modal-sheet input[type="date"]').first()).toHaveValue(today);
+  await page.getByRole("button", { name: "Fechar" }).click();
+
+  // Reabre o dia e toca no lançamento para editar
+  await page.getByRole("button", { name: `Dia ${dayNum}, 2 lançamentos`, exact: true }).click();
+  await page.getByRole("button", { name: /Energia/ }).click();
+  await expect(page.getByText("Editar Lançamento")).toBeVisible();
+  await expect(page.locator('input[placeholder="Ex: Conta de luz"]')).toHaveValue("Energia");
+
+  expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
+});
