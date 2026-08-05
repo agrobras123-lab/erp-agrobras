@@ -1157,53 +1157,79 @@ function Fechamento(p){
   function printPDF(){
     var pLbl=per==="mes"?"Mês atual":per==="hoje"?"Hoje":per==="semana"?"Esta semana":s&&e?(fmtD(s)+" a "+fmtD(e)):"Todo o período";
     function esc(t){return String(t==null?"":t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+    var kvHead="<thead><tr><th>Forma</th><th class='r'>Valor</th></tr></thead>";
     function rowKV(k,v){return "<tr><td>"+esc(k)+"</td><td class='r'>"+fmt(v)+"</td></tr>"}
-    function tbl(title,rows){return rows?"<h2>"+esc(title)+"</h2><table>"+rows+"</table>":""}
+    function tbl(title,rows,head){return rows?"<h2>"+esc(title)+"</h2><table>"+(head||"")+"<tbody>"+rows+"</tbody></table>":""}
+    function tile(l,v,c){return "<div class='kpi'><div class='l'>"+esc(l)+"</div><div class='v' style='color:"+c+"'>"+v+"</div></div>"}
     var vp=[["PIX",vPix],["Dinheiro",vDin],["Fiado",vFia],["Cartão",vCart],["Boleto",vBol]].filter(function(x){return x[1]>0}).map(function(x){return rowKV(x[0],x[1])}).join("");
     var cp=[["PIX",cPix],["Dinheiro",cDin],["A Prazo",cAp]].filter(function(x){return x[1]>0}).map(function(x){return rowKV(x[0],x[1])}).join("");
-    var cat=catData.map(function(c){return rowKV(c.cat,c.valor)}).join("");
-    var status=rowKV("Pago",tdPago)+rowKV("Pendente",td-tdPago)+rowKV("Fixo",fixo)+rowKV("Variável",variavel);
-    var folha=[["Vales",funcVales],["Salários",funcSal],["Outros",funcOutros]].filter(function(x){return x[1]>0}).map(function(x){return rowKV(x[0],x[1])}).join("")+(funcTotal>0?"<tr><td><b>Total funcionários</b></td><td class='r'><b>"+fmt(funcTotal)+"</b></td></tr>":"");
+    var maxCat=catData.reduce(function(m,c){return Math.max(m,c.valor)},0)||1;
+    var catBars=catData.map(function(c){var w=Math.max(4,Math.round(c.valor/maxCat*100)),col=catCl(data.catsDespesa,c.cat);return "<div class='cat'><div class='nm'>"+esc(c.cat)+"</div><div class='track'><div class='fill' style='width:"+w+"%;background:"+col+"'></div></div><div class='vl'>"+fmt(c.valor)+"</div></div>"}).join("");
+    var folha=[["Vales"+(funcNVales?" ("+funcNVales+")":""),funcVales],["Salários"+(funcNSal?" ("+funcNSal+")":""),funcSal],["Outros",funcOutros]].filter(function(x){return x[1]>0}).map(function(x){return rowKV(x[0],x[1])}).join("")+(funcTotal>0?"<tr class='tot'><td>Total funcionários</td><td class='r'>"+fmt(funcTotal)+"</td></tr>":"");
     var vendasDet=fV.slice().sort(function(a,b){return (a.data||"").localeCompare(b.data||"")}).map(function(v){return "<tr><td>"+fmtD(v.data)+"</td><td class='r'>"+fmt(vtotal(v))+"</td></tr>"}).join("");
-    var despDet=fD.slice().sort(function(a,b){return (a.data||"").localeCompare(b.data||"")}).map(function(d){return "<tr><td>"+fmtD(d.data)+"</td><td>"+esc(d.descricao||"—")+"</td><td>"+esc(d.categoria||"")+"</td><td>"+esc(d.status||"")+"</td><td class='r'>"+fmt(d.valor||0)+"</td></tr>"}).join("");
+    var despDet=fD.slice().sort(function(a,b){return (a.data||"").localeCompare(b.data||"")}).map(function(d){var paid=d.status==="Pago";return "<tr><td class='nw'>"+fmtD(d.data)+"</td><td>"+esc(d.descricao||"—")+"</td><td>"+esc(d.categoria||"")+"</td><td><span class='pill "+(paid?"pg":"ap")+"'>"+esc(d.status||"—")+"</span></td><td class='r'>"+fmt(d.valor||0)+"</td></tr>"}).join("");
+    var resBg=pos?"linear-gradient(135deg,#0d3b0d,#1B5E20)":"linear-gradient(135deg,#7f1d1d,#b91c1c)";
     var css="<style>"
+      +"@page{size:A4;margin:13mm}"
       +"@media print{html,body{background:#fff!important}}"
       +"#agb-print{background:#fff}"
-      +".rep{font-family:Georgia,'Times New Roman',serif;color:#1a1a1a;background:#fff;max-width:760px;margin:0 auto;padding:4px 2px}"
-      +".rep .brand{font-family:'Cinzel',Georgia,serif;font-size:24px;letter-spacing:.12em;color:#1B5E20;text-align:center}"
-      +".rep .sub{text-align:center;color:#555;font-size:12px;margin:2px 0}"
-      +".rep .meta{text-align:center;color:#777;font-size:11px;margin-bottom:16px;border-bottom:2px solid #1B5E20;padding-bottom:10px}"
-      +".rep h2{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#1B5E20;margin:16px 0 4px;border-bottom:1px solid #ccc;padding-bottom:3px}"
-      +".rep table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:6px}"
-      +".rep td,.rep th{padding:4px 8px;border-bottom:1px solid #eee;text-align:left}"
-      +".rep .r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}"
-      +".rep .result{display:flex;gap:8px;margin:8px 0}"
-      +".rep .result>div{flex:1;border:1px solid #ddd;border-radius:8px;padding:8px 10px}"
-      +".rep .result .lbl{font-size:10px;color:#666;text-transform:uppercase}"
-      +".rep .result .val{font-size:15px;font-weight:bold}"
-      +".rep .lucro{margin:8px 0;padding:10px 12px;border-radius:8px;background:#f2f7f2;border:1px solid #cfe0cf;display:flex;justify-content:space-between;align-items:center}"
-      +".rep .lucro b{font-size:18px}"
-      +".rep .foot{margin-top:20px;text-align:center;color:#999;font-size:10px;border-top:1px solid #eee;padding-top:8px}"
-      +".rep tr{page-break-inside:avoid}"
+      +".rep{font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#0F172A;background:#fff;max-width:720px;margin:0 auto;line-height:1.4}"
+      +".rep,.rep *{-webkit-print-color-adjust:exact;print-color-adjust:exact}"
+      +".rep .head{background:linear-gradient(135deg,#0A2E0A,#1B5E20 72%);color:#fff;border-radius:14px;padding:20px 24px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px}"
+      +".rep .head .brand{font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;letter-spacing:.16em;line-height:1}"
+      +".rep .head .tag{font-size:11.5px;color:rgba(255,255,255,.72);margin-top:7px;letter-spacing:.03em}"
+      +".rep .head .per{text-align:right;font-size:10.5px;color:rgba(255,255,255,.75);line-height:1.5;white-space:nowrap}"
+      +".rep .head .per b{display:block;font-size:12.5px;color:#fff;font-weight:700}"
+      +".rep .kpis{display:flex;gap:10px;margin:16px 0}"
+      +".rep .kpi{flex:1;border:1px solid #E5E9F0;border-radius:11px;padding:11px 13px;background:#fff}"
+      +".rep .kpi .l{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:#64748B;font-weight:700}"
+      +".rep .kpi .v{font-size:18px;font-weight:800;margin-top:3px;font-variant-numeric:tabular-nums}"
+      +".rep .kpi .bar{height:3px;border-radius:2px;margin-top:9px}"
+      +".rep .result{border-radius:12px;padding:15px 20px;margin:2px 0 6px;display:flex;justify-content:space-between;align-items:center;color:#fff;background:"+resBg+"}"
+      +".rep .result .rl{font-size:11.5px;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.85);font-weight:700}"
+      +".rep .result .rv{font-size:25px;font-weight:800;font-variant-numeric:tabular-nums}"
+      +".rep .note{font-size:10.5px;color:#92400E;background:#FEF7E6;border:1px solid #FCE3AE;border-radius:8px;padding:8px 12px;margin:10px 0 4px}"
+      +".rep h2{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:#1B5E20;margin:22px 0 9px;padding-bottom:6px;border-bottom:2px solid #E3EDE3;page-break-after:avoid}"
+      +".rep .cols{display:flex;gap:16px}.rep .cols>div{flex:1;min-width:0}"
+      +".rep table{width:100%;border-collapse:collapse;font-size:11px}"
+      +".rep th{font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:#64748B;text-align:left;font-weight:700;padding:5px 10px;border-bottom:1.5px solid #E5E9F0}"
+      +".rep td{padding:5px 10px;border-bottom:1px solid #F1F5F9}"
+      +".rep tbody tr:nth-child(even){background:#F8FAFC}"
+      +".rep .r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.rep .nw{white-space:nowrap}"
+      +".rep tr.tot td{border-top:2px solid #CBD5E1;border-bottom:none;font-weight:800;background:#F1F8E9}"
+      +".rep tr.tot{background:#F1F8E9!important}"
+      +".rep .cat{display:flex;align-items:center;gap:10px;margin-bottom:7px;font-size:11px}"
+      +".rep .cat .nm{width:112px;flex-shrink:0;color:#334155;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}"
+      +".rep .cat .track{flex:1;height:13px;background:#EEF2F6;border-radius:5px;overflow:hidden}"
+      +".rep .cat .fill{height:100%;border-radius:5px;min-width:4px}"
+      +".rep .cat .vl{width:94px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}"
+      +".rep .pill{display:inline-block;font-size:8.5px;font-weight:700;padding:2px 8px;border-radius:20px}"
+      +".rep .pill.pg{background:#DCFCE7;color:#166534}.rep .pill.ap{background:#FEF3C7;color:#92400E}"
+      +".rep .foot{margin-top:24px;border-top:1px solid #E5E9F0;padding-top:10px;display:flex;justify-content:space-between;font-size:9px;color:#94A3B8}"
+      +".rep tr,.rep .cat,.rep .kpi,.rep .result{page-break-inside:avoid}"
       +"</style>";
+    var recVp=vp?"<div>"+tbl("Vendas por recebimento",vp,kvHead)+"</div>":"";
+    var recCp=cp?"<div>"+tbl("Compras por pagamento",cp,kvHead)+"</div>":"";
     var html=css+"<div class='rep'>"
-      +"<div class='brand'>AGRO BRAS</div>"
-      +"<div class='sub'>Relatório de Fechamento Financeiro</div>"
-      +"<div class='meta'>Período: "+esc(pLbl)+" · Gerado em "+new Date().toLocaleString("pt-BR")+"</div>"
-      +"<div class='result'>"
-        +"<div><div class='lbl'>Vendas</div><div class='val' style='color:#1B7A2E'>"+fmt(tv)+"</div></div>"
-        +"<div><div class='lbl'>Compras</div><div class='val' style='color:#C2410C'>"+fmt(tc)+"</div></div>"
-        +"<div><div class='lbl'>Despesas</div><div class='val' style='color:#B91C1C'>"+fmt(td)+"</div></div>"
+      +"<div class='head'><div><div class='brand'>AGRO BRAS</div><div class='tag'>Relatório de Fechamento Financeiro</div></div>"
+        +"<div class='per'>Período<b>"+esc(pLbl)+"</b><span>Gerado em "+new Date().toLocaleString("pt-BR")+"</span></div></div>"
+      +"<div class='kpis'>"
+        +"<div class='kpi'><div class='l'>Vendas</div><div class='v' style='color:#15803D'>"+fmt(tv)+"</div><div class='bar' style='background:#16A34A'></div></div>"
+        +"<div class='kpi'><div class='l'>Compras</div><div class='v' style='color:#C2410C'>"+fmt(tc)+"</div><div class='bar' style='background:#D97706'></div></div>"
+        +"<div class='kpi'><div class='l'>Despesas</div><div class='v' style='color:#B91C1C'>"+fmt(td)+"</div><div class='bar' style='background:#DC2626'></div></div>"
       +"</div>"
-      +"<div class='lucro'><span>"+(pos?"Lucro do período":"Prejuízo do período")+"</span><b style='color:"+(pos?"#1B7A2E":"#B91C1C")+"'>"+fmt(lucro)+"</b></div>"
-      +tbl("Vendas por forma de recebimento",vp)
-      +tbl("Compras por forma de pagamento",cp)
-      +"<h2>Status das despesas</h2><table>"+status+"</table>"
-      +(funcTotal>0?"<h2>Funcionários (folha de pagamento)</h2><table>"+folha+"</table>":"")
-      +tbl("Despesas por categoria",cat)
-      +tbl("Detalhe de vendas (por dia)",vendasDet)
-      +(despDet?"<h2>Detalhe de despesas</h2><table><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Status</th><th class='r'>Valor</th></tr>"+despDet+"</table>":"")
-      +"<div class='foot'>Gerado pelo ERP Agro Bras</div>"
+      +"<div class='result'><div class='rl'>"+(pos?"Lucro do período":"Prejuízo do período")+"</div><div class='rv'>"+fmt(lucro)+"</div></div>"
+      +(vFia>0?"<div class='note'>Inclui "+fmt(vFia)+" em vendas no fiado (a receber) — ainda não entrou no caixa.</div>":"")
+      +((recVp||recCp)?"<div class='cols'>"+recVp+recCp+"</div>":"")
+      +"<h2>Status das despesas</h2><div class='kpis'>"
+        +tile("Pago",fmt(tdPago),"#166534")+tile("Pendente",fmt(td-tdPago),"#92400E")
+        +tile("Fixo",fmt(fixo),"#15803D")+tile("Variável",fmt(variavel),"#6D28D9")
+      +"</div>"
+      +(funcTotal>0?"<h2>Funcionários (folha de pagamento)</h2><table><thead><tr><th>Item</th><th class='r'>Valor</th></tr></thead><tbody>"+folha+"</tbody></table>":"")
+      +(catBars?"<h2>Despesas por categoria</h2><div class='cats'>"+catBars+"</div>":"")
+      +tbl("Detalhe de vendas (por dia)",vendasDet,"<thead><tr><th>Data</th><th class='r'>Total</th></tr></thead>")
+      +(despDet?"<h2>Detalhe de despesas</h2><table><thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Status</th><th class='r'>Valor</th></tr></thead><tbody>"+despDet+"</tbody></table>":"")
+      +"<div class='foot'><span>Agro Bras · ERP Financeiro</span><span>Gerado em "+new Date().toLocaleDateString("pt-BR")+"</span></div>"
       +"</div>";
     var el=document.getElementById("agb-print");
     if(!el){el=document.createElement("div");el.id="agb-print";document.body.appendChild(el)}
