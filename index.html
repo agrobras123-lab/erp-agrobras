@@ -539,8 +539,10 @@ function Dashboard(p){
         ce("div",{style:{borderTop:"1px solid rgba(255,255,255,.1)",paddingTop:10,display:"flex",flexDirection:"column",gap:5}},
           ce("div",{style:{display:"flex",justifyContent:"space-between",fontSize:T.sm}},ce("span",{style:{color:"rgba(255,255,255,.55)"}},"+  Vendas"),ce("span",{style:{color:"#4ADE80",fontWeight:W.bold}},fmt(totals.tv))),
           ce("div",{style:{display:"flex",justifyContent:"space-between",fontSize:T.sm}},ce("span",{style:{color:"rgba(255,255,255,.55)"}},"−  Compras"),ce("span",{style:{color:"#FB923C",fontWeight:W.bold}},fmt(totals.tc))),
-          ce("div",{style:{display:"flex",justifyContent:"space-between",fontSize:T.sm}},ce("span",{style:{color:"rgba(255,255,255,.55)"}},"−  Despesas"),ce("span",{style:{color:"#F87171",fontWeight:W.bold}},fmt(totals.td)))
-        )
+          ce("div",{style:{display:"flex",justifyContent:"space-between",fontSize:T.sm}},ce("span",{style:{color:"rgba(255,255,255,.55)"}},"−  Despesas"),ce("span",{style:{color:"#F87171",fontWeight:W.bold}},fmt(totals.td))),
+          totals.vFiado>0&&ce("div",{style:{display:"flex",justifyContent:"space-between",fontSize:T.xs,marginTop:2,paddingTop:6,borderTop:"1px dashed rgba(255,255,255,.12)"}},ce("span",{style:{color:"rgba(255,255,255,.5)"}},"↳ incluído em Vendas: fiado a receber"),ce("span",{style:{color:"#FBBF24",fontWeight:W.bold}},fmt(totals.vFiado)))
+        ),
+        totals.vFiado>0&&ce("div",{style:{marginTop:10,fontSize:T.xs,color:"rgba(255,255,255,.72)",background:"rgba(251,191,36,.12)",border:"1px solid rgba(251,191,36,.28)",borderRadius:8,padding:"8px 10px",lineHeight:1.45}},"💡 O resultado inclui "+fmt(totals.vFiado)+" em vendas no fiado que ainda não entraram no caixa.")
       )
     ),
     pgSlices.length>0&&ce("div",{style:{margin:"0 16px 12px"}},ce(Card,null,ce(SecHead,{title:"Vendas por forma de pagamento"}),ce(DonutChart,{slices:pgSlices,size:120}))),
@@ -1114,7 +1116,8 @@ function Fechamento(p){
         ce("div",{style:{borderTop:"1px solid #334155",paddingTop:10,display:"flex",justifyContent:"space-between",alignItems:"center"}},
           ce("span",{style:{fontSize:T.md,fontWeight:W.heavy,color:"#FFF"}},pos?"📈 Lucro":"📉 Prejuízo"),
           ce("span",{style:{fontSize:T.xl,fontWeight:W.heavy,color:pos?"#4ADE80":"#F87171"}},fmt(lucro))
-        )
+        ),
+        vFia>0&&ce("div",{style:{marginTop:10,fontSize:T.xs,color:"#CBD5E1",background:"rgba(251,191,36,.1)",border:"1px solid rgba(251,191,36,.3)",borderRadius:8,padding:"8px 10px",lineHeight:1.45}},"💡 Inclui "+fmt(vFia)+" em vendas no fiado (a receber) — ainda não entrou no caixa.")
       ),
       ce(Card,{style:{marginTop:10}},ce(SecHead,{title:"Comparativo mensal ("+mesLabel(ymPrev)+" → "+mesLabel(ymCur)+")"}),
         [{l:"💰 Vendas",cur:cmp.cur.v,prev:cmp.prev.v,up:true},{l:"🛒 Compras",cur:cmp.cur.c,prev:cmp.prev.c,up:false},{l:"💸 Despesas",cur:cmp.cur.d,prev:cmp.prev.d,up:false},{l:cmp.cur.l>=0?"📈 Lucro":"📉 Prejuízo",cur:cmp.cur.l,prev:cmp.prev.l,up:true}].map(function(r){
