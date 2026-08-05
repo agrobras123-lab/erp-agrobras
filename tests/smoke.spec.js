@@ -379,7 +379,8 @@ test("dados: falha ao carregar NÃO sobrescreve a nuvem (mostra aviso)", async (
     const req = route.request();
     const u = req.url();
     if (u.includes("firestore.googleapis.com")) {
-      if (req.method() === "GET") return route.fulfill({ status: 500, contentType: "application/json", body: "{}" });
+      if (req.method() === "GET")
+        return route.fulfill({ status: 500, contentType: "application/json", body: "{}" });
       if (req.method() === "PATCH") {
         patches.push(u);
         return route.fulfill({ status: 200, contentType: "application/json", body: "{}" });
@@ -393,7 +394,8 @@ test("dados: falha ao carregar NÃO sobrescreve a nuvem (mostra aviso)", async (
         body: u.includes("react-dom") ? reactDomJs : reactJs
       });
     }
-    if (u.includes("fonts.googleapis.com")) return route.fulfill({ status: 200, contentType: "text/css", body: "" });
+    if (u.includes("fonts.googleapis.com"))
+      return route.fulfill({ status: 200, contentType: "text/css", body: "" });
     if (u.includes("fonts.gstatic.com")) return route.fulfill({ status: 200, body: "" });
     return route.continue();
   });
@@ -416,7 +418,9 @@ test("dados: falha ao carregar NÃO sobrescreve a nuvem (mostra aviso)", async (
   await page.getByRole("button", { name: /Lançar Despesa/ }).click();
   await page.waitForTimeout(600);
 
-  expect(patches, "NENHUM PATCH deveria sobrescrever a nuvem: " + patches.join(";")).toHaveLength(0);
+  expect(patches, "NENHUM PATCH deveria sobrescrever a nuvem: " + patches.join(";")).toHaveLength(
+    0
+  );
   expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
 });
 
