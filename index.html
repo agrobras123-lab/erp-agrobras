@@ -138,6 +138,15 @@ var uid=function(){return Math.random().toString(36).slice(2,10)};
 var toNum=function(v){return parseFloat((v||"").toString().replace(",","."))||0};
 var fmt=function(v){return new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(v||0)};
 var fmtD=function(d){return d?new Date(d+"T12:00:00").toLocaleDateString("pt-BR"):"—"};
+/* Busca por valor: "1.234,56", "1234,5", "R$ 200" → "1234.56" | "1234.5" | "200" (null se não for número) */
+var valorQuery=function(s){
+  var t=(s||"").toString().trim().replace(/^r\$/i,"").replace(/\s/g,"");
+  if(!t)return null;
+  if(/^\d{1,3}(\.\d{3})+(,\d{1,2})?$/.test(t))t=t.replace(/\./g,"");
+  else if(!/^\d+([.,]\d{1,2})?$/.test(t))return null;
+  return t.replace(",",".");
+};
+var valorMatch=function(total,nq){return nq!==null&&(total||0).toFixed(2).indexOf(nq)===0};
 var vtotal=function(v){return(v.pix||0)+(v.dinheiro||0)+(v.fiado||0)+(v.cartao||0)+(v.boleto||0)};
 var ctotal=function(c){return(c.pix||0)+(c.dinheiro||0)+(c.aprazo||0)};
 var diffDays=function(d){if(!d)return null;var t=new Date(d+"T12:00:00"),n=new Date();n.setHours(12,0,0,0);return Math.round((t-n)/86400000)};
@@ -601,8 +610,9 @@ function Registros(p){
   var totalFn=function(it){return tab==="vendas"?vtotal(it):tab==="compras"?ctotal(it):it.valor||0};
   var raw=tab==="vendas"?data.vendas:tab==="compras"?data.compras:data.despesas;
   var q=search.toLowerCase();
+  var qv=tab==="despesas"?valorQuery(search):null;
   var filtered=Array.from(raw);
-  if(search)filtered=filtered.filter(function(it){return(it.descricao||"").toLowerCase().includes(q)||(it.obs||"").toLowerCase().includes(q)||(it.data||"").includes(search)||(it.categoria||"").toLowerCase().includes(q)});
+  if(search)filtered=filtered.filter(function(it){return(it.descricao||"").toLowerCase().includes(q)||(it.obs||"").toLowerCase().includes(q)||(it.data||"").includes(search)||(it.categoria||"").toLowerCase().includes(q)||valorMatch(it.valor,qv)});
   if(tab==="despesas"&&filterStatus)filtered=filtered.filter(function(it){return it.status===filterStatus});
   if(filterCat)filtered=filtered.filter(function(it){return it.categoria===filterCat});
   if(filterPag)filtered=filtered.filter(function(it){return(it[filterPag]||0)>0});
@@ -648,7 +658,7 @@ function Registros(p){
     ce("div",{style:{padding:"12px 16px 0"}},
       ce("div",{style:{display:"flex",alignItems:"center",gap:8,background:"#FFF",borderRadius:10,padding:"8px 12px",border:"1px solid "+C.border,boxShadow:"0 1px 4px rgba(0,0,0,.06)"}},
         ce(IcoSearch,{size:15,color:C.muted}),
-        ce("input",{value:search,onChange:function(e){setSearch(e.target.value);setPage(1)},placeholder:"Buscar descrição, data, categoria…",style:{flex:1,border:"none",outline:"none",fontSize:T.base,background:"none",color:C.txt,fontFamily:"inherit"}}),
+        ce("input",{value:search,onChange:function(e){setSearch(e.target.value);setPage(1)},placeholder:tab==="despesas"?"Buscar descrição, valor, data, categoria…":"Buscar descrição, data, categoria…",style:{flex:1,border:"none",outline:"none",fontSize:T.base,background:"none",color:C.txt,fontFamily:"inherit"}}),
         search&&ce("button",{"aria-label":"Limpar busca",onClick:function(){setSearch("");setPage(1)},style:{background:"none",border:"none",cursor:"pointer",padding:2,display:"flex"}},ce(IcoX,{size:13,color:C.muted}))
       )
     ),
