@@ -470,3 +470,47 @@ test("fechamento: calendário abre o dia e permite ver/editar/adicionar", async 
 
   expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
 });
+
+test("despesas: busca encontra o lançamento pelo valor", async ({ page }) => {
+  const errs = [];
+  page.on("pageerror", (e) => errs.push(e.message));
+  const doisLancamentos = {
+    ...sample,
+    despesas: [
+      ...sample.despesas,
+      {
+        id: "e2",
+        data: today,
+        descricao: "Adubo",
+        categoria: "Outros",
+        tipo: "Variável",
+        valor: 1234.56,
+        status: "A Pagar",
+        vencimento: today
+      }
+    ]
+  };
+  await authGoto(page, doisLancamentos);
+  await page.getByRole("button", { name: "Registros" }).click();
+  const busca = page.getByPlaceholder("Buscar descrição, valor, data, categoria…");
+  await expect(busca).toBeVisible({ timeout: 10000 });
+
+  // Valor inteiro: acha a despesa de R$ 200,00 e esconde a outra
+  await busca.fill("200");
+  await expect(page.getByText("Energia")).toBeVisible();
+  await expect(page.getByText("Adubo")).toHaveCount(0);
+
+  // Valor com centavos e separador de milhar
+  await busca.fill("1.234,56");
+  await expect(page.getByText("Adubo")).toBeVisible();
+  await expect(page.getByText("Energia")).toHaveCount(0);
+
+  // Prefixo do valor também funciona; texto continua buscando normalmente
+  await busca.fill("12");
+  await expect(page.getByText("Adubo")).toBeVisible();
+  await busca.fill("energia");
+  await expect(page.getByText("Energia", { exact: true })).toBeVisible();
+  await expect(page.getByText("Adubo")).toHaveCount(0);
+
+  expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
+});
