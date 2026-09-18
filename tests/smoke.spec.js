@@ -605,3 +605,93 @@ test("proteção: nuvem vazia é recuperada pelo backup do aparelho", async ({ p
   await page.getByRole("button", { name: "Registros" }).click();
   await expect(page.getByText("Energia")).toBeVisible({ timeout: 10000 });
 });
+
+test("desligar funcionário: sai dos ativos e preserva vales e salários", async ({ page }) => {
+  const errs = [];
+  page.on("pageerror", (e) => errs.push(e.message));
+  await authGoto(page, folhaBase);
+  await page.getByRole("button", { name: "Mais" }).click();
+  await page.getByText("👥 Salários").first().click();
+  await page.getByRole("button", { name: "Expandir funcionário" }).click();
+
+  // Com histórico, excluir não é oferecido — só desligamento
+  await expect(page.getByRole("button", { name: "Excluir funcionário" })).toHaveCount(0);
+  await expect(page.getByText(/Tem histórico: só desligamento/)).toBeVisible();
+
+  await page.getByRole("button", { name: "Desligar funcionário" }).click();
+  await page.getByRole("button", { name: "Confirmar desligamento" }).click();
+
+  // Sai da lista de ativos e passa a constar em "Desligados"
+  await expect(page.getByText("Nenhum funcionário ativo")).toBeVisible({ timeout: 10000 });
+  await page.getByRole("button", { name: /Desligados \(1\)/ }).click();
+  await expect(page.getByText(/Desligado em /)).toBeVisible();
+
+  // O histórico dele continua: o vale segue lançado em Registros
+  await page.getByRole("button", { name: "Registros" }).click();
+  await expect(page.getByText("Vale — João")).toBeVisible({ timeout: 10000 });
+  expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
+});
+
+test("desligado pode ser religado e volta para os ativos", async ({ page }) => {
+  await authGoto(page, {
+    ...folhaBase,
+    funcionarios: [{ id: "f1", nome: "João", salarioBase: 1000, ativo: false, dataSaida: today }]
+  });
+  await page.getByRole("button", { name: "Mais" }).click();
+  await page.getByText("👥 Salários").first().click();
+  await page.getByRole("button", { name: /Desligados \(1\)/ }).click();
+  await page.getByRole("button", { name: "Expandir desligado" }).click();
+  await page.getByRole("button", { name: "↩ Religar" }).click();
+
+  await expect(page.getByText("Base: R$ 1.000,00")).toBeVisible({ timeout: 10000 });
+  await expect(page.getByRole("button", { name: /Desligados/ })).toHaveCount(0);
+});
+
+test("salário variável: fecha o mês sem valor fixo a atingir", async ({ page }) => {
+  const errs = [];
+  page.on("pageerror", (e) => errs.push(e.message));
+  await authGoto(page, folhaBase);
+  await page.getByRole("button", { name: "Mais" }).click();
+  await page.getByText("👥 Salários").first().click();
+  await page.getByRole("button", { name: "Expandir funcionário" }).click();
+
+  // Base fixa: o mês só fecharia pagando a diferença até 1000
+  await expect(page.getByText("A PAGAR")).toBeVisible();
+
+  await page.getByRole("button", { name: "Alternar salário variável" }).click();
+  await expect(page.getByText("Salário variável · Retirado no mês: R$ 300,00")).toBeVisible();
+  await expect(page.getByText("EM ABERTO", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Pagar — / })).toHaveCount(0);
+
+  await page.getByRole("button", { name: /Fechar mês — R\$ 300,00 retirado/ }).click();
+  await expect(page.getByText("MÊS FECHADO", { exact: true })).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText("Mês fechado com")).toBeVisible();
+
+  // Fechar não inventa despesa de salário: o caixa segue só com o vale
+  await page.getByRole("button", { name: "Registros" }).click();
+  await expect(page.getByText("Vale — João")).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText("Salário ref.", { exact: false })).toHaveCount(0);
+  expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
+});
+
+test("salário variável: mês fechado pode ser reaberto", async ({ page }) => {
+  await authGoto(page, {
+    ...folhaBase,
+    funcionarios: [
+      {
+        id: "f1",
+        nome: "João",
+        salarioBase: 1000,
+        ativo: true,
+        salarioVariavel: true,
+        mesesFechados: [mesCur]
+      }
+    ]
+  });
+  await page.getByRole("button", { name: "Mais" }).click();
+  await page.getByText("👥 Salários").first().click();
+  await expect(page.getByText("MÊS FECHADO", { exact: true })).toBeVisible({ timeout: 10000 });
+  await page.getByRole("button", { name: "Expandir funcionário" }).click();
+  await page.getByRole("button", { name: "↩ Reabrir mês" }).click();
+  await expect(page.getByText("EM ABERTO", { exact: true })).toBeVisible({ timeout: 10000 });
+});

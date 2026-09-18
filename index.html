@@ -905,12 +905,20 @@ function Salarios(p){
   var s14=useState(""),formErr=s14[0],setFormErr=s14[1];
   var s15=useState(today()),payData=s15[0],setPayData=s15[1];
   var s16=useState(null),confirmEstorno=s16[0],setConfirmEstorno=s16[1];
+  var s17=useState(false),showInativos=s17[0],setShowInativos=s17[1];
+  var s18=useState(null),confirmDeslig=s18[0],setConfirmDeslig=s18[1];
   var mesesOpts=useMemo(function(){return buildMesesOpts(data.adiantamentos)},[data.adiantamentos]);
+  /* Registros antigos não têm o campo: só ativo===false é desligado. */
+  var ativos=data.funcionarios.filter(function(f){return f.ativo!==false});
+  var inativos=data.funcionarios.filter(function(f){return f.ativo===false});
+  function temHistorico(id){return data.adiantamentos.some(function(a){return a.funcId===id})||data.despesas.some(function(x){return x._salFuncId===id})}
+  function temMovimentoNoMes(id){return getAdts(id).length>0||!!salPagoDe(id)}
   var getAdts=function(id){return data.adiantamentos.filter(function(a){return a.funcId===id&&(a.mesRef||a.data.slice(0,7))===mesSel})};
   var totalVales=function(id){return getAdts(id).reduce(function(s,a){return s+(a.valor||0)},0)};
   function salPagoDe(id){return data.despesas.find(function(x){return x._salFuncId===id&&x._salMes===mesSel})}
   function exportFolha(fmt2){
-    var linhas=data.funcionarios.map(function(f){var vales=data.adiantamentos.filter(function(a){return a.funcId===f.id&&(a.mesRef||a.data.slice(0,7))===mesSel}).reduce(function(s,a){return s+(a.valor||0)},0);var sp=salPagoDe(f.id);return{nome:f.nome,base:f.salarioBase||0,vales:vales,salPago:sp?sp.valor:0,saldo:(f.salarioBase||0)-vales-(sp?sp.valor:0),pago:!!sp}});
+    var daFolha=data.funcionarios.filter(function(f){return f.ativo!==false||temMovimentoNoMes(f.id)});
+    var linhas=daFolha.map(function(f){var vales=data.adiantamentos.filter(function(a){return a.funcId===f.id&&(a.mesRef||a.data.slice(0,7))===mesSel}).reduce(function(s,a){return s+(a.valor||0)},0);var sp=salPagoDe(f.id);return{nome:f.nome,base:f.salarioBase||0,vales:vales,salPago:sp?sp.valor:0,saldo:(f.salarioBase||0)-vales-(sp?sp.valor:0),pago:!!sp}});
     var totBase=linhas.reduce(function(a,x){return a+x.base},0),totVales=linhas.reduce(function(a,x){return a+x.vales},0),totSal=linhas.reduce(function(a,x){return a+x.salPago},0);
     if(fmt2==="csv"){
       var rows=["ERP Agro Bras — Folha de Pagamento","Mês,"+mesLabel(mesSel),"Gerado em,"+new Date().toLocaleString("pt-BR"),"","Funcionário,Salário base,Vales,Salário pago,Saldo,Status"]
@@ -962,11 +970,14 @@ function Salarios(p){
               ce("button",{onClick:function(){setShowForm(false);setFormErr("")},style:{padding:"10px 16px",borderRadius:10,border:"1px solid "+C.border,background:"none",cursor:"pointer"}},"✕")))
         :ce("button",{onClick:function(){setShowForm(true)},style:{width:"100%",padding:13,borderRadius:12,border:"2px dashed "+C.border,background:"none",cursor:"pointer",color:'#1B5E20',fontWeight:W.bold,fontSize:T.base,marginBottom:12,display:"flex",alignItems:"center",justifyContent:"center",gap:6}},ce(IcoPlus,{size:16})," Adicionar Funcionário")
       ),
-      data.funcionarios.length===0&&!showForm&&ce(Empty,{icon:"👥",title:"Nenhum funcionário",sub:"Adicione para controlar adiantamentos"}),
-      data.funcionarios.map(function(func){
+      ativos.length===0&&!showForm&&ce(Empty,{icon:"👥",title:"Nenhum funcionário ativo",sub:inativos.length>0?"Veja os desligados abaixo":"Adicione para controlar adiantamentos"}),
+      ativos.map(function(func){
         var adts=getAdts(func.id),vales=totalVales(func.id),saldo=(func.salarioBase||0)-vales,open=expanded===func.id;var salPago=data.despesas.find(function(x){return x._salFuncId===func.id&&x._salMes===mesSel});
-        var saldoDisp=salPago?0:saldo;
-        var scl=saldoDisp<0?"#DC2626":saldoDisp===0?"#92400E":"#16A34A",slb=saldoDisp<0?"EXCEDIDO":saldoDisp===0?"FECHADO":"A PAGAR";
+        var variavel=!!func.salarioVariavel,mesFechado=(func.mesesFechados||[]).indexOf(mesSel)>=0,comHist=temHistorico(func.id);
+        var saldoDisp=variavel?vales:(salPago?0:saldo);
+        var scl,slb;
+        if(variavel){scl=mesFechado?"#16A34A":"#92400E";slb=mesFechado?"MÊS FECHADO":"EM ABERTO"}
+        else{scl=saldoDisp<0?"#DC2626":saldoDisp===0?"#92400E":"#16A34A";slb=saldoDisp<0?"EXCEDIDO":saldoDisp===0?"FECHADO":"A PAGAR"}
         return ce(Card,{key:func.id,style:{marginBottom:10}},
           ce("div",{style:{display:"flex",alignItems:"center",gap:10}},
             ce("div",{style:{flex:1}},
@@ -980,8 +991,8 @@ function Salarios(p){
                     },style:{padding:"5px 10px",borderRadius:8,background:'#1B5E20',color:"#FFF",border:"none",cursor:"pointer",fontWeight:W.heavy,fontSize:T.sm}},"OK"),
                     ce("button",{onClick:function(){setEditSal(null);setEditSalVal("")},style:{padding:"5px 8px",borderRadius:8,border:"1px solid "+C.border,background:"none",cursor:"pointer",fontSize:T.sm}},"✕"))
                 :ce("div",{style:{display:"flex",alignItems:"center",gap:6,marginTop:2}},
-                    ce("span",{style:{fontSize:T.sm,color:C.sub}},"Base: "+fmt(func.salarioBase)+" · Vales: "+fmt(vales)),
-                    !isViewer&&ce("button",{"aria-label":"Editar salário",onClick:function(){setEditSal(func.id);setEditSalVal(func.salarioBase||"")},style:{background:"none",border:"none",cursor:"pointer",padding:1}},ce(IcoEdit,{size:11,color:C.muted})))
+                    ce("span",{style:{fontSize:T.sm,color:C.sub}},variavel?"Salário variável · Retirado no mês: "+fmt(vales):"Base: "+fmt(func.salarioBase)+" · Vales: "+fmt(vales)),
+                    !isViewer&&!variavel&&ce("button",{"aria-label":"Editar salário",onClick:function(){setEditSal(func.id);setEditSalVal(func.salarioBase||"")},style:{background:"none",border:"none",cursor:"pointer",padding:1}},ce(IcoEdit,{size:11,color:C.muted})))
             ),
             ce("div",{style:{textAlign:"right"}},
               ce("div",{style:{fontSize:T.md,fontWeight:W.heavy,color:scl}},fmt(saldoDisp)),
@@ -1009,10 +1020,16 @@ function Salarios(p){
                     },style:{flex:1,padding:8,borderRadius:8,background:'#1B5E20',color:"#FFF",border:"none",cursor:"pointer",fontWeight:W.heavy,fontSize:T.sm}},"Salvar"),
                     ce("button",{onClick:function(){setShowAdiant(null)},style:{padding:"8px 12px",borderRadius:8,border:"1px solid "+C.border,background:"none",cursor:"pointer",fontSize:T.sm}},"✕")))
               :ce("div",{style:{display:"flex",gap:6,marginTop:8,flexWrap:"wrap"}},
-                  saldo>0&&!salPago&&ce("div",{style:{width:"100%",display:"flex",gap:6,alignItems:"center"}},
+                  !variavel&&saldo>0&&!salPago&&ce("div",{style:{width:"100%",display:"flex",gap:6,alignItems:"center"}},
                     ce("input",{type:"date","aria-label":"Data do pagamento do salário",value:payData,onChange:function(e){setPayData(e.target.value)},style:{padding:"8px 8px",borderRadius:8,border:"1px solid "+C.border,fontSize:T.xs,fontFamily:"inherit",background:"#FAFAFA"}}),
                     ce("button",{onClick:function(){p.pagarSalario(func.id,mesSel,payData)},style:{flex:1,padding:9,borderRadius:8,background:"#1B5E20",color:"#FFF",border:"none",cursor:"pointer",fontWeight:W.heavy,fontSize:T.sm}},"💰 Pagar — "+fmt(saldo))),
-                  salPago&&ce("div",{style:{width:"100%"}},
+                  variavel&&ce("div",{style:{width:"100%"}},
+                    mesFechado
+                      ?ce(R.Fragment,null,
+                          ce("div",{style:{padding:"8px 12px",borderRadius:8,background:"#DCFCE7",textAlign:"center",fontSize:T.sm,fontWeight:W.bold,color:"#1B5E20",marginBottom:6}},"✓ Mês fechado com "+fmt(vales)+" retirado"),
+                          !isViewer&&ce("button",{onClick:function(){p.reabrirMesFunc(func.id,mesSel)},style:{width:"100%",padding:8,borderRadius:8,border:"1px solid #DC2626",background:"none",cursor:"pointer",fontSize:T.xs,fontWeight:W.bold,color:"#DC2626"}},"↩ Reabrir mês"))
+                      :!isViewer&&ce("button",{onClick:function(){p.fecharMesFunc(func.id,mesSel)},style:{width:"100%",padding:9,borderRadius:8,background:"#1B5E20",color:"#FFF",border:"none",cursor:"pointer",fontWeight:W.heavy,fontSize:T.sm}},"✅ Fechar mês — "+fmt(vales)+" retirado")),
+                  !variavel&&salPago&&ce("div",{style:{width:"100%"}},
                     ce("div",{style:{padding:"8px 12px",borderRadius:8,background:"#DCFCE7",textAlign:"center",fontSize:T.sm,fontWeight:W.bold,color:"#1B5E20",marginBottom:6}},"✓ Salário pago: "+fmt(salPago.valor)+" · "+fmtD(salPago.data)),
                     confirmEstorno===func.id
                       ?ce("div",{style:{display:"flex",gap:6}},
@@ -1021,15 +1038,45 @@ function Salarios(p){
                       :ce("button",{onClick:function(){setConfirmEstorno(func.id)},style:{width:"100%",padding:8,borderRadius:8,border:"1px solid #DC2626",background:"none",cursor:"pointer",fontSize:T.xs,fontWeight:W.bold,color:"#DC2626"}},"↩ Estornar salário")),
                   ce("button",{onClick:function(){setShowAdiant(func.id);setAVal("");setADesc("");setAData(mesSel+"-01")},style:{flex:1,padding:8,borderRadius:8,border:"1px dashed "+C.border,background:"none",cursor:"pointer",color:'#1B5E20',fontWeight:W.bold,fontSize:T.sm}},"+Adiantamento"),
                   ce("button",{onClick:function(){setShowHist(showHist===func.id?null:func.id)},style:{padding:"8px 10px",borderRadius:8,border:"1px solid "+C.border,background:showHist===func.id?"#F1F8E9":"none",cursor:"pointer",fontSize:T.xs,fontWeight:W.bold,color:'#1B5E20'}},"Histórico"),
-                  confirmDel===func.id
-                    ?ce(R.Fragment,null,ce("button",{onClick:function(){p.delFunc(func.id);setConfirmDel(null);setExpanded(null)},style:{padding:"8px 10px",borderRadius:8,border:"1px solid #DC2626",background:"#FEE2E2",cursor:"pointer",fontSize:T.xs,fontWeight:W.heavy,color:"#991B1B"}},"Confirmar"),ce("button",{onClick:function(){setConfirmDel(null)},style:{padding:"8px 10px",borderRadius:8,border:"1px solid "+C.border,background:"none",cursor:"pointer",fontSize:T.xs}},"✕"))
-                    :ce("button",{"aria-label":"Excluir funcionário",onClick:function(){setConfirmDel(func.id)},style:{padding:"8px 10px",borderRadius:8,border:"1px solid #FEE2E2",background:"#FEE2E2",cursor:"pointer"}},ce(IcoTrash,{size:13,color:"#DC2626"}))
+                  !isViewer&&ce("div",{style:{width:"100%",display:"flex",gap:6,flexWrap:"wrap",alignItems:"center",marginTop:6,paddingTop:8,borderTop:"1px dashed "+C.border}},
+                    ce("button",{"aria-label":"Alternar salário variável",onClick:function(){p.updFunc(func.id,{salarioVariavel:!variavel})},style:{padding:"7px 10px",borderRadius:8,border:"1px solid "+(variavel?"#1B5E20":C.border),background:variavel?"#F1F8E9":"none",cursor:"pointer",fontSize:T.xs,fontWeight:W.bold,color:variavel?"#1B5E20":C.sub}},(variavel?"☑":"☐")+" Salário variável"),
+                    confirmDeslig===func.id
+                      ?ce(R.Fragment,null,
+                          ce("button",{onClick:function(){p.desligarFunc(func.id,today());setConfirmDeslig(null);setExpanded(null)},style:{padding:"7px 10px",borderRadius:8,border:"1px solid #D97706",background:"#FEF3C7",cursor:"pointer",fontSize:T.xs,fontWeight:W.heavy,color:"#92400E"}},"Confirmar desligamento"),
+                          ce("button",{onClick:function(){setConfirmDeslig(null)},style:{padding:"7px 10px",borderRadius:8,border:"1px solid "+C.border,background:"none",cursor:"pointer",fontSize:T.xs}},"✕"))
+                      :ce("button",{"aria-label":"Desligar funcionário",onClick:function(){setConfirmDeslig(func.id)},style:{padding:"7px 10px",borderRadius:8,border:"1px solid "+C.border,background:"none",cursor:"pointer",fontSize:T.xs,fontWeight:W.bold,color:"#92400E"}},"🚪 Desligar"),
+                    comHist
+                      ?ce("span",{style:{fontSize:T.xxs,color:C.sub,flex:1,minWidth:120}},"Tem histórico: só desligamento, para não apagar vales e salários.")
+                      :(confirmDel===func.id
+                          ?ce(R.Fragment,null,ce("button",{onClick:function(){p.delFunc(func.id);setConfirmDel(null);setExpanded(null)},style:{padding:"7px 10px",borderRadius:8,border:"1px solid #DC2626",background:"#FEE2E2",cursor:"pointer",fontSize:T.xs,fontWeight:W.heavy,color:"#991B1B"}},"Confirmar exclusão"),ce("button",{onClick:function(){setConfirmDel(null)},style:{padding:"7px 10px",borderRadius:8,border:"1px solid "+C.border,background:"none",cursor:"pointer",fontSize:T.xs}},"✕"))
+                          :ce("button",{"aria-label":"Excluir funcionário",onClick:function(){setConfirmDel(func.id)},style:{padding:"7px 10px",borderRadius:8,border:"1px solid #FEE2E2",background:"#FEE2E2",cursor:"pointer"}},ce(IcoTrash,{size:13,color:"#DC2626"}))))
                 )
             ),
             showHist===func.id&&ce(FuncRelatorio,{func:func,adiantamentos:data.adiantamentos})
           )
         );
-      })
+      }),
+      /* Desligados: histórico preservado, sem lançar nada novo. */
+      inativos.length>0&&ce("div",{style:{marginTop:6}},
+        ce("button",{onClick:function(){setShowInativos(!showInativos)},style:{width:"100%",padding:10,borderRadius:10,border:"1px solid "+C.border,background:"none",cursor:"pointer",fontSize:T.sm,fontWeight:W.bold,color:C.sub,fontFamily:"inherit"}},(showInativos?"▾":"▸")+" Desligados ("+inativos.length+")"),
+        showInativos&&ce("div",{style:{marginTop:8}},inativos.map(function(func){
+          var vales=totalVales(func.id),salPago=salPagoDe(func.id),open=expanded===func.id;
+          return ce(Card,{key:func.id,style:{marginBottom:8,background:"#F8FAFC"}},
+            ce("div",{style:{display:"flex",alignItems:"center",gap:10}},
+              ce("div",{style:{flex:1}},
+                ce("div",{style:{fontSize:T.md,fontWeight:W.heavy,color:C.sub}},func.nome),
+                ce("div",{style:{fontSize:T.xs,color:C.sub,marginTop:2}},"Desligado"+(func.dataSaida?" em "+fmtD(func.dataSaida):"")+" · "+mesLabel(mesSel)+": vales "+fmt(vales)+(salPago?" · salário "+fmt(salPago.valor):""))
+              ),
+              ce("button",{"aria-label":"Expandir desligado",onClick:function(){setExpanded(open?null:func.id)},style:{background:"none",border:"none",cursor:"pointer"}},
+                ce(IcoChev,{size:16,color:C.muted,style:{transform:open?"rotate(180deg)":"none",transition:".2s"}}))
+            ),
+            open&&ce("div",{style:{marginTop:10,borderTop:"1px solid "+C.border,paddingTop:10}},
+              ce("div",{style:{display:"flex",gap:6,flexWrap:"wrap"}},
+                ce("button",{onClick:function(){setShowHist(showHist===func.id?null:func.id)},style:{padding:"8px 10px",borderRadius:8,border:"1px solid "+C.border,background:showHist===func.id?"#F1F8E9":"none",cursor:"pointer",fontSize:T.xs,fontWeight:W.bold,color:'#1B5E20'}},"Histórico"),
+                !isViewer&&ce("button",{onClick:function(){p.religarFunc(func.id)},style:{padding:"8px 10px",borderRadius:8,border:"1px solid #1B5E20",background:"none",cursor:"pointer",fontSize:T.xs,fontWeight:W.bold,color:"#1B5E20"}},"↩ Religar")),
+              showHist===func.id&&ce(FuncRelatorio,{func:func,adiantamentos:data.adiantamentos}))
+          );
+        })))
     )
   );
 }
@@ -1733,7 +1780,26 @@ function App(){
     delD:guard(function(id){del("despesas",id)}),
     addFunc:guard(function(f){add("funcionarios",_o({ativo:true},f))}),
     updFunc:guard(function(id,ch){upd("funcionarios",id,ch)}),
-    delFunc:guard(function(id){mut(function(d){return _o({},d,{funcionarios:d.funcionarios.filter(function(x){return x.id!==id}),adiantamentos:d.adiantamentos.filter(function(x){return x.funcId!==id}),despesas:d.despesas.filter(function(x){return x._salFuncId!==id})})})}),
+    /* Excluir só apaga cadastro sem histórico. Funcionário com vales ou salários
+       lançados sai da empresa por "Desligar" (ativo:false), nunca por exclusão:
+       o histórico e o fechamento dos meses passados ficam intactos. */
+    delFunc:guard(function(id){mut(function(d){
+      var temHist=d.adiantamentos.some(function(a){return a.funcId===id})||d.despesas.some(function(x){return x._salFuncId===id});
+      if(temHist)return d;
+      return _o({},d,{funcionarios:d.funcionarios.filter(function(x){return x.id!==id})});
+    })}),
+    desligarFunc:guard(function(id,dataSaida){upd("funcionarios",id,{ativo:false,dataSaida:dataSaida||today()})}),
+    religarFunc:guard(function(id){upd("funcionarios",id,{ativo:true,dataSaida:null})}),
+    /* Salário variável: o mês fecha com o que foi retirado, sem valor-alvo e sem
+       gerar despesa — os vales do mês já são o custo. */
+    fecharMesFunc:guard(function(id,mes){mut(function(d){return _o({},d,{funcionarios:d.funcionarios.map(function(f){
+      if(f.id!==id)return f;var ms=f.mesesFechados||[];
+      return ms.indexOf(mes)>=0?f:_o({},f,{mesesFechados:ms.concat([mes])});
+    })})})}),
+    reabrirMesFunc:guard(function(id,mes){mut(function(d){return _o({},d,{funcionarios:d.funcionarios.map(function(f){
+      if(f.id!==id)return f;
+      return _o({},f,{mesesFechados:(f.mesesFechados||[]).filter(function(m){return m!==mes})});
+    })})})}),
     addAdiant:guard(function(a){
       var aid=uid();
       mut(function(d){var fn=d.funcionarios.find(function(f){return f.id===a.funcId});return _o({},d,{adiantamentos:d.adiantamentos.concat([_o({id:aid},a)]),despesas:d.despesas.concat([{id:uid(),data:a.data,descricao:"Vale — "+(fn?fn.nome:"Funcionário"),categoria:"Funcionários",tipo:"Fixo",valor:a.valor,status:"Pago",_adiantId:aid}])})});
@@ -1835,7 +1901,7 @@ function App(){
       nav==="dashboard"&&ce(Dashboard,{data:data,totals:totals,alertas:alertas,p:per,setP:setPer,s:s,setS:setS,e:e,setE:setE,onNew:openNew,onGoVenc:goVenc,alertDismissed:alertDismissed,onDismissAlert:function(){setAlertDismissed(true)}}),
       nav==="registros"&&ce(Registros,{data:data,tab:regTab,setTab:setRegTab,onEdit:openEdit,onDuplicate:openDuplicate,isViewer:isViewer,onDelV:function(id){if(isViewer)return;var it=data.vendas.find(function(x){return x.id===id});ops.delV(id);if(it)showToast("info","Venda excluída",{label:"Desfazer",onClick:function(){ops.restore("vendas",it)}})},onDelC:function(id){if(isViewer)return;var it=data.compras.find(function(x){return x.id===id});ops.delC(id);if(it)showToast("info","Compra excluída",{label:"Desfazer",onClick:function(){ops.restore("compras",it)}})},onDelD:function(id){if(isViewer)return;var it=data.despesas.find(function(x){return x.id===id});ops.delD(id);if(it)showToast("info","Despesa excluída",{label:"Desfazer",onClick:function(){ops.restore("despesas",it)}})},onToggle:function(id){if(isViewer)return;var cur=data.despesas.find(function(d){return d.id===id});if(cur)ops.updD(id,{status:cur.status==="Pago"?"A Pagar":"Pago",dataPagamento:cur.status==="Pago"?null:localDate()})},onBatchPay:function(ids){if(isViewer)return;var now=localDate();mut(function(d){var n=_o({},d);n.despesas=d.despesas.map(function(x){return ids.indexOf(x.id)>=0?_o({},x,{status:"Pago",dataPagamento:now}):x});return n})},onBatchUpdate:function(ids,ch){if(isViewer)return;ops.batchUpdateDesp(ids,ch)}}),
       nav==="vencimentos"&&ce(Avisos,{venc:venc,alertas:alertas,semVenc:semVenc,isViewer:isViewer,onEdit:function(d){openEdit("despesa",d)},onToggle:function(id){if(isViewer)return;ops.updD(id,{status:"Pago",dataPagamento:localDate()})}}),
-      nav==="mais"&&mais==="salarios"&&ce(Salarios,{data:data,isViewer:isViewer,addFunc:ops.addFunc,updFunc:ops.updFunc,delFunc:ops.delFunc,addAdiant:ops.addAdiant,delAdiant:ops.delAdiant,pagarSalario:ops.pagarSalario,estornarSalario:ops.estornarSalario}),
+      nav==="mais"&&mais==="salarios"&&ce(Salarios,{data:data,isViewer:isViewer,addFunc:ops.addFunc,updFunc:ops.updFunc,delFunc:ops.delFunc,addAdiant:ops.addAdiant,delAdiant:ops.delAdiant,pagarSalario:ops.pagarSalario,estornarSalario:ops.estornarSalario,desligarFunc:ops.desligarFunc,religarFunc:ops.religarFunc,fecharMesFunc:ops.fecharMesFunc,reabrirMesFunc:ops.reabrirMesFunc}),
       nav==="mais"&&mais==="fechamento"&&ce(Fechamento,{data:data,onEdit:openEdit,onNew:openNew,isViewer:isViewer,onDelete:function(type,id){if(isViewer)return;var col=type==="venda"?"vendas":type==="compra"?"compras":"despesas";var it=data[col].find(function(x){return x.id===id});if(type==="venda")ops.delV(id);else if(type==="compra")ops.delC(id);else ops.delD(id);if(it)showToast("info",(type==="venda"?"Venda":type==="compra"?"Compra":"Despesa")+" excluída",{label:"Desfazer",onClick:function(){ops.restore(col,it)}})}}),
       nav==="mais"&&mais==="config"&&ce(Config,{data:data,isViewer:isViewer,update:isViewer?function(){}:setData})
     ),
