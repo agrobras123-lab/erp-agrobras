@@ -16,6 +16,13 @@ module.exports = defineConfig({
   use: {
     baseURL: "http://127.0.0.1:8199",
     ...devices["Desktop Chrome"],
+    // CRÍTICO: sem isto o service worker (sw.js) registra durante o teste e
+    // refaz os fetches do app de dentro dele. Requisições feitas por service
+    // worker NÃO passam pelo page.route do Playwright, então as chamadas ao
+    // Firestore escapariam do stub e chegariam ao banco de PRODUÇÃO — os
+    // testes já chegaram a sobrescrever os dados reais assim. Bloquear o SW
+    // garante que todo tráfego do app passe pelas rotas interceptadas.
+    serviceWorkers: "block",
     launchOptions
   },
   webServer: {

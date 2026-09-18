@@ -55,6 +55,34 @@ O teste de fumaça (`tests/smoke.spec.js`) é **hermético** — React vem de
 existe para pegar quebras (ex.: um erro de sintaxe que deixaria o app em branco)
 antes de ir pro ar. O mesmo conjunto roda no **CI** (`.github/workflows/ci.yml`).
 
+> ⚠️ **Nunca remova `serviceWorkers: "block"` do `playwright.config.js`.** O
+> `sw.js` intercepta as chamadas do Firestore e as refaz de dentro do service
+> worker, e requisições de service worker **não passam** pelo `page.route` do
+> Playwright. Sem esse bloqueio os testes conversam com o Firestore **real** e
+> gravam a fixture por cima dos dados de produção — foi exatamente o que
+> aconteceu em 17/09/2026. O stub também aborta qualquer host externo não
+> previsto e o teste falha se algo escapar.
+
+## Proteção de dados
+
+Três camadas garantem que um lançamento não suma:
+
+1. **Backup antes de sobrescrever** — cada alteração grava o estado anterior em
+   `/backups/backup_<data>_<hora>` e só depois atualiza o documento principal
+   (`safePatch` em `index.html`). Nenhuma gravação chega à nuvem sem ponto de
+   retorno.
+2. **Trava anti-apagamento** — uma gravação que zeraria a base (nenhum registro
+   em vendas, compras, despesas, funcionários e adiantamentos) é bloqueada
+   quando o último estado conhecido tinha registros; a nuvem fica intacta e a
+   barra de status avisa.
+3. **Espelho no aparelho** — o último estado íntegro fica em
+   `localStorage['erp_agb_lastgood']`. Se a nuvem voltar vazia, o app carrega
+   esse espelho em vez de começar do zero e devolve os dados na gravação
+   seguinte.
+
+Para restaurar manualmente um ponto no tempo: **Mais → Config → Backups**, que
+lista os pontos salvos na nuvem, além de exportar/importar JSON.
+
 ## Publicação
 
 Como é estático, publicar = servir os arquivos do repositório (ex.: GitHub

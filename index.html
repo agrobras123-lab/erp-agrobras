@@ -185,17 +185,41 @@ var FB_KEY="AIzaSyA7MzAgK5OIhY4nWg7vdGHxCz5V-mQSgpI";
 var FB_BASE="https://firestore.googleapis.com/v1/projects/erp-agrobras/databases/(default)/documents";
 var FB_URL=FB_BASE+"/erp/murilo?key="+FB_KEY;
 var OFK="erp_agb_ofk4";
+var LGK="erp_agb_lastgood";
+var COLS=["vendas","compras","despesas","funcionarios","adiantamentos"];
+/* Total de registros de um payload — base da trava anti-apagamento. */
+function countAll(d){return d?COLS.reduce(function(n,k){return n+((d[k]||[]).length)},0):0}
+var _lastGood=null;
+/* Último estado íntegro conhecido: espelhado no aparelho para servir de rede
+   de segurança mesmo se a nuvem for zerada por fora do app. */
+function setLastGood(d){_lastGood=d;try{localStorage.setItem(LGK,JSON.stringify(d))}catch(e){}}
+function getLastGood(){if(_lastGood)return _lastGood;try{var p=localStorage.getItem(LGK);if(p)return JSON.parse(p)}catch(e){}return null}
 function fbPatch(url,data){return fetch(url,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({fields:{payload:{stringValue:JSON.stringify(data)}}})})}
+function fbBackup(data){return fbPatch(FB_BASE+'/backups/backup_'+localDateTime()+'?key='+FB_KEY,data)}
+/* Gravação protegida do documento principal:
+   1. bloqueia qualquer gravação que zere um estado que tinha registros;
+   2. grava o ponto de retorno (estado anterior) ANTES de sobrescrever, para
+      que nenhuma alteração chegue à nuvem sem backup correspondente. */
+function safePatch(data){
+  var prev=getLastGood();
+  if(countAll(data)===0&&countAll(prev)>0)return Promise.reject(new Error("blocked"));
+  return fbBackup(prev||data).catch(function(){}).then(function(){
+    return fbPatch(FB_URL,data);
+  }).then(function(res){
+    if(!res.ok)throw new Error("err");
+    setLastGood(data);
+    return res;
+  });
+}
 function saveData(data,onStatus){
   if(onStatus)onStatus('saving');
+  if(countAll(data)===0&&countAll(getLastGood())>0){if(onStatus)onStatus('blocked');return}
   if(!navigator.onLine){try{localStorage.setItem(OFK,JSON.stringify(data))}catch(e){}if(onStatus)onStatus('local');return}
-  fbPatch(FB_URL,data).then(function(res){
-    if(!res.ok)throw new Error("err");
+  safePatch(data).then(function(){
     try{localStorage.removeItem(OFK)}catch(e){}
     if(onStatus)onStatus('cloud');
-    var tag='backup_'+localDateTime();
-    fbPatch(FB_BASE+'/backups/'+tag+'?key='+FB_KEY,data).catch(function(){});
-  }).catch(function(){
+  }).catch(function(err){
+    if(err&&err.message==="blocked"){if(onStatus)onStatus('blocked');return}
     try{localStorage.setItem(OFK,JSON.stringify(data))}catch(e){}
     if(onStatus)onStatus('error');
   });
@@ -215,12 +239,12 @@ window.addEventListener("online",function(){
     var p=localStorage.getItem(OFK);
     if(!p)return;
     if(window._setSyncStatus)window._setSyncStatus('syncing');
-    fbPatch(FB_URL,JSON.parse(p)).then(function(){
+    safePatch(JSON.parse(p)).then(function(){
       localStorage.removeItem(OFK);
       if(window._setHasPending)window._setHasPending(false);
       if(window._setSyncStatus)window._setSyncStatus('synced');
       setTimeout(function(){if(window._setSyncStatus)window._setSyncStatus('idle')},3000);
-    }).catch(function(){if(window._setSyncStatus)window._setSyncStatus('error')});
+    }).catch(function(err){if(window._setSyncStatus)window._setSyncStatus(err&&err.message==="blocked"?'blocked':'error')});
   }catch(e){}
 });
 
@@ -281,7 +305,7 @@ function AppIcon(p){
 function SyncBar(p){
   var st=p.status;
   if(!st||st==='idle')return null;
-  var map={saving:{bg:"#D97706",txt:"⏳ Salvando..."},cloud:{bg:"#16A34A",txt:"☁️ Salvo na nuvem"},local:{bg:"#92400E",txt:"📱 Salvo localmente — sem internet"},error:{bg:"#DC2626",txt:"⚠️ Erro — salvo localmente"},syncing:{bg:"#1B5E20",txt:"🔄 Sincronizando..."},synced:{bg:"#16A34A",txt:"✅ Sincronizado com sucesso"},loadLocal:{bg:"#92400E",txt:"📱 Dados carregados localmente — Firestore indisponível"},loadError:{bg:"#DC2626",txt:"⚠️ Firestore indisponível e sem dados locais — verifique a conexão"}};
+  var map={saving:{bg:"#D97706",txt:"⏳ Salvando..."},cloud:{bg:"#16A34A",txt:"☁️ Salvo na nuvem"},local:{bg:"#92400E",txt:"📱 Salvo localmente — sem internet"},error:{bg:"#DC2626",txt:"⚠️ Erro — salvo localmente"},syncing:{bg:"#1B5E20",txt:"🔄 Sincronizando..."},synced:{bg:"#16A34A",txt:"✅ Sincronizado com sucesso"},loadLocal:{bg:"#92400E",txt:"📱 Dados carregados localmente — Firestore indisponível"},loadError:{bg:"#DC2626",txt:"⚠️ Firestore indisponível e sem dados locais — verifique a conexão"},blocked:{bg:"#DC2626",txt:"🛡️ Gravação vazia bloqueada — dados da nuvem preservados"},restoredLocal:{bg:"#92400E",txt:"🛟 Nuvem vazia — dados restaurados do backup do aparelho"}};
   var c=map[st];if(!c)return null;
   var isPulse=st==='saving'||st==='syncing';
   return ce("div",{style:{position:"fixed",top:14,left:"50%",transform:"translateX(-50%)",background:c.bg,color:"#FFF",padding:"7px 18px",borderRadius:24,fontSize:T.xs,fontWeight:W.bold,zIndex:9999,boxShadow:"0 4px 18px rgba(0,0,0,.25)",animation:isPulse?"blink 1.3s infinite":"fadeIn .25s ease",whiteSpace:"nowrap",letterSpacing:".01em"}},c.txt);
@@ -1653,11 +1677,20 @@ function App(){
   useEffect(function(){
     loadData().then(function(result){
       if(result.data){var rd=result.data;var migrated=false;if(rd.despesas){var newD=rd.despesas.map(function(d){var fix=_o({},d),ch=false;if(fix.categoria==="Funcionarios"){fix.categoria="Funcionários";ch=true;}if(fix._adiantId&&fix.tipo==="Variável"){fix.tipo="Fixo";ch=true;}if(ch)migrated=true;return fix;});if(migrated)rd=_o({},rd,{despesas:newD});}setData(function(prev){return _o({},INIT,rd)});if(migrated)saveData(rd,function(){});}
+      if(result.data&&countAll(result.data)>0)setLastGood(result.data);
+      /* Nuvem vazia (ou documento novo) com cópia íntegra no aparelho: assume a
+         cópia local em vez de começar do zero, para os dados não sumirem da
+         tela — e a gravação seguinte devolve tudo para a nuvem. */
+      var mirror=getLastGood(),restored=false;
+      if(result.source!=="error"&&countAll(result.data)===0&&countAll(mirror)>0){
+        setData(function(prev){return _o({},INIT,mirror)});restored=true;
+      }
       var ok=result.source!=="error";
       loadOk.current=ok;window._loadOk=ok;
       setReady(true);
       setHasPending(!!localStorage.getItem(OFK));
-      if(result.source==="local"){setSyncSt("loadLocal");setTimeout(function(){setSyncSt("idle")},5000);}
+      if(restored){setSyncSt("restoredLocal");setTimeout(function(){setSyncSt("idle")},6000);}
+      else if(result.source==="local"){setSyncSt("loadLocal");setTimeout(function(){setSyncSt("idle")},5000);}
       else if(result.source==="error"){setLoadErr(true);setSyncSt("loadError");}
     });
   },[]);

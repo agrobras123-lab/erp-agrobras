@@ -2,7 +2,16 @@
 /* Teste de fumaça hermético: sobe o app real (index.html) num Chromium headless,
    com React servido de tests/vendor e o Firestore/fontes interceptados — nenhuma
    rede necessária. Garante que o app parseia e renderiza; um erro de sintaxe deixa
-   o #root vazio e o teste falha. */
+   o #root vazio e o teste falha.
+
+   ATENÇÃO — a hermeticidade depende de duas coisas, as duas obrigatórias:
+   1. `serviceWorkers: "block"` no playwright.config.js. O sw.js intercepta as
+      chamadas ao Firestore e as refaz de dentro do service worker; requisições
+      de service worker não passam pelo page.route, então sem o bloqueio elas
+      chegam ao banco de PRODUÇÃO (foi assim que os testes já apagaram dados
+      reais do app).
+   2. O stub abaixo, que aborta qualquer host externo não previsto em vez de
+      deixá-lo seguir para a rede. Nunca troque esse abort por route.continue. */
 const { test, expect } = require("@playwright/test");
 const fs = require("fs");
 const path = require("path");
@@ -33,11 +42,34 @@ const sample = {
   catsCompra: ["Outros"]
 };
 
+// URLs externas que escaparam do stub em algum teste — precisa ficar vazio.
+const escaped = [];
+// Registro das chamadas ao Firestore feitas pelo app durante o teste.
+let fsLog = [];
+
+test.afterEach(() => {
+  expect(escaped, "requisições externas escaparam do stub: " + escaped.join("; ")).toEqual([]);
+});
+
 async function stub(page, payload) {
+  escaped.length = 0;
+  fsLog = [];
   await page.route("**/*", (route) => {
     const u = route.request().url();
     if (u.includes("firestore.googleapis.com")) {
-      if (route.request().method() === "GET") {
+      const method = route.request().method();
+      if (method === "PATCH") {
+        let itens = null;
+        try {
+          const p = JSON.parse(JSON.parse(route.request().postData()).fields.payload.stringValue);
+          itens = ["vendas", "compras", "despesas", "funcionarios", "adiantamentos"].reduce(
+            (n, k) => n + (p[k] || []).length,
+            0
+          );
+        } catch (e) {}
+        fsLog.push({ alvo: u.includes("/backups/") ? "backup" : "principal", itens });
+      }
+      if (method === "GET") {
         const body = payload
           ? JSON.stringify({ fields: { payload: { stringValue: JSON.stringify(payload) } } })
           : "{}";
@@ -58,7 +90,13 @@ async function stub(page, payload) {
     if (u.includes("fonts.gstatic.com")) {
       return route.fulfill({ status: 200, body: "" });
     }
-    return route.continue();
+    if (u.startsWith("http://127.0.0.1:8199") || u.startsWith("http://localhost:8199")) {
+      return route.continue();
+    }
+    // Host externo não previsto: aborta e registra. Nenhum teste pode tocar em
+    // serviço real — em especial o Firestore de produção.
+    escaped.push(u);
+    return route.abort();
   });
 }
 
@@ -513,4 +551,57 @@ test("despesas: busca encontra o lançamento pelo valor", async ({ page }) => {
   await expect(page.getByText("Adubo")).toHaveCount(0);
 
   expect(errs, "erros de JS não capturados: " + errs.join("; ")).toEqual([]);
+});
+
+test("proteção: toda alteração grava o backup antes de sobrescrever a nuvem", async ({ page }) => {
+  await authGoto(page, sample);
+  await page.getByRole("button", { name: "Registros" }).click();
+  await expect(page.getByText("Energia")).toBeVisible({ timeout: 10000 });
+
+  // Marcar a despesa como paga é uma alteração como outra qualquer
+  await page.getByRole("button", { name: "✅ Pago" }).click();
+  await expect(page.getByText("☁️ Salvo na nuvem")).toBeVisible({ timeout: 10000 });
+
+  // O ponto de retorno (estado anterior) vai para /backups ANTES do documento principal
+  const idxBackup = fsLog.findIndex((r) => r.alvo === "backup");
+  const idxPrincipal = fsLog.findIndex((r) => r.alvo === "principal");
+  expect(idxBackup, "nenhum backup gravado: " + JSON.stringify(fsLog)).toBeGreaterThanOrEqual(0);
+  expect(idxPrincipal).toBeGreaterThan(idxBackup);
+  expect(fsLog[idxBackup].itens).toBeGreaterThan(0);
+});
+
+test("proteção: apagar tudo não zera os dados da nuvem", async ({ page }) => {
+  await authGoto(page, sample);
+  await page.getByRole("button", { name: "Registros" }).click();
+
+  // Apaga a única despesa — ainda sobra a venda, então salva normalmente
+  await page.getByRole("button", { name: "Excluir registro" }).first().click();
+  await page.getByRole("button", { name: "OK" }).click();
+  await expect(page.getByText("Despesa excluída")).toBeVisible({ timeout: 10000 });
+
+  // Apaga a última venda: o estado fica vazio e a gravação é bloqueada
+  await page.getByRole("button", { name: /Vendas/ }).click();
+  await page.getByRole("button", { name: "Excluir registro" }).first().click();
+  await page.getByRole("button", { name: "OK" }).click();
+  await expect(page.getByText(/Gravação vazia bloqueada/)).toBeVisible({ timeout: 10000 });
+
+  // Nenhuma gravação vazia chegou ao documento principal
+  const vazias = fsLog.filter((r) => r.alvo === "principal" && r.itens === 0);
+  expect(vazias, "gravação vazia chegou à nuvem: " + JSON.stringify(fsLog)).toEqual([]);
+});
+
+test("proteção: nuvem vazia é recuperada pelo backup do aparelho", async ({ page }) => {
+  await stub(page, null); // Firestore devolve documento vazio
+  await page.addInitScript((espelho) => {
+    try {
+      sessionStorage.setItem("erp_agb_s4", JSON.stringify({ nome: "Murilo", role: "admin" }));
+      sessionStorage.setItem("agb-intro", "1");
+      localStorage.setItem("erp_agb_lastgood", JSON.stringify(espelho));
+    } catch (e) {}
+  }, sample);
+  await page.goto("/index.html");
+
+  await expect(page.getByText(/restaurados do backup do aparelho/)).toBeVisible({ timeout: 15000 });
+  await page.getByRole("button", { name: "Registros" }).click();
+  await expect(page.getByText("Energia")).toBeVisible({ timeout: 10000 });
 });
