@@ -1,5 +1,5 @@
 'use strict';
-var CACHE = 'erp-agb-v10';
+var CACHE = 'erp-agb-v11';
 var ASSETS = [
   '/erp-agrobras/',
   '/erp-agrobras/index.html',
