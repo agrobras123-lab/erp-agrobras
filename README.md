@@ -83,6 +83,22 @@ Três camadas garantem que um lançamento não suma:
 Para restaurar manualmente um ponto no tempo: **Mais → Config → Backups**, que
 lista os pontos salvos na nuvem, além de exportar/importar JSON.
 
+## Folha de pagamento
+
+- **Desligar funcionário** (`ativo: false` + `dataSaida`) tira o funcionário da
+  lista de ativos sem apagar nada: vales, salários e o fechamento dos meses
+  passados continuam como estavam. Ele fica em **Desligados**, com histórico
+  acessível, e pode ser religado.
+- **Excluir** só funciona para cadastro sem histórico. Com vales ou salários
+  lançados, a exclusão é recusada (na interface e em `delFunc`) — quem sai da
+  empresa é desligado, nunca excluído.
+- **Salário variável** (`salarioVariavel: true`) é para quem não tem base fixa:
+  o card mostra o total retirado no mês em vez de saldo a pagar, e o botão
+  **Fechar mês** encerra o mês com o que foi retirado, sem valor-alvo e sem
+  gerar despesa (os vales do mês já são o custo). Os meses encerrados ficam em
+  `mesesFechados` no cadastro e podem ser reabertos. Funcionário com base fixa
+  segue com o fluxo de sempre.
+
 ## Publicação
 
 Como é estático, publicar = servir os arquivos do repositório (ex.: GitHub
